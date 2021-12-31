@@ -1,5 +1,17 @@
 import json
 
+
+from xrpl.models import transactions as Transactions
+
+from xrpl import utils
+from xrpl import account
+from xrpl.clients import JsonRpcClient
+
+from xrpl.core import addresscodec
+from xrpl import constants
+from struct import pack
+
+from xrpl.wallet import Wallet
 from xrpl.core.addresscodec.codec import SEED_LENGTH 
 
 # # Define the network client
@@ -66,33 +78,68 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 # print(tx_response)
 
 
+def get_account_sequene(address):
+    response = account.get_account_info(address, client )
+    # print(json.dumps(response.result, indent=4, sort_keys=True))
+    return response.result['account_data']['Sequence']
+
+
+def get_trust_line_info(address):
+    responses = account.get_account_transactions(address, client )
+    for item in responses:
+        if( item['tx']['TransactionType'] == 'TrustSet'):
+            print(json.dumps(item['tx'], indent=4, sort_keys=True))
+
+
+
+
 if __name__ == "__main__":
-	from xrpl import account
-	from xrpl.clients import JsonRpcClient
-	JSON_RPC_URL = "https://s2.ripple.com:51234/"
-	# JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
-	client = JsonRpcClient(JSON_RPC_URL)
-	wallet_address1 = 'rPnYrAAwgR7YQ8qqL5AexMBCZ2A7826rMN'
-	wallet_address2 = 'r49zsuZWw2TLuBm9e5xNePwBnWSJzEXSiP'
+    sub_wallet_list = {}
 
-	response = account.get_account_info(wallet_address1, client )
-	print(json.dumps(response.result, indent=4, sort_keys=True))
+    json_data = ''
+    with open('account_info.json') as json_file:
+        json_data = json.load(json_file)
 
-	response = account.get_account_info(wallet_address2, client )
-	print(json.dumps(response.result, indent=4, sort_keys=True))
+    main_wallet_address = json_data['main_wallet_address']
+    sub_wallets_info_from_file = json_data['sub_wallets_info']
 
-	from xrpl.core import addresscodec
-	from xrpl import constants
-	from struct import pack
+    JSON_RPC_URL = "https://s2.ripple.com:51234/"
+    # JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
+    client = JsonRpcClient(JSON_RPC_URL)
 
-	# little endian 16bit array 
-	seed_number = pack( '>HHHHHHHH', int('1'), int('2'), int('3'), int('4'), int('5'), int('6'), int('7'), int('8') )
-	print(f'{seed_number=}')
 
-	seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
-	print(f'{seed_str=}')
+    # check wallet validation 
+    for wallet_info_dict in sub_wallets_info_from_file:
 
-	from xrpl.wallet import Wallet
-	test_wallet = Wallet(seed=seed_str, sequence=response.result['account_data']['Sequence'])
-	print(f'{test_wallet.classic_address=}') # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
-	pass
+        address = wallet_info_dict['address']
+
+        wallet_sequence = get_account_sequene(address)
+
+        get_trust_line_info(address)
+
+        seed_list = []
+        for seed_unit in wallet_info_dict['seed_number']:
+            # 6 digit  first 5 digit uint16 data   last 1 digit for crc from xumm api document
+            seed_list.append( int(seed_unit[:-1]) )
+
+        # little endian 16bit array 
+        seed_number = pack( '>HHHHHHHH', *seed_list )
+        seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
+
+        test_wallet = Wallet(seed=seed_str, sequence=wallet_sequence)
+        print(f'{test_wallet.classic_address=}') # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+
+        if( address != test_wallet.classic_address ):
+            print("error address info ")
+        else:
+            sub_wallet_list[wallet_info_dict['name']] = test_wallet
+
+    # Prepare transaction ----------------------------------------------------------
+    my_payment = Transactions.Payment(
+        account= sub_wallet_list['1'].classic_address,
+        amount= utils.xrp_to_drops(22),
+        destination="rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",
+    )
+    print("Payment object:", my_payment)
+
+    pass
