@@ -1,4 +1,6 @@
-import json 
+import json
+
+from xrpl.core.addresscodec.codec import SEED_LENGTH 
 
 # # Define the network client
 # from xrpl.clients import JsonRpcClient
@@ -68,6 +70,7 @@ if __name__ == "__main__":
 	from xrpl import account
 	from xrpl.clients import JsonRpcClient
 	JSON_RPC_URL = "https://s2.ripple.com:51234/"
+	# JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
 	client = JsonRpcClient(JSON_RPC_URL)
 	wallet_address1 = 'rPnYrAAwgR7YQ8qqL5AexMBCZ2A7826rMN'
 	wallet_address2 = 'r49zsuZWw2TLuBm9e5xNePwBnWSJzEXSiP'
@@ -78,8 +81,18 @@ if __name__ == "__main__":
 	response = account.get_account_info(wallet_address2, client )
 	print(json.dumps(response.result, indent=4, sort_keys=True))
 
+	from xrpl.core import addresscodec
+	from xrpl import constants
+	from struct import pack
+
+	# little endian 16bit array 
+	seed_number = pack( '>HHHHHHHH', int('1'), int('2'), int('3'), int('4'), int('5'), int('6'), int('7'), int('8') )
+	print(f'{seed_number=}')
+
+	seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
+	print(f'{seed_str=}')
 
 	from xrpl.wallet import Wallet
-	test_wallet = Wallet(seed="sn3nxiW7v8KXzPzAqzyHXbSSKNuN9", sequence=16237283)
-	print(test_wallet.classic_address) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+	test_wallet = Wallet(seed=seed_str, sequence=response.result['account_data']['Sequence'])
+	print(f'{test_wallet.classic_address=}') # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
 	pass
