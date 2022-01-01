@@ -1,7 +1,8 @@
 import json
+import binascii
+import xrpl
 
-
-from xrpl.models import transactions as Transactions
+from xrpl.models import currencies, transactions as TransactionsModel
 
 from xrpl import utils
 from xrpl import account
@@ -80,7 +81,7 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 
 def get_account_sequene(address):
     response = account.get_account_info(address, client )
-    # print(json.dumps(response.result, indent=4, sort_keys=True))
+    print(json.dumps(response.result, indent=4, sort_keys=True))
     return response.result['account_data']['Sequence']
 
 
@@ -115,7 +116,7 @@ if __name__ == "__main__":
 
         wallet_sequence = get_account_sequene(address)
 
-        get_trust_line_info(address)
+        # get_trust_line_info(address)
 
         seed_list = []
         for seed_unit in wallet_info_dict['seed_number']:
@@ -134,12 +135,65 @@ if __name__ == "__main__":
         else:
             sub_wallet_list[wallet_info_dict['name']] = test_wallet
 
-    # Prepare transaction ----------------------------------------------------------
-    my_payment = Transactions.Payment(
+    # # Prepare transaction ----------------------------------------------------------
+    my_payment = TransactionsModel.Payment(
         account= sub_wallet_list['1'].classic_address,
-        amount= utils.xrp_to_drops(22),
-        destination="rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",
+        amount= utils.xrp_to_drops(0.0001),
+        destination= main_wallet_address
     )
-    print("Payment object:", my_payment)
+    # print('{}'.format(my_payment.to_dict() ) )
+
+    # print( xrpl.ledger.get_fee(client) )
+
+    # # Sign transaction -------------------------------------------------------------
+    # signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+    #         my_payment, sub_wallet_list['1'], client)
+    # max_ledger = signed_tx.last_ledger_sequence
+    # tx_id = signed_tx.get_hash()
+    # print("Signed transaction:", signed_tx)
+    # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
+    # print("Transaction expires after ledger:", max_ledger)
+    # print("Identifying hash:", tx_id)
+
+    # try:
+    #     tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
+    # except xrpl.transaction.XRPLReliableSubmissionException as e:
+    #     exit(f"Submit failed: {e}")
+
+    from xrpl.models.amounts import IssuedCurrencyAmount
+
+
+    target_currency = 'POLAR'
+    target_currency = bytes(target_currency, 'utf-8')
+
+    target_currency = binascii.hexlify(target_currency)
+    target_currency = '{:<040}'.format(str(target_currency, 'utf-8').upper())
+
+    target_issuer = 'rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX'
+
+    # to remove trust line limit set to 0
+    target_limit = '0'
+    issued = IssuedCurrencyAmount(  currency=target_currency, issuer= target_issuer, value= target_limit)
+
+    my_payment = TransactionsModel.TrustSet (
+        account= sub_wallet_list['1'].classic_address,
+        limit_amount= issued,
+        flags= TransactionsModel.TrustSetFlag.TF_SET_NO_RIPPLE
+    )
+
+    # Sign transaction -------------------------------------------------------------
+    signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+            my_payment, sub_wallet_list['1'], client)
+    max_ledger = signed_tx.last_ledger_sequence
+    tx_id = signed_tx.get_hash()
+    print("Signed transaction:", signed_tx)
+    print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
+    print("Transaction expires after ledger:", max_ledger)
+    print("Identifying hash:", tx_id)
+
+    try:
+        tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
+    except xrpl.transaction.XRPLReliableSubmissionException as e:
+        exit(f"Submit failed: {e}")
 
     pass
