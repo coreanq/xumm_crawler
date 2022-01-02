@@ -94,6 +94,8 @@ def set_trust_line(target_wallet, target_currency, target_issuer, target_limit, 
     from xrpl.models.amounts import IssuedCurrencyAmount
 
     original_name = target_currency
+
+    # 3자리용 currency 와는 별도 처리 필요 함 3자리는 ascii 그대로 사용 그 이상은 hex string 으로 40자 ( 20 char )
     if( len(target_currency) != 3 ):
         target_currency = bytes(target_currency, 'utf-8')
         target_currency = binascii.hexlify(target_currency)
