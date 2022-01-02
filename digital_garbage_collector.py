@@ -51,7 +51,7 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 
 def get_account_sequene(address):
     response = account.get_account_info(address, client )
-    print(json.dumps(response.result, indent=4, sort_keys=True))
+    # print(json.dumps(response.result, indent=4, sort_keys=True))
     return response.result['account_data']['Sequence']
 
 
@@ -93,20 +93,22 @@ def send_payment(target_wallet):
 def set_trust_line(target_wallet, target_currency, target_issuer, target_limit, is_delete):
     from xrpl.models.amounts import IssuedCurrencyAmount
 
-
-    if( len(target_currency) != 20 ):
+    original_name = target_currency
+    if( len(target_currency) != 3 ):
         target_currency = bytes(target_currency, 'utf-8')
         target_currency = binascii.hexlify(target_currency)
         target_currency = '{:<040}'.format(str(target_currency, 'utf-8').upper())
 
+    flag = TransactionsModel.TrustSetFlag.TF_SET_NO_RIPPLE
     # to remove trust line limit set to 0
     if( is_delete == True ):
         target_limit = '0'
+        flag = TransactionsModel.TrustSetFlag.TF_SET_NO_RIPPLE | TransactionsModel.TrustSetFlag.TF_CLEAR_FREEZE
 
     my_transaction = TransactionsModel.TrustSet (
         account= target_wallet.classic_address ,
         limit_amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
-        flags= TransactionsModel.TrustSetFlag.TF_SET_NO_RIPPLE
+        flags= flag
     )
 
     # Sign transaction -------------------------------------------------------------
@@ -117,15 +119,15 @@ def set_trust_line(target_wallet, target_currency, target_issuer, target_limit, 
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
-    print("Address: {} Identifying hash: {}".format(target_wallet.classic_address, tx_id) )
+    print("{} Address: {} Identifying hash: {}".format(original_name, target_wallet.classic_address, tx_id) )
 
     try:
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{} wallet_address: {}".format(e, target_wallet.classic_address)) 
+        print("{} {} wallet_address: {}".format(original_name, e, target_wallet.classic_address)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
-        exit(f"Submit failed: {e}")
+        exit(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
     pass
 
 
@@ -179,11 +181,15 @@ if __name__ == "__main__":
             sub_wallet_list[wallet_info_dict['name']] = test_wallet
 
 
+    isActivated = True
     if( len(result) == 0 ):
         for name, wallet in sub_wallet_list.items():
-            # for add_trust_line in trust_lines['add']:
-            #     set_trust_line(wallet, add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
-            for remove_trust_line in trust_lines['remove']:
-                set_trust_line(wallet, remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], False)
+            # if( 'n' in name):
+            #     isActivated = True
+            if( isActivated == True ):
+                # for add_trust_line in trust_lines['add']:
+                #     set_trust_line(wallet, add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
+                for remove_trust_line in trust_lines['remove']:
+                    set_trust_line(wallet, remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], True)
 
     pass
