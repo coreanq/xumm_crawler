@@ -34,14 +34,6 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 # # Create an account str from the wallet
 # test_account = test_wallet.classic_address
 
-# # Derive an x-address from the classic address:
-# # https://xrpaddress.info/
-# from xrpl.core import addresscodec
-# test_xaddress = addresscodec.classic_address_to_xaddress(test_account, tag=12345, is_test_network=True)
-# print("\nClassic address:\n\n", test_account)
-# print("X-address:\n\n", test_xaddress)
-
-
 # # Look up info about your account
 # from xrpl.models.requests.account_info import AccountInfo
 # acct_info = AccountInfo(
@@ -55,28 +47,6 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 # import json
 # print(json.dumps(response.result, indent=4, sort_keys=True))
 
-
-# # Prepare payment
-# from xrpl.models.transactions import Payment
-# from xrpl.utils import xrp_to_drops
-# my_tx_payment = Payment(
-#     account=test_account,
-#     amount=xrp_to_drops(22),
-#     destination="rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",
-# )
-
-# # Sign the transaction
-# from xrpl.transaction import safe_sign_and_autofill_transaction
-
-# my_tx_payment_signed = safe_sign_and_autofill_transaction(my_tx_payment, test_wallet, client)
-
-# # Submit and send the transaction
-# from xrpl.transaction import send_reliable_submission
-
-# tx_response = send_reliable_submission(my_tx_payment_signed, client)
-
-
-# print(tx_response)
 
 
 def get_account_sequene(address):
@@ -144,10 +114,10 @@ def set_trust_line(target_wallet, target_currency, target_issuer, target_limit, 
             my_transaction, target_wallet, client)
     max_ledger = signed_tx.last_ledger_sequence
     tx_id = signed_tx.get_hash()
-    print("Signed transaction:", signed_tx)
-    print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
-    print("Transaction expires after ledger:", max_ledger)
-    print("Identifying hash:", tx_id)
+    # print("Signed transaction:", signed_tx)
+    # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
+    # print("Transaction expires after ledger:", max_ledger)
+    print("Address: {} Identifying hash: {}".format(target_wallet.classic_address, tx_id) )
 
     try:
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
@@ -211,9 +181,9 @@ if __name__ == "__main__":
 
     if( len(result) == 0 ):
         for name, wallet in sub_wallet_list.items():
-            for add_trust_line in trust_lines['add']:
-                set_trust_line(wallet, add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
-            # for remove_trust_line in trust_lines['remove']:
-            #     set_trust_line(wallet, remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], False)
+            # for add_trust_line in trust_lines['add']:
+            #     set_trust_line(wallet, add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
+            for remove_trust_line in trust_lines['remove']:
+                set_trust_line(wallet, remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], False)
 
     pass

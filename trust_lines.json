@@ -35,9 +35,59 @@
     ],
     "remove":[
         {
-            "currency": "POLAR",
-            "issuer": "rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX",
+            "currency": "Schmeckles",
+            "issuer": "rPxw83ZP6thv7KmG5DpAW4cDW55DZRZ9wu",
             "limit": "10000"
+        },
+        {
+            "currency": "Keanu",
+            "issuer": "rPFfFbAjVMjTKGzHnJQkpfLUNBwor7RQJY",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "XFIT",
+            "issuer": "rwAe5VFjRhwwgCnAGmEfb33kkWYqR8mnoh",
+            "limit": "999999899.9851887"
+        },
+        {
+            "currency": "SPORT",
+            "issuer": "rwxwUwWpWAQK6jFRcW12Vx97riBu91MDPi",
+            "limit": "99996499.99764815"
+        },
+        {
+            "currency": "DUCK",
+            "issuer": "rT5pAVAokKezWrjqnMBF3G8ah4fxVWVVx",
+            "limit": "949994699.9957902"
+        },
+        {
+            "currency": "CCN",
+            "issuer": "rG1bDjT25WyvPz757YC9NqdRKyz9ywF8e8",
+            "limit": "99997740.99364118"
+        },
+        {
+            "currency": "XFIT",
+            "issuer": "rwAe5VFjRhwwgCnAGmEfb33kkWYqR8mnoh",
+            "limit": "999999899.9851887"
+        },
+        {
+            "currency": "SSE",
+            "issuer": "rMDQTunsjE32sAkBDbwixpWr8TJdN5YLxu",
+            "limit": "99981.06435681388"
+        },
+        {
+            "currency": "xCorgi",
+            "issuer": "rERY8GCz7A1AN1RkDN1CkPVh8ids6PNgPP",
+            "limit": "9999.999013023815"
+        },
+        {
+            "currency": "MZT",
+            "issuer": "r3657An8zaoTVae8mkyamKp4ddELSFKmcn",
+            "limit": "9996709.308891458"
+        },
+        {
+            "currency": "LOVE",
+            "issuer": "rDpdyF9LtYpwRdHZs8sghaPscE8rH9sgfs",
+            "limit": "999953683.4738566"
         }
     ]
 }
