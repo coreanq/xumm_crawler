@@ -1,0 +1,43 @@
+{
+    "done":[
+        {
+            "currency": "POLAR",
+            "issuer": "rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX",
+            "limit": "10000"
+        }
+    ],
+    "add": [
+        {
+            "currency": "POLAR",
+            "issuer": "rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX",
+            "limit": "10000"
+        },
+        {
+            "currency": "XCASTLE",
+            "issuer": "rpU1YBKBCE3rnms5vwgXHHouLapVZv7KDu",
+            "limit": "10000"
+        },
+        {
+            "currency": "MATE",
+            "issuer": "rpWapSyB4dPhjMms2cYMEmTfc6BGpbpZBv",
+            "limit": "30000"
+        },
+        {
+            "currency": "XRSoftware",
+            "issuer": "rJZ9Hpaeqy3fdBvjVUjx1fW1bE75HgaJbr",
+            "limit": "199998000000"
+        },
+        {
+            "currency": "xSTIK",
+            "issuer": "rJNV9i4Q6zvRhpE2zjxgkvff3eGHQohZht",
+            "limit": "1000000000"
+        }
+    ],
+    "remove":[
+        {
+            "currency": "POLAR",
+            "issuer": "rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX",
+            "limit": "10000"
+        }
+    ]
+}

@@ -86,61 +86,20 @@ def get_account_sequene(address):
 
 
 def get_trust_line_info(address):
-    responses = account.get_account_transactions(address, client )
+    responses = account.get_account_root(address, client )
     for item in responses:
-        if( item['tx']['TransactionType'] == 'TrustSet'):
-            print(json.dumps(item['tx'], indent=4, sort_keys=True))
+        # if( item['tx']['TransactionType'] == 'TrustSet'):
+        print(json.dumps(item, indent=4, sort_keys=True))
 
 
 
-
-if __name__ == "__main__":
-    sub_wallet_list = {}
-
-    json_data = ''
-    with open('account_info.json') as json_file:
-        json_data = json.load(json_file)
-
-    main_wallet_address = json_data['main_wallet_address']
-    sub_wallets_info_from_file = json_data['sub_wallets_info']
-
-    JSON_RPC_URL = "https://s2.ripple.com:51234/"
-    # JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
-    client = JsonRpcClient(JSON_RPC_URL)
-
-
-    # check wallet validation 
-    for wallet_info_dict in sub_wallets_info_from_file:
-
-        address = wallet_info_dict['address']
-
-        wallet_sequence = get_account_sequene(address)
-
-        # get_trust_line_info(address)
-
-        seed_list = []
-        for seed_unit in wallet_info_dict['seed_number']:
-            # 6 digit  first 5 digit uint16 data   last 1 digit for crc from xumm api document
-            seed_list.append( int(seed_unit[:-1]) )
-
-        # little endian 16bit array 
-        seed_number = pack( '>HHHHHHHH', *seed_list )
-        seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
-
-        test_wallet = Wallet(seed=seed_str, sequence=wallet_sequence)
-        print(f'{test_wallet.classic_address=}') # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
-
-        if( address != test_wallet.classic_address ):
-            print("error address info ")
-        else:
-            sub_wallet_list[wallet_info_dict['name']] = test_wallet
-
+def send_payment(target_wallet):
     # # Prepare transaction ----------------------------------------------------------
-    my_payment = TransactionsModel.Payment(
-        account= sub_wallet_list['1'].classic_address,
-        amount= utils.xrp_to_drops(0.0001),
-        destination= main_wallet_address
-    )
+    # my_payment = TransactionsModel.Payment(
+    #     account= sub_wallet_list['1'].classic_address,
+    #     amount= utils.xrp_to_drops(0.0001),
+    #     destination= main_wallet_address
+    # )
     # print('{}'.format(my_payment.to_dict() ) )
 
     # print( xrpl.ledger.get_fee(client) )
@@ -159,31 +118,30 @@ if __name__ == "__main__":
     #     tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     # except xrpl.transaction.XRPLReliableSubmissionException as e:
     #     exit(f"Submit failed: {e}")
+    pass
 
+def set_trust_line(target_wallet, target_currency, target_issuer, target_limit, is_delete):
     from xrpl.models.amounts import IssuedCurrencyAmount
 
 
-    target_currency = 'POLAR'
-    target_currency = bytes(target_currency, 'utf-8')
-
-    target_currency = binascii.hexlify(target_currency)
-    target_currency = '{:<040}'.format(str(target_currency, 'utf-8').upper())
-
-    target_issuer = 'rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX'
+    if( len(target_currency) != 20 ):
+        target_currency = bytes(target_currency, 'utf-8')
+        target_currency = binascii.hexlify(target_currency)
+        target_currency = '{:<040}'.format(str(target_currency, 'utf-8').upper())
 
     # to remove trust line limit set to 0
-    target_limit = '0'
-    issued = IssuedCurrencyAmount(  currency=target_currency, issuer= target_issuer, value= target_limit)
+    if( is_delete == True ):
+        target_limit = '0'
 
-    my_payment = TransactionsModel.TrustSet (
-        account= sub_wallet_list['1'].classic_address,
-        limit_amount= issued,
+    my_transaction = TransactionsModel.TrustSet (
+        account= target_wallet.classic_address ,
+        limit_amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
         flags= TransactionsModel.TrustSetFlag.TF_SET_NO_RIPPLE
     )
 
     # Sign transaction -------------------------------------------------------------
     signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-            my_payment, sub_wallet_list['1'], client)
+            my_transaction, target_wallet, client)
     max_ledger = signed_tx.last_ledger_sequence
     tx_id = signed_tx.get_hash()
     print("Signed transaction:", signed_tx)
@@ -193,7 +151,69 @@ if __name__ == "__main__":
 
     try:
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
+    except xrpl.clients.XRPLRequestFailureException as e:
+        print("{} wallet_address: {}".format(e, target_wallet.classic_address)) 
+        pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
+    pass
+
+
+
+
+if __name__ == "__main__":
+    sub_wallet_list = {}
+
+    json_data = ''
+    with open('account_info.json') as json_file:
+        json_data = json.load(json_file)
+
+    main_wallet_address = json_data['main_wallet_address']
+    sub_wallets_info_from_file = json_data['sub_wallets_info']
+
+    with open('trust_lines.json') as json_file:
+        json_data = json.load(json_file)
+    
+    trust_lines = json_data
+
+    JSON_RPC_URL = "https://s2.ripple.com:51234/"
+    # JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
+    client = JsonRpcClient(JSON_RPC_URL)
+
+
+
+    result = []
+    # check wallet validation 
+    for wallet_info_dict in sub_wallets_info_from_file:
+
+        address = wallet_info_dict['address']
+
+        wallet_sequence = get_account_sequene(address)
+
+        seed_list = []
+        for seed_unit in wallet_info_dict['seed_number']:
+            # 6 digit  first 5 digit uint16 data   last 1 digit for crc from xumm api document
+            seed_list.append( int(seed_unit[:-1]) )
+
+        # little endian 16bit array 
+        seed_number = pack( '>HHHHHHHH', *seed_list )
+        seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
+
+        test_wallet = Wallet(seed=seed_str, sequence=wallet_sequence)
+        print(f'{test_wallet.classic_address=}') # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+
+        if( address != test_wallet.classic_address ):
+            print("{} wallet error private key error".format(wallet_info_dict['name']) )
+            result.append(False)
+        else:
+            sub_wallet_list[wallet_info_dict['name']] = test_wallet
+
+
+    if( len(result) == 0 ):
+        for name, wallet in sub_wallet_list.items():
+            for add_trust_line in trust_lines['add']:
+                set_trust_line(wallet, add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
+            # for remove_trust_line in trust_lines['remove']:
+            #     set_trust_line(wallet, remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], False)
 
     pass
