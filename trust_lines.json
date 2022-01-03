@@ -27,6 +27,11 @@
         }
     ],
     "add": [
+        {
+            "currency": "XPG",
+            "issuer": "rfJwWjrxZU5Vsk9sTVXKLdyrce1CDTjhDf",
+            "limit": "6000000"
+        }
     ],
     "remove":[
     ],

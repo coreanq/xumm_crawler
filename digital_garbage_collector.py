@@ -2,7 +2,9 @@ import json
 import binascii
 import xrpl
 
+from xrpl.models.requests.account_lines import AccountLines;
 from xrpl.models import currencies, transactions as TransactionsModel
+from xrpl.models import Response
 
 from xrpl import utils
 from xrpl import account
@@ -11,15 +13,10 @@ from xrpl.clients import JsonRpcClient
 from xrpl.core import addresscodec
 from xrpl import constants
 from struct import pack
+from xrpl.models.response import ResponseStatus, ResponseType
 
 from xrpl.wallet import Wallet
 from xrpl.core.addresscodec.codec import SEED_LENGTH 
-
-# # Define the network client
-# from xrpl.clients import JsonRpcClient
-# from xrpl.core.addresscodec.codec import SEED_LENGTH
-# JSON_RPC_URL = "https://s.altnet.rippletest.net:51234/"
-# client = JsonRpcClient(JSON_RPC_URL)
 
 # # Create a wallet using the testnet faucet:
 # # https://xrpl.org/xrp-testnet-faucet.html
@@ -30,23 +27,6 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 # print(f'{test_wallet.private_key=}')
 # print(f'{test_wallet.seed=}')
 # print(f'{test_wallet.sequence=}') 
-
-# # Create an account str from the wallet
-# test_account = test_wallet.classic_address
-
-# # Look up info about your account
-# from xrpl.models.requests.account_info import AccountInfo
-# acct_info = AccountInfo(
-#     account=test_account,
-#     ledger_index="validated",
-#     strict=True,
-# )
-# response = client.request(acct_info)
-# result = response.result
-# print("response.status: ", response.status)
-# import json
-# print(json.dumps(response.result, indent=4, sort_keys=True))
-
 
 
 def get_account_sequene(address):
@@ -133,10 +113,8 @@ def set_trust_line(target_wallet, target_currency, target_issuer, target_limit, 
     pass
 
 
-
-
 if __name__ == "__main__":
-    sub_wallet_list = {}
+    sub_wallet_list = []
 
     json_data = ''
     with open('account_info.json') as json_file:
@@ -153,8 +131,6 @@ if __name__ == "__main__":
     JSON_RPC_URL = "https://s2.ripple.com:51234/"
     # JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
     client = JsonRpcClient(JSON_RPC_URL)
-
-
 
     result = []
     # check wallet validation 
@@ -173,25 +149,45 @@ if __name__ == "__main__":
         seed_number = pack( '>HHHHHHHH', *seed_list )
         seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
 
-        test_wallet = Wallet(seed=seed_str, sequence=wallet_sequence)
-        print(f'{test_wallet.classic_address=}') # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+        current_wallet = Wallet(seed=seed_str, sequence=wallet_sequence)
+        print(f'{current_wallet.classic_address=}') # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
 
-        if( address != test_wallet.classic_address ):
+        if( address != current_wallet.classic_address ):
             print("{} wallet error private key error".format(wallet_info_dict['name']) )
             result.append(False)
+            break
         else:
-            sub_wallet_list[wallet_info_dict['name']] = test_wallet
+            wallet_info = {}
+            wallet_info['name'] = wallet_info_dict['name']
+            wallet_info['wallet'] = current_wallet
+            wallet_info['lines'] = []
+
+
+            info_request = AccountLines(
+                account= current_wallet.classic_address,
+            )
+
+            response = client.request(info_request)
+
+            if( response.status == ResponseStatus.SUCCESS ):
+                for line in response.result['lines']:
+                    print(json.dumps(response.result['lines'], indent=4, sort_keys=True))
+                    # if( float(line['balance']) > 0 ):
+                    wallet_info['lines']  = response.result['lines']
+
+            # add wallet info
+            sub_wallet_list.append( wallet_info )
 
 
     isActivated = True
     if( len(result) == 0 ):
-        for name, wallet in sub_wallet_list.items():
-            # if( 'n' in name):
+        for wallet in sub_wallet_list:
+            # if( 'n' in wallet['name']):
             #     isActivated = True
             if( isActivated == True ):
                 # for add_trust_line in trust_lines['add']:
-                #     set_trust_line(wallet, add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
-                for remove_trust_line in trust_lines['remove']:
-                    set_trust_line(wallet, remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], True)
-
-    pass
+                #     set_trust_line(wallet['wallet'], add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
+                # for remove_trust_line in trust_lines['remove']:
+                #     set_trust_line(wallet['wallet'], remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], True)
+                pass
+        pass
