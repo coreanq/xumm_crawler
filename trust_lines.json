@@ -29,51 +29,6 @@
     "add": [
     ],
     "remove":[
-        {
-            "currency": "XALANA",
-            "issuer": "r8zkzkjvHxTFDkHJrqpssCd5HDUjCgxck",
-            "limit": "24999.96985228583"
-        },
-        {
-            "currency": "Tribe",
-            "issuer": "rh6MHdcZDRwfcqFyAQP4bvZvKTyArnTR2W",
-            "limit": "9999.999487291374"
-        },
-        {
-            "currency": "CX1",
-            "issuer": "rKk7mu1dNB25fsPEJ4quoQd5B8QmaxewKi",
-            "limit": "24999996804.4603"
-        },
-        {
-            "currency": "XJOY",
-            "issuer": "rJAvx8FtrLR3RyZyM1LyVQFxxsLdT1PmdS",
-            "limit": "7777.000000000004"
-        },
-        {
-            "currency": "XMETA",
-            "issuer": "r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB",
-            "limit": "9999381618.18733"
-        },
-        {
-            "currency": "FSE",
-            "issuer": "rs1MKY54miDtMFEGyNuPd3BLsXauFZUSrj",
-            "limit": "99998.06179718373"
-        },
-        {
-            "currency": "DRT",
-            "issuer": "rfDhSfY5JMtCrje7hGxC8Gk6dC5PgNJh63",
-            "limit": "149999.99956198415"
-        },
-        {
-            "currency": "KOLS",
-            "issuer": "rUThGrdjD3q227DtSAKtviXqpicWjKG9xK",
-            "limit": "9999999.999976657"
-        },
-        {
-            "currency": "XShibanu",
-            "issuer": "rpD9gvxp7RCKrTrYAyTdueF9ApApbP5ZnN",
-            "limit": "8999664091.964594"
-        }
     ],
     "remove_done":[
         {
@@ -170,6 +125,51 @@
             "currency": "SDOGI",
             "issuer": "rLdNVRKiVM4kvMbLzkZr97BtXcYeeoA19R",
             "limit": "10000000000000"
+        },
+        {
+            "currency": "XALANA",
+            "issuer": "r8zkzkjvHxTFDkHJrqpssCd5HDUjCgxck",
+            "limit": "24999.96985228583"
+        },
+        {
+            "currency": "Tribe",
+            "issuer": "rh6MHdcZDRwfcqFyAQP4bvZvKTyArnTR2W",
+            "limit": "9999.999487291374"
+        },
+        {
+            "currency": "CX1",
+            "issuer": "rKk7mu1dNB25fsPEJ4quoQd5B8QmaxewKi",
+            "limit": "24999996804.4603"
+        },
+        {
+            "currency": "XJOY",
+            "issuer": "rJAvx8FtrLR3RyZyM1LyVQFxxsLdT1PmdS",
+            "limit": "7777.000000000004"
+        },
+        {
+            "currency": "XMETA",
+            "issuer": "r3XwJ1hr1PtbRvbhuUkybV6tmYzzA11WcB",
+            "limit": "9999381618.18733"
+        },
+        {
+            "currency": "FSE",
+            "issuer": "rs1MKY54miDtMFEGyNuPd3BLsXauFZUSrj",
+            "limit": "99998.06179718373"
+        },
+        {
+            "currency": "DRT",
+            "issuer": "rfDhSfY5JMtCrje7hGxC8Gk6dC5PgNJh63",
+            "limit": "149999.99956198415"
+        },
+        {
+            "currency": "KOLS",
+            "issuer": "rUThGrdjD3q227DtSAKtviXqpicWjKG9xK",
+            "limit": "9999999.999976657"
+        },
+        {
+            "currency": "XShibanu",
+            "issuer": "rpD9gvxp7RCKrTrYAyTdueF9ApApbP5ZnN",
+            "limit": "8999664091.964594"
         }
 
     ]
