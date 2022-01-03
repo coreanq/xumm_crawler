@@ -5,6 +5,7 @@ import xrpl
 from xrpl.models.requests.account_lines import AccountLines;
 from xrpl.models import currencies, transactions as TransactionsModel
 from xrpl.models import Response
+from xrpl.models.amounts import IssuedCurrencyAmount
 
 from xrpl import utils
 from xrpl import account
@@ -28,6 +29,8 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 # print(f'{test_wallet.seed=}')
 # print(f'{test_wallet.sequence=}') 
 
+main_wallet_address = None
+sub_wallets_info_from_file = None
 
 def get_account_sequene(address):
     response = account.get_account_info(address, client )
@@ -35,43 +38,38 @@ def get_account_sequene(address):
     return response.result['account_data']['Sequence']
 
 
-def get_trust_line_info(address):
-    responses = account.get_account_root(address, client )
-    for item in responses:
-        # if( item['tx']['TransactionType'] == 'TrustSet'):
-        print(json.dumps(item, indent=4, sort_keys=True))
+# send all trust line balance to main wallet 
+def send_payment(current_wallet, target_currency, target_issuer, target_limit):
+    # Prepare transaction ----------------------------------------------------------
+    my_transaction = TransactionsModel.Payment(
+        account= current_wallet.classic_address,
+        amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
+        destination= main_wallet_address
+    )
+    print('{}'.format(my_transaction.to_dict() ) )
 
+    print( xrpl.ledger.get_fee(client) )
 
-
-def send_payment(target_wallet):
-    # # Prepare transaction ----------------------------------------------------------
-    # my_payment = TransactionsModel.Payment(
-    #     account= sub_wallet_list['1'].classic_address,
-    #     amount= utils.xrp_to_drops(0.0001),
-    #     destination= main_wallet_address
-    # )
-    # print('{}'.format(my_payment.to_dict() ) )
-
-    # print( xrpl.ledger.get_fee(client) )
-
-    # # Sign transaction -------------------------------------------------------------
-    # signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-    #         my_payment, sub_wallet_list['1'], client)
-    # max_ledger = signed_tx.last_ledger_sequence
-    # tx_id = signed_tx.get_hash()
+    # Sign transaction -------------------------------------------------------------
+    signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+            my_transaction, current_wallet, client)
+    max_ledger = signed_tx.last_ledger_sequence
+    tx_id = signed_tx.get_hash()
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
-    # print("Identifying hash:", tx_id)
+    print("send from address: {} Identifying hash: {}".format(current_wallet.classic_address, tx_id) )
 
-    # try:
-    #     tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
-    # except xrpl.transaction.XRPLReliableSubmissionException as e:
-    #     exit(f"Submit failed: {e}")
+    try:
+        tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
+    except xrpl.clients.XRPLRequestFailureException as e:
+        print("{}: {}".format(current_wallet.classic_address, e)) 
+        pass
+    except xrpl.transaction.XRPLReliableSubmissionException as e:
+        exit(f"Submit failed: {e}")
     pass
 
-def set_trust_line(target_wallet, target_currency, target_issuer, target_limit, is_delete):
-    from xrpl.models.amounts import IssuedCurrencyAmount
+def set_trust_line(current_wallet, target_currency, target_issuer, target_limit, is_delete):
 
     original_name = target_currency
 
@@ -88,25 +86,25 @@ def set_trust_line(target_wallet, target_currency, target_issuer, target_limit, 
         flag = TransactionsModel.TrustSetFlag.TF_SET_NO_RIPPLE | TransactionsModel.TrustSetFlag.TF_CLEAR_FREEZE
 
     my_transaction = TransactionsModel.TrustSet (
-        account= target_wallet.classic_address ,
+        account= current_wallet.classic_address ,
         limit_amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
         flags= flag
     )
 
     # Sign transaction -------------------------------------------------------------
     signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-            my_transaction, target_wallet, client)
+            my_transaction, current_wallet, client)
     max_ledger = signed_tx.last_ledger_sequence
     tx_id = signed_tx.get_hash()
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
-    print("{} Address: {} Identifying hash: {}".format(original_name, target_wallet.classic_address, tx_id) )
+    print("{} Address: {} Identifying hash: {}".format(original_name, current_wallet.classic_address, tx_id) )
 
     try:
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{} {} wallet_address: {}".format(original_name, e, target_wallet.classic_address)) 
+        print("{} {}: {}".format(original_name, current_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
@@ -184,10 +182,18 @@ if __name__ == "__main__":
         for wallet in sub_wallet_list:
             # if( 'n' in wallet['name']):
             #     isActivated = True
+            # else:
+            #     isActivated = False
+
             if( isActivated == True ):
                 # for add_trust_line in trust_lines['add']:
                 #     set_trust_line(wallet['wallet'], add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
                 # for remove_trust_line in trust_lines['remove']:
                 #     set_trust_line(wallet['wallet'], remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], True)
+
+                for line in wallet['lines']:
+                    if( float(line['balance']) > 0 ):
+                        print('{}: {}'.format( wallet['wallet'].classic_address, line ))
+                        send_payment( wallet['wallet'], line['currency'], line['account'], line['balance'] )
                 pass
         pass

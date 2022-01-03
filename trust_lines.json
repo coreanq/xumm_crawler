@@ -31,6 +31,11 @@
             "currency": "XPG",
             "issuer": "rfJwWjrxZU5Vsk9sTVXKLdyrce1CDTjhDf",
             "limit": "6000000"
+        },
+        {
+            "currency": "XQK",
+            "issuer": "rHKrPGdpaqNRqRvmsiqQhD6azqc4npWoLC",
+            "limit": "86290614001.6346"
         }
     ],
     "remove":[
