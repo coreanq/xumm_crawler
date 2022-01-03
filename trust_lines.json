@@ -1,6 +1,26 @@
 {
     "add_done":[
         {
+            "currency": "SOLO",
+            "issuer": "rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz",
+            "limit": "399933681.6027328"
+        },
+        {
+            "currency": "TRSRY",
+            "issuer": "rLBnhMjV6ifEHYeV4gaS6jPKerZhQddFxW",
+            "limit": "99999999.99915142"
+        },
+        {
+            "currency": "Zinfinite",
+            "issuer": "rGMU2cbbMhzodpecrjLQ2A814DqL8LFxjY",
+            "limit": "1000000000000.0015"
+        },
+        {
+            "currency": "Cannabis",
+            "issuer": "rEdSsC6euwFofzLWZdqmDFu1HExPzR48aj",
+            "limit": "5000000"
+        },
+        {
             "currency": "POLAR",
             "issuer": "rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX",
             "limit": "10000"
@@ -24,19 +44,24 @@
             "currency": "xSTIK",
             "issuer": "rJNV9i4Q6zvRhpE2zjxgkvff3eGHQohZht",
             "limit": "1000000000"
-        }
-    ],
-    "add": [
+        },
         {
             "currency": "XPG",
             "issuer": "rfJwWjrxZU5Vsk9sTVXKLdyrce1CDTjhDf",
             "limit": "6000000"
         },
         {
-            "currency": "XQK",
-            "issuer": "rHKrPGdpaqNRqRvmsiqQhD6azqc4npWoLC",
-            "limit": "86290614001.6346"
+            "currency": "Fluff",
+            "issuer": "rG81ZwWpJbwvkrSPMWYRNAQ4JrYVGzDZfx",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "TALENT",
+            "issuer": "r92SQCuWhYoB4w2UnKU7PKj4Mh7jSyemrH",
+            "limit": "1000000000"
         }
+    ],
+    "add": [
     ],
     "remove":[
     ],

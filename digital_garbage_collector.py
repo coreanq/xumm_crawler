@@ -38,6 +38,16 @@ def get_account_sequene(address):
     return response.result['account_data']['Sequence']
 
 
+def get_currency_name(name):
+    transformed_currency_name = name 
+    # 3자리용 currency 와는 별도 처리 필요 함 3자리는 ascii 그대로 사용 그 이상은 hex string 으로 40자 ( 20 char )
+    if( len(name) != 3 ):
+        transformed_currency_name = bytes(name, 'utf-8')
+        transformed_currency_name = binascii.hexlify(transformed_currency_name)
+        transformed_currency_name = '{:<040}'.format(str(transformed_currency_name, 'utf-8').upper())
+
+    return  transformed_currency_name
+
 # send all trust line balance to main wallet 
 def send_payment(current_wallet, target_currency, target_issuer, target_limit):
     # Prepare transaction ----------------------------------------------------------
@@ -69,15 +79,7 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
         exit(f"Submit failed: {e}")
     pass
 
-def set_trust_line(current_wallet, target_currency, target_issuer, target_limit, is_delete):
-
-    original_name = target_currency
-
-    # 3자리용 currency 와는 별도 처리 필요 함 3자리는 ascii 그대로 사용 그 이상은 hex string 으로 40자 ( 20 char )
-    if( len(target_currency) != 3 ):
-        target_currency = bytes(target_currency, 'utf-8')
-        target_currency = binascii.hexlify(target_currency)
-        target_currency = '{:<040}'.format(str(target_currency, 'utf-8').upper())
+def set_trust_line(current_wallet, original_currency_name, transformed_currency_name, target_issuer, target_limit, is_delete):
 
     flag = TransactionsModel.TrustSetFlag.TF_SET_NO_RIPPLE
     # to remove trust line limit set to 0
@@ -87,7 +89,7 @@ def set_trust_line(current_wallet, target_currency, target_issuer, target_limit,
 
     my_transaction = TransactionsModel.TrustSet (
         account= current_wallet.classic_address ,
-        limit_amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
+        limit_amount= IssuedCurrencyAmount( currency= transformed_currency_name, issuer= target_issuer, value= target_limit),
         flags= flag
     )
 
@@ -99,12 +101,12 @@ def set_trust_line(current_wallet, target_currency, target_issuer, target_limit,
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
-    print("{} Address: {} Identifying hash: {}".format(original_name, current_wallet.classic_address, tx_id) )
+    print("{} Address: {} Identifying hash: {}".format(original_currency_name, current_wallet.classic_address, tx_id) )
 
     try:
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{} {}: {}".format(original_name, current_wallet.classic_address, e)) 
+        print("{} {}: {}".format(original_currency_name, current_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
@@ -124,7 +126,7 @@ if __name__ == "__main__":
     with open('trust_lines.json') as json_file:
         json_data = json.load(json_file)
     
-    trust_lines = json_data
+    trust_lines_from_file = json_data
 
     JSON_RPC_URL = "https://s2.ripple.com:51234/"
     # JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
@@ -169,7 +171,7 @@ if __name__ == "__main__":
 
             if( response.status == ResponseStatus.SUCCESS ):
                 for line in response.result['lines']:
-                    print(json.dumps(response.result['lines'], indent=4, sort_keys=True))
+                    # print(json.dumps(response.result['lines'], indent=4, sort_keys=True))
                     # if( float(line['balance']) > 0 ):
                     wallet_info['lines']  = response.result['lines']
 
@@ -179,21 +181,45 @@ if __name__ == "__main__":
 
     isActivated = True
     if( len(result) == 0 ):
-        for wallet in sub_wallet_list:
+        for wallet_dict in sub_wallet_list:
             # if( 'n' in wallet['name']):
             #     isActivated = True
             # else:
             #     isActivated = False
 
             if( isActivated == True ):
-                # for add_trust_line in trust_lines['add']:
-                #     set_trust_line(wallet['wallet'], add_trust_line['currency'], add_trust_line['issuer'], add_trust_line['limit'], False)
-                # for remove_trust_line in trust_lines['remove']:
-                #     set_trust_line(wallet['wallet'], remove_trust_line['currency'], remove_trust_line['issuer'], remove_trust_line['limit'], True)
 
-                for line in wallet['lines']:
-                    if( float(line['balance']) > 0 ):
-                        print('{}: {}'.format( wallet['wallet'].classic_address, line ))
-                        send_payment( wallet['wallet'], line['currency'], line['account'], line['balance'] )
+                # 이미 trust line 에 추가 되었다면 추가 금지 
+                for add_trust_line in trust_lines_from_file['add']:
+                    original_currency_name = add_trust_line['currency']
+                    transformed_currency_name = get_currency_name(original_currency_name)
+                    isTrustLineExist = False
+
+                    for line in wallet_dict['lines']:
+                        if( transformed_currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
+
+                    if ( isTrustLineExist == False ):
+                        set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False)
+
+                # 이미 trustline 에 추가 된 경우만 삭제 
+                for remove_trust_line in trust_lines_from_file['remove']:
+                    currency_name = get_currency_name(remove_trust_line['currency'])
+                    isTrustLineExist = False
+
+                    for line in wallet_dict['lines']:
+                        if( currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
+
+                    if ( isTrustLineExist == True ):
+                        set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
+
+                # # 잔고 확인 된 것은 main wallet 으로 전송 
+                # for line in wallet_dict['lines']:
+                #     if( float(line['balance']) > 0 ):
+                #         print('{}: {}'.format( wallet_dict['wallet'].classic_address, line ))
+                #         send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
                 pass
         pass
