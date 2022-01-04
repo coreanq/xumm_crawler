@@ -6,11 +6,6 @@
             "limit": "399933681.6027328"
         },
         {
-            "currency": "TRSRY",
-            "issuer": "rLBnhMjV6ifEHYeV4gaS6jPKerZhQddFxW",
-            "limit": "99999999.99915142"
-        },
-        {
             "currency": "Zinfinite",
             "issuer": "rGMU2cbbMhzodpecrjLQ2A814DqL8LFxjY",
             "limit": "1000000000000.0015"
@@ -19,7 +14,9 @@
             "currency": "Cannabis",
             "issuer": "rEdSsC6euwFofzLWZdqmDFu1HExPzR48aj",
             "limit": "5000000"
-        },
+        }
+    ],
+    "add": [
         {
             "currency": "POLAR",
             "issuer": "rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX",
@@ -59,9 +56,17 @@
             "currency": "TALENT",
             "issuer": "r92SQCuWhYoB4w2UnKU7PKj4Mh7jSyemrH",
             "limit": "1000000000"
+        },
+        {
+            "currency": "xMochi",
+            "issuer": "rPaC5HFXToBuqHjSgjhmJaMejrF6DHRXKL",
+            "limit": "2000"
+        },
+        {
+            "currency": "TRSRY",
+            "issuer": "rLBnhMjV6ifEHYeV4gaS6jPKerZhQddFxW",
+            "limit": "99999999.99915142"
         }
-    ],
-    "add": [
     ],
     "remove":[
     ],

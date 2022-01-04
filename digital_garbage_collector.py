@@ -182,10 +182,6 @@ if __name__ == "__main__":
     isActivated = True
     if( len(result) == 0 ):
         for wallet_dict in sub_wallet_list:
-            # if( 'n' in wallet['name']):
-            #     isActivated = True
-            # else:
-            #     isActivated = False
 
             if( isActivated == True ):
 
