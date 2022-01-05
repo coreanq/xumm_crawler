@@ -223,8 +223,8 @@ websockets = [
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">=3.9,<3.11"
-content-hash = "2fc18acd5061c0871e28300ba2248abda085bc2da78da9019d81dcca0d16f11c"
+python-versions = ">=3.9 <3.11"
+content-hash = "7d9659fb8389daf01c0b2032f84202821ddb2699864dd6829e30ac1a30aef017"
 
 [metadata.files]
 altgraph = [
