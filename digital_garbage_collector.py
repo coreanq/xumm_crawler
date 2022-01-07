@@ -198,11 +198,12 @@ if __name__ == "__main__":
 
             # 이미 trustline 에 추가 된 경우만 삭제 
             for remove_trust_line in trust_lines_from_file['remove']:
-                currency_name = get_currency_name(remove_trust_line['currency'])
+                original_currency_name = remove_trust_line['currency']
+                transformed_currency_name = get_currency_name(original_currency_name)
                 isTrustLineExist = False
 
                 for line in wallet_dict['lines']:
-                    if( currency_name == line['currency'] ):
+                    if( transformed_currency_name == line['currency'] ):
                         isTrustLineExist = True
                         break
 
