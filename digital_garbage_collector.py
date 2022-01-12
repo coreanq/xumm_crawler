@@ -182,6 +182,13 @@ if __name__ == "__main__":
     if( len(result) == 0 ):
         for wallet_dict in sub_wallet_list:
 
+            # # 잔고 확인 된 것은 main wallet 으로 전송 
+            for line in wallet_dict['lines']:
+                if( float(line['balance']) > 0 ):
+                    print('{}: {}'.format( wallet_dict['wallet'].classic_address, line ))
+                    send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
+            pass
+
             # 이미 trust line 에 추가 되었다면 추가 금지 
             for add_trust_line in trust_lines_from_file['add']:
                 original_currency_name = add_trust_line['currency']
@@ -210,10 +217,4 @@ if __name__ == "__main__":
                 if ( isTrustLineExist == True ):
                     set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
 
-            # # 잔고 확인 된 것은 main wallet 으로 전송 
-            for line in wallet_dict['lines']:
-                if( float(line['balance']) > 0 ):
-                    print('{}: {}'.format( wallet_dict['wallet'].classic_address, line ))
-                    send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
-            pass
         pass
