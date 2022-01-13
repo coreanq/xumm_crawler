@@ -1,4 +1,4 @@
-import json
+import sys, json
 import binascii
 import xrpl
 
@@ -31,6 +31,7 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 
 main_wallet_address = None
 sub_wallets_info_from_file = None
+sub_wallet_list = []
 
 def get_account_sequene(address):
     response = account.get_account_info(address, client )
@@ -113,32 +114,14 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
     pass
 
 
-if __name__ == "__main__":
-    sub_wallet_list = []
-
-    json_data = ''
-    with open('account_info.json') as json_file:
-        json_data = json.load(json_file)
-
-    main_wallet_address = json_data['main_wallet_address']
-    sub_wallets_info_from_file = json_data['sub_wallets_info']
-
-    with open('trust_lines.json') as json_file:
-        json_data = json.load(json_file)
-    
-    trust_lines_from_file = json_data
-
-    JSON_RPC_URL = "https://s2.ripple.com:51234/"
-    # JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
-    client = JsonRpcClient(JSON_RPC_URL)
-
+def get_wallet_info():
     result = []
     # check wallet validation 
-    for wallet_info_dict in sub_wallets_info_from_file:
+    for index, wallet_info_dict in enumerate(sub_wallets_info_from_file):
 
         address = wallet_info_dict['address']
 
-        wallet_sequence = get_account_sequene(address)
+        # wallet_sequence = get_account_sequene(address)
 
         seed_list = []
         for seed_unit in wallet_info_dict['seed_number']:
@@ -149,8 +132,8 @@ if __name__ == "__main__":
         seed_number = pack( '>HHHHHHHH', *seed_list )
         seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
 
-        current_wallet = Wallet(seed=seed_str, sequence=wallet_sequence)
-        print(f'{current_wallet.classic_address=}') # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+        current_wallet = Wallet(seed=seed_str, sequence= 0 )
+        print('{:02}: {}'.format( index, current_wallet.classic_address)) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
 
         if( address != current_wallet.classic_address ):
             print("{} wallet error private key error".format(wallet_info_dict['name']) )
@@ -179,42 +162,78 @@ if __name__ == "__main__":
             sub_wallet_list.append( wallet_info )
 
 
-    if( len(result) == 0 ):
-        for wallet_dict in sub_wallet_list:
+    if( len(result) != 0 ):
+        return False
+    else:
+        return True
 
-            # # 잔고 확인 된 것은 main wallet 으로 전송 
-            for line in wallet_dict['lines']:
-                if( float(line['balance']) > 0 ):
-                    print('{}: {}'.format( wallet_dict['wallet'].classic_address, line ))
-                    send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
-            pass
+    pass
 
-            # 이미 trust line 에 추가 되었다면 추가 금지 
-            for add_trust_line in trust_lines_from_file['add']:
-                original_currency_name = add_trust_line['currency']
-                transformed_currency_name = get_currency_name(original_currency_name)
-                isTrustLineExist = False
 
+if __name__ == "__main__":
+
+    loop = False
+
+    if( len(sys.argv) == 2):
+        if( sys.argv[1] == '1'):
+            loop = True
+
+    json_data = ''
+    with open('account_info.json') as json_file:
+        json_data = json.load(json_file)
+
+    main_wallet_address = json_data['main_wallet_address']
+    sub_wallets_info_from_file = json_data['sub_wallets_info']
+
+    with open('trust_lines.json') as json_file:
+        json_data = json.load(json_file)
+    
+    trust_lines_from_file = json_data
+
+    JSON_RPC_URL = "https://s2.ripple.com:51234/"
+    # JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
+    client = JsonRpcClient(JSON_RPC_URL)
+
+
+    while(True):
+        sub_wallet_list.clear()
+        if( get_wallet_info() == True ):
+            for wallet_dict in sub_wallet_list:
+
+                # # 잔고 확인 된 것은 main wallet 으로 전송 
                 for line in wallet_dict['lines']:
-                    if( transformed_currency_name == line['currency'] ):
-                        isTrustLineExist = True
-                        break
+                    if( float(line['balance']) > 0 ):
+                        print('{}: {}'.format( wallet_dict['wallet'].classic_address, line ))
+                        send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
+                pass
 
-                if ( isTrustLineExist == False ):
-                    set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False)
+                # 이미 trust line 에 추가 되었다면 추가 금지 
+                for add_trust_line in trust_lines_from_file['add']:
+                    original_currency_name = add_trust_line['currency']
+                    transformed_currency_name = get_currency_name(original_currency_name)
+                    isTrustLineExist = False
 
-            # 이미 trustline 에 추가 된 경우만 삭제 
-            for remove_trust_line in trust_lines_from_file['remove']:
-                original_currency_name = remove_trust_line['currency']
-                transformed_currency_name = get_currency_name(original_currency_name)
-                isTrustLineExist = False
+                    for line in wallet_dict['lines']:
+                        if( transformed_currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
 
-                for line in wallet_dict['lines']:
-                    if( transformed_currency_name == line['currency'] ):
-                        isTrustLineExist = True
-                        break
+                    if ( isTrustLineExist == False ):
+                        set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False)
 
-                if ( isTrustLineExist == True ):
-                    set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
+                # 이미 trustline 에 추가 된 경우만 삭제 
+                for remove_trust_line in trust_lines_from_file['remove']:
+                    original_currency_name = remove_trust_line['currency']
+                    transformed_currency_name = get_currency_name(original_currency_name)
+                    isTrustLineExist = False
 
-        pass
+                    for line in wallet_dict['lines']:
+                        if( transformed_currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
+
+                    if ( isTrustLineExist == True ):
+                        set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
+
+        if( loop == False ):
+            break
