@@ -133,10 +133,11 @@ def get_wallet_info():
         seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
 
         current_wallet = Wallet(seed=seed_str, sequence= 0 )
-        print('{:02}: {}'.format( index, current_wallet.classic_address)) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+        # print('{:02}: {}'.format( index, current_wallet.classic_address)) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+        print('{:02}:( {} ) '.format( index, current_wallet.classic_address[-4:] ), end= '', flush=True ) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
 
         if( address != current_wallet.classic_address ):
-            print("{} wallet error private key error".format(wallet_info_dict['name']) )
+            print("\n{} wallet error private key error".format(wallet_info_dict['name']) )
             result.append(False)
             break
         else:
@@ -161,7 +162,7 @@ def get_wallet_info():
             # add wallet info
             sub_wallet_list.append( wallet_info )
 
-
+    print('')
     if( len(result) != 0 ):
         return False
     else:
