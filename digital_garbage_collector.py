@@ -235,6 +235,8 @@ if __name__ == "__main__":
 
                     if ( isTrustLineExist == True ):
                         set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
+        else:
+            loop = False
 
         if( loop == False ):
             break
