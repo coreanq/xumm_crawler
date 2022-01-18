@@ -159,7 +159,7 @@
             "limit": "1000000000"
         },
         {
-            "currency": "Lil",
+            "currency": "LIL",
             "issuer": "raZ87rZoVjgg8oc5LijSigyN8rbutXGdbw",
             "limit": "100000000"
         },
@@ -176,17 +176,22 @@
         {
             "currency": "CFC",
             "issuer": "rsxUkmjnAn8PRDz8RYrPusb9mTDYn5NqG8",
-            "limit": "683862184.4551368"
+            "limit": "683862184.455138"
         },
         {
             "currency": "PALEOCOIN",
             "issuer": "rPfuLd1XmVyxkggAiT9fpLQU81GLb6UDZg",
-            "limit": "19999996957.894676"
+            "limit": "1999996957"
         },
         {
             "currency": "POKER",
             "issuer": "rfNWXEENu93dvCBnjpFY7mRpprZzBUx8hC",
-            "limit": "149999999.9828408"
+            "limit": "149999999.982840"
+        },
+        {
+            "currency": "UVX",
+            "issuer": "r4XUTsMNJoT8Cs6rNHzbif5MpZ7sPH1nWF",
+            "limit": "500000000"
         }
 
     ],
