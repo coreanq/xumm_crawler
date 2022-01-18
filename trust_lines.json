@@ -157,6 +157,36 @@
             "currency": "KGE",
             "issuer": "rNhSjAMnDJc9tDHH1R4sqggvgDGa8Bwj5T",
             "limit": "1000000000"
+        },
+        {
+            "currency": "Lil",
+            "issuer": "raZ87rZoVjgg8oc5LijSigyN8rbutXGdbw",
+            "limit": "100000000"
+        },
+        {
+            "currency": "TROPA",
+            "issuer": "r9BSm9VwgFKCsjksYuzHJ1QebneFyrS5bu",
+            "limit": "10000"
+        },
+        {
+            "currency": "NICE",
+            "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
+            "limit": "8000000000"
+        },
+        {
+            "currency": "CFC",
+            "issuer": "rsxUkmjnAn8PRDz8RYrPusb9mTDYn5NqG8",
+            "limit": "683862184.4551368"
+        },
+        {
+            "currency": "PALEOCOIN",
+            "issuer": "rPfuLd1XmVyxkggAiT9fpLQU81GLb6UDZg",
+            "limit": "19999996957.894676"
+        },
+        {
+            "currency": "POKER",
+            "issuer": "rfNWXEENu93dvCBnjpFY7mRpprZzBUx8hC",
+            "limit": "149999999.9828408"
         }
 
     ],
