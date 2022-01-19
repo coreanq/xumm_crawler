@@ -1,4 +1,6 @@
 from math import remainder
+
+import time
 import sys, json
 import binascii
 import xrpl
@@ -40,7 +42,7 @@ def get_account_sequene(address):
     return response.result['account_data']['Sequence']
 
 
-def get_currency_name(name):
+def get_currency_transformed_name(name):
     transformed_currency_name = name 
     # 3자리용 currency 와는 별도 처리 필요 함 3자리는 ascii 그대로 사용 그 이상은 hex string 으로 40자 ( 20 char )
     if( len(name) != 3 ):
@@ -50,6 +52,16 @@ def get_currency_name(name):
 
     return  transformed_currency_name
 
+def get_currency_readable_name(name):
+    readable_currency_name = '' 
+    # 3자리용 currency 와는 별도 처리 필요 함 3자리는 ascii 그대로 사용 그 이상은 hex string 으로 40자 ( 20 char )
+    if( len(name) != 3 ):
+        readable_currency_name = bytes.fromhex(name).decode('ASCII')
+    else:
+        readable_currency_name = name
+
+    return  readable_currency_name
+
 # send all trust line balance to main wallet 
 def send_payment(current_wallet, target_currency, target_issuer, target_limit):
     # Prepare transaction ----------------------------------------------------------
@@ -58,9 +70,7 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
         amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
         destination= main_wallet_address
     )
-    print('{}'.format(my_transaction.to_dict() ) )
-
-    print( xrpl.ledger.get_fee(client) )
+    # print('{}'.format(my_transaction.to_dict() ) )
 
     # Sign transaction -------------------------------------------------------------
     signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
@@ -70,7 +80,7 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
-    print("send from address: {} Identifying hash: {}".format(current_wallet.classic_address, tx_id) )
+    print("send from {} hash: {}".format(current_wallet.classic_address, tx_id) )
 
     try:
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
@@ -103,7 +113,7 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
-    print("{} Address: {} Identifying hash: {}".format(original_currency_name, current_wallet.classic_address, tx_id) )
+    print("{} {} hash: {}".format(original_currency_name, current_wallet.classic_address, tx_id) )
 
     try:
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
@@ -209,21 +219,30 @@ if __name__ == "__main__":
         sub_wallet_list.clear()
         if( get_wallet_info() == True ):
             for wallet_dict in sub_wallet_list:
+
+                # fee 요청하는 경우 느려짐 
+                # fee = xrpl.ledger.get_fee(client)
+                # 잔고 확인 된 것은 main wallet 으로 전송 
+                # if( float(fee) > 10 ):
+                #     print("fee to high {}".format( fee ))
+                #     time.sleep(1)
+                #     continue
+
                 wallet_name = wallet_dict['name']
                 wallet_index = int(wallet_name[1:]) % arg_divider
 
                 if( wallet_index == arg_remainder ):
-                    # 잔고 확인 된 것은 main wallet 으로 전송 
+
                     for line in wallet_dict['lines']:
                         if( float(line['balance']) > 0 ):
-                            print('{}: {}'.format( wallet_dict['wallet'].classic_address, line ))
+                            print('{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
                             send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
                     pass
 
                     # 이미 trust line 에 추가 되었다면 추가 금지 
                     for add_trust_line in trust_lines_from_file['add']:
                         original_currency_name = add_trust_line['currency']
-                        transformed_currency_name = get_currency_name(original_currency_name)
+                        transformed_currency_name = get_currency_transformed_name(original_currency_name)
                         isTrustLineExist = False
 
                         for line in wallet_dict['lines']:
@@ -232,12 +251,13 @@ if __name__ == "__main__":
                                 break
 
                         if ( isTrustLineExist == False ):
+                            print('add {} to {}'.format( original_currency_name, wallet_dict['name'] ))
                             set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False)
 
                     # 이미 trustline 에 추가 된 경우만 삭제 
                     for remove_trust_line in trust_lines_from_file['remove']:
                         original_currency_name = remove_trust_line['currency']
-                        transformed_currency_name = get_currency_name(original_currency_name)
+                        transformed_currency_name = get_currency_transformed_name(original_currency_name)
                         isTrustLineExist = False
 
                         for line in wallet_dict['lines']:
@@ -246,6 +266,7 @@ if __name__ == "__main__":
                                 break
 
                         if ( isTrustLineExist == True ):
+                            print('remove {} in {}'.format( original_currency_name, wallet_dict['name'] ))
                             set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
         else:
             loop = False

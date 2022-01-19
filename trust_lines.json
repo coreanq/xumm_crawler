@@ -192,7 +192,13 @@
             "currency": "UVX",
             "issuer": "r4XUTsMNJoT8Cs6rNHzbif5MpZ7sPH1nWF",
             "limit": "500000000"
+        },
+        {
+            "currency": "ShibaNFT",
+            "issuer": "rnRXAnVZTyattZXEpKpgTyvdm17DpjrzSZ",
+            "limit": "900000000000001"
         }
+
 
     ],
     "remove":[
