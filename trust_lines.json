@@ -13,11 +13,6 @@
             "limit": "632800000000.001"
         },
         {
-            "currency": "XCASTLE",
-            "issuer": "rpU1YBKBCE3rnms5vwgXHHouLapVZv7KDu",
-            "limit": "10000"
-        },
-        {
             "currency": "MATE",
             "issuer": "rpWapSyB4dPhjMms2cYMEmTfc6BGpbpZBv",
             "limit": "30000"
@@ -27,14 +22,6 @@
             "issuer": "r92SQCuWhYoB4w2UnKU7PKj4Mh7jSyemrH",
             "limit": "1000000000"
         },
-        {
-            "currency": "OCEAN",
-            "issuer": "rPCrPJ9Uz988tD1aQVAToioDcCGZ8nbBTn",
-            "limit": "50000000",
-            "ad_date":  "0114",
-            "snapshot_date": "",
-            "twitter": "https://twitter.com/OceanAssist"
-        }, 
         {
             "currency": "BZS",
             "issuer": "rwNRkFw1zkELgiaGDEAYVhtZo9ogxSAXPD",
@@ -52,11 +39,6 @@
             "twitter": " https://twitter.com/GeorgeBigFloyd1"
         },
         {
-            "currency": "XBURN",
-            "issuer": "rp97J8g7gzFmK1r5dntC3GBjBav6ZhnqXn",
-            "limit": "10000000000"
-        },
-        {
             "currency": "TeddyBoys",
             "issuer": "rUQp5C29SacMCbUrhrQYHGkqSQNsHULARQ",
             "limit": "2000",
@@ -72,22 +54,6 @@
             "snapshot_date": "",
             "twitter": "https://twitter.com/Tether_XRPL"
         }, 
-        {
-            "currency": "APXX",
-            "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
-            "limit": "100000000",
-            "ad_date":  "all TL, TBA",
-            "snapshot_date": "",
-            "twitter": "https://twitter.com/ApexSafariNFT"
-        },
-        {
-            "currency": "STC",
-            "issuer": "r4J3XtWvu869Jnk2zLp9jnzcA37VeqpPiA",
-            "limit": "1000000000000",
-            "ad_date":  "1/17",
-            "snapshot_date": "1/14",
-            "twitter": "https://twitter.com/realstreetcoin"
-        },        
         {
             "currency": "DBX",
             "issuer": "rHLJNqxCoPXdm4CnLd3w63ZFRqAUU2U4vS",
@@ -197,11 +163,49 @@
             "currency": "ShibaNFT",
             "issuer": "rnRXAnVZTyattZXEpKpgTyvdm17DpjrzSZ",
             "limit": "900000000000001"
+        },
+        {
+            "currency": "PGN",
+            "issuer": "rPUSoeJaHQzrXATtGniVjwBQQDEtJcdwFq",
+            "limit": "10000"
+        },
+        {
+            "currency": "LIL2",
+            "issuer": "rENNLZVLWMLvwM69h4fR8B43qptEUUG4QH",
+            "limit": "100000000"
         }
+
+
 
 
     ],
     "remove":[
+        {
+            "currency": "OCEAN",
+            "issuer": "rPCrPJ9Uz988tD1aQVAToioDcCGZ8nbBTn",
+            "limit": "50000000",
+            "ad_date":  "0114",
+            "snapshot_date": "",
+            "twitter": "https://twitter.com/OceanAssist"
+        }, 
+        {
+            "currency": "XCASTLE",
+            "issuer": "rpU1YBKBCE3rnms5vwgXHHouLapVZv7KDu",
+            "limit": "10000"
+        },
+        {
+            "currency": "STC",
+            "issuer": "r4J3XtWvu869Jnk2zLp9jnzcA37VeqpPiA",
+            "limit": "1000000000000",
+            "ad_date":  "1/17",
+            "snapshot_date": "1/14",
+            "twitter": "https://twitter.com/realstreetcoin"
+        },        
+        {
+            "currency": "XBURN",
+            "issuer": "rp97J8g7gzFmK1r5dntC3GBjBav6ZhnqXn",
+            "limit": "10000000000"
+        },
         {
             "currency": "Cannabis",
             "issuer": "rEdSsC6euwFofzLWZdqmDFu1HExPzR48aj",

@@ -36,6 +36,9 @@ main_wallet_address = None
 sub_wallets_info_from_file = None
 sub_wallet_list = []
 
+arg_divider = 1
+arg_remainder = 0
+
 def get_account_sequene(address):
     response = account.get_account_info(address, client )
     # print(json.dumps(response.result, indent=4, sort_keys=True))
@@ -130,11 +133,17 @@ def get_wallet_info():
     # check wallet validation 
     for index, wallet_info_dict in enumerate(sub_wallets_info_from_file):
 
-        address = wallet_info_dict['address']
+        wallet_name = wallet_info_dict['name']
+        wallet_index = int(wallet_name[1:]) % arg_divider
+
+        if( wallet_index != arg_remainder ):
+            continue
 
         # wallet_sequence = get_account_sequene(address)
 
+        address = wallet_info_dict['address']
         seed_list = []
+
         for seed_unit in wallet_info_dict['seed_number']:
             # 6 digit  first 5 digit uint16 data   last 1 digit for crc from xumm api document
             seed_list.append( int(seed_unit[:-1]) )
@@ -186,8 +195,6 @@ if __name__ == "__main__":
 
     loop = False
 
-    arg_divider = 1
-    arg_remainder = 0
 
     if( len(sys.argv) >= 3):
         arg_divider = int(sys.argv[1])
@@ -228,46 +235,41 @@ if __name__ == "__main__":
                 #     time.sleep(1)
                 #     continue
 
-                wallet_name = wallet_dict['name']
-                wallet_index = int(wallet_name[1:]) % arg_divider
+                for line in wallet_dict['lines']:
+                    if( float(line['balance']) > 0 ):
+                        print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
+                        send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
+                pass
 
-                if( wallet_index == arg_remainder ):
+                # 이미 trust line 에 추가 되었다면 추가 금지 
+                for add_trust_line in trust_lines_from_file['add']:
+                    original_currency_name = add_trust_line['currency']
+                    transformed_currency_name = get_currency_transformed_name(original_currency_name)
+                    isTrustLineExist = False
 
                     for line in wallet_dict['lines']:
-                        if( float(line['balance']) > 0 ):
-                            print('{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
-                            send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
-                    pass
+                        if( transformed_currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
 
-                    # 이미 trust line 에 추가 되었다면 추가 금지 
-                    for add_trust_line in trust_lines_from_file['add']:
-                        original_currency_name = add_trust_line['currency']
-                        transformed_currency_name = get_currency_transformed_name(original_currency_name)
-                        isTrustLineExist = False
+                    if ( isTrustLineExist == False ):
+                        print('\tadd {} to {}'.format( original_currency_name, wallet_dict['name'] ))
+                        set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False)
 
-                        for line in wallet_dict['lines']:
-                            if( transformed_currency_name == line['currency'] ):
-                                isTrustLineExist = True
-                                break
+                # 이미 trustline 에 추가 된 경우만 삭제 
+                for remove_trust_line in trust_lines_from_file['remove']:
+                    original_currency_name = remove_trust_line['currency']
+                    transformed_currency_name = get_currency_transformed_name(original_currency_name)
+                    isTrustLineExist = False
 
-                        if ( isTrustLineExist == False ):
-                            print('add {} to {}'.format( original_currency_name, wallet_dict['name'] ))
-                            set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False)
+                    for line in wallet_dict['lines']:
+                        if( transformed_currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
 
-                    # 이미 trustline 에 추가 된 경우만 삭제 
-                    for remove_trust_line in trust_lines_from_file['remove']:
-                        original_currency_name = remove_trust_line['currency']
-                        transformed_currency_name = get_currency_transformed_name(original_currency_name)
-                        isTrustLineExist = False
-
-                        for line in wallet_dict['lines']:
-                            if( transformed_currency_name == line['currency'] ):
-                                isTrustLineExist = True
-                                break
-
-                        if ( isTrustLineExist == True ):
-                            print('remove {} in {}'.format( original_currency_name, wallet_dict['name'] ))
-                            set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
+                    if ( isTrustLineExist == True ):
+                        print('\tremove {} in {}'.format( original_currency_name, wallet_dict['name'] ))
+                        set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
         else:
             loop = False
 
