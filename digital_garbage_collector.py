@@ -139,8 +139,9 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
 
 def get_wallet_info():
     result = []
+    valid_wallet_count = 1
     # check wallet validation 
-    for index, wallet_info_dict in enumerate(sub_wallets_info_from_file):
+    for wallet_info_dict in sub_wallets_info_from_file:
 
         wallet_name = wallet_info_dict['name']
         wallet_index = int(wallet_name[1:]) % arg_divider
@@ -162,8 +163,9 @@ def get_wallet_info():
         seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
 
         current_wallet = Wallet(seed=seed_str, sequence= 0 )
-        # print('{:02}: {}'.format( index, current_wallet.classic_address)) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
-        print('{}({:03}):( {} ), '.format( wallet_info_dict['name'], index, current_wallet.classic_address[-4:] ), end= '', flush=True ) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+        # print('{:02}: {}'.format( valid_wallet_count, current_wallet.classic_address)) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+        print('{}({:03}):( {} ), '.format( wallet_info_dict['name'], valid_wallet_count, current_wallet.classic_address[-4:] ), end= '', flush=True ) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
+        valid_wallet_count = valid_wallet_count + 1
 
         if( address != current_wallet.classic_address ):
             print("\n{} wallet error private key error".format(wallet_info_dict['name']) )
