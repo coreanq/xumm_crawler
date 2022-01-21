@@ -34,7 +34,6 @@ from xrpl.core.addresscodec.codec import SEED_LENGTH
 
 main_wallet_address = None
 sub_wallets_info_from_file = None
-sub_wallet_list = []
 
 arg_divider = 1
 arg_remainder = 0
@@ -84,6 +83,7 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
     tx_id = signed_tx.get_hash()
 
     if( int(signed_tx.fee) > maximum_fee_drops ):
+        print("\t fee too high {}".format( signed_tx.fee))
         return False 
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
@@ -120,7 +120,8 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
     tx_id = signed_tx.get_hash()
 
     if( int(signed_tx.fee) > maximum_fee_drops ):
-        return False
+        print("\t fee too high {}".format( signed_tx.fee))
+        return False 
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
@@ -153,6 +154,7 @@ def delete_account(current_wallet):
     tx_id = signed_tx.get_hash()
 
     if( int(signed_tx.fee) > maximum_fee_drops ):
+        print("\t fee too high {}".format( signed_tx.fee))
         return False 
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
@@ -170,11 +172,11 @@ def delete_account(current_wallet):
 
 
 
-def get_wallet_info():
+def get_wallet_info(wallets_info_from_file, result_wallet_info):
     result = []
     valid_wallet_count = 1
     # check wallet validation 
-    for wallet_info_dict in sub_wallets_info_from_file:
+    for wallet_info_dict in wallets_info_from_file:
 
         wallet_name = wallet_info_dict['name']
         wallet_index = int(wallet_name[1:]) % arg_divider
@@ -224,7 +226,7 @@ def get_wallet_info():
                     wallet_info['lines']  = response.result['lines']
 
             # add wallet info
-            sub_wallet_list.append( wallet_info )
+            result_wallet_info.append( wallet_info )
 
     print('')
     if( len(result) != 0 ):
@@ -236,9 +238,6 @@ def get_wallet_info():
 
 
 if __name__ == "__main__":
-
-    loop = False
-
 
     if( len(sys.argv) >= 3):
         arg_divider = int(sys.argv[1])
@@ -265,40 +264,22 @@ if __name__ == "__main__":
     # JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
     client = JsonRpcClient(JSON_RPC_URL)
 
+    sub_wallet_list = []
 
-    while(True):
+    loop = True
+    while(loop):
         sub_wallet_list.clear()
-        if( get_wallet_info() == True ):
+        if( get_wallet_info(sub_wallets_info_from_file, sub_wallet_list) == True ):
             for wallet_dict in sub_wallet_list:
 
                 # fee 요청하는 경우 느려짐 
                 # fee = xrpl.ledger.get_fee(client)
-                # 잔고 확인 된 것은 main wallet 으로 전송 
-                # if( float(fee) > 10 ):
-                #     print("fee to high {}".format( fee ))
-                #     time.sleep(1)
-                #     continue
 
                 for line in wallet_dict['lines']:
                     if( float(line['balance']) > 0 ):
                         if( send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] ) == True ):
                             print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
                 pass
-
-                # 이미 trust line 에 추가 되었다면 추가 금지 
-                for add_trust_line in trust_lines_from_file['add']:
-                    original_currency_name = add_trust_line['currency']
-                    transformed_currency_name = get_currency_transformed_name(original_currency_name)
-                    isTrustLineExist = False
-
-                    for line in wallet_dict['lines']:
-                        if( transformed_currency_name == line['currency'] ):
-                            isTrustLineExist = True
-                            break
-
-                    if ( isTrustLineExist == False ):
-                        if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False) == True):
-                            print('\tadd {} to {}'.format( original_currency_name, wallet_dict['name'] ))
 
                 # 이미 trustline 에 추가 된 경우만 삭제 
                 for remove_trust_line in trust_lines_from_file['remove']:
@@ -315,8 +296,22 @@ if __name__ == "__main__":
                         if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True) == True ):
                             print('\tremove {} in {}'.format( original_currency_name, wallet_dict['name'] ))
 
+                # 이미 trust line 에 추가 되었다면 추가 금지 
+                for add_trust_line in trust_lines_from_file['add']:
+                    original_currency_name = add_trust_line['currency']
+                    transformed_currency_name = get_currency_transformed_name(original_currency_name)
+                    isTrustLineExist = False
+
+                    for line in wallet_dict['lines']:
+                        if( transformed_currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
+
+                    if ( isTrustLineExist == False ):
+                        if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False) == True):
+                            print('\tadd {} to {}'.format( original_currency_name, wallet_dict['name'] ))
+
+
         else:
             loop = False
 
-        if( loop == False ):
-            break
