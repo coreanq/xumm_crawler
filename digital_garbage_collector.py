@@ -136,6 +136,39 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
 
     return True
 
+# deleaccount and remain xrp to destination addr
+def delete_account(current_wallet):
+
+    # Prepare transaction ----------------------------------------------------------
+    my_transaction = TransactionsModel.AccountDelete(
+        account= current_wallet.classic_address,
+        destination= main_wallet_address
+    )
+    # print('{}'.format(my_transaction.to_dict() ) )
+
+    # Sign transaction -------------------------------------------------------------
+    signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+            my_transaction, current_wallet, client)
+    max_ledger = signed_tx.last_ledger_sequence
+    tx_id = signed_tx.get_hash()
+
+    if( int(signed_tx.fee) > maximum_fee_drops ):
+        return False 
+    # print("Signed transaction:", signed_tx)
+    # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
+    # print("Transaction expires after ledger:", max_ledger)
+    print("\tdelete acount addr:{} hash: {}".format(current_wallet.classic_address, tx_id) )
+
+    try:
+        tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
+    except xrpl.clients.XRPLRequestFailureException as e:
+        print("{}: {}".format(current_wallet.classic_address, e)) 
+        pass
+    except xrpl.transaction.XRPLReliableSubmissionException as e:
+        exit(f"Submit failed: {e}")
+    return True
+
+
 
 def get_wallet_info():
     result = []
