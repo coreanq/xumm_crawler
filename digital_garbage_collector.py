@@ -39,6 +39,8 @@ sub_wallet_list = []
 arg_divider = 1
 arg_remainder = 0
 
+maximum_fee_drops = 20 # 최대 fee
+
 def get_account_sequene(address):
     response = account.get_account_info(address, client )
     # print(json.dumps(response.result, indent=4, sort_keys=True))
@@ -80,6 +82,9 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
             my_transaction, current_wallet, client)
     max_ledger = signed_tx.last_ledger_sequence
     tx_id = signed_tx.get_hash()
+
+    if( int(signed_tx.fee) > maximum_fee_drops ):
+        return False 
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
@@ -92,7 +97,7 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
-    pass
+    return True
 
 def set_trust_line(current_wallet, original_currency_name, transformed_currency_name, target_issuer, target_limit, is_delete):
 
@@ -113,6 +118,9 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
             my_transaction, current_wallet, client)
     max_ledger = signed_tx.last_ledger_sequence
     tx_id = signed_tx.get_hash()
+
+    if( int(signed_tx.fee) > maximum_fee_drops ):
+        return False
     # print("Signed transaction:", signed_tx)
     # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
     # print("Transaction expires after ledger:", max_ledger)
@@ -125,7 +133,8 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
-    pass
+
+    return True
 
 
 def get_wallet_info():
@@ -237,8 +246,8 @@ if __name__ == "__main__":
 
                 for line in wallet_dict['lines']:
                     if( float(line['balance']) > 0 ):
-                        print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
-                        send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] )
+                        if( send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] ) == True ):
+                            print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
                 pass
 
                 # 이미 trust line 에 추가 되었다면 추가 금지 
@@ -253,8 +262,8 @@ if __name__ == "__main__":
                             break
 
                     if ( isTrustLineExist == False ):
-                        print('\tadd {} to {}'.format( original_currency_name, wallet_dict['name'] ))
-                        set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False)
+                        if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False) == True):
+                            print('\tadd {} to {}'.format( original_currency_name, wallet_dict['name'] ))
 
                 # 이미 trustline 에 추가 된 경우만 삭제 
                 for remove_trust_line in trust_lines_from_file['remove']:
@@ -268,8 +277,9 @@ if __name__ == "__main__":
                             break
 
                     if ( isTrustLineExist == True ):
-                        print('\tremove {} in {}'.format( original_currency_name, wallet_dict['name'] ))
-                        set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True)
+                        if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True) == True ):
+                            print('\tremove {} in {}'.format( original_currency_name, wallet_dict['name'] ))
+
         else:
             loop = False
 
