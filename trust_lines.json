@@ -33,11 +33,6 @@
             "limit": "2000000000"
         },
         {
-            "currency": "DRT",
-            "issuer": "rfDhSfY5JMtCrje7hGxC8Gk6dC5PgNJh63",
-            "limit": "150000"
-        },
-        {
             "currency": "XRTemplate",
             "issuer": "rMX54z8VgtRhPefzqVkdG3LxsuGdFQcXxr",
             "limit": "200000000000"
@@ -155,6 +150,11 @@
 
     ],
     "remove":[        
+        {
+            "currency": "DRT",
+            "issuer": "rfDhSfY5JMtCrje7hGxC8Gk6dC5PgNJh63",
+            "limit": "150000"
+        },
         {
             "currency": "TALENT",
             "issuer": "r92SQCuWhYoB4w2UnKU7PKj4Mh7jSyemrH",
