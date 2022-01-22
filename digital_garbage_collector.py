@@ -10,7 +10,7 @@ from xrpl.models import currencies, transactions as TransactionsModel
 from xrpl.models import Response
 from xrpl.models.amounts import IssuedCurrencyAmount
 
-from xrpl import utils
+from xrpl import clients, utils
 from xrpl import account
 from xrpl.clients import JsonRpcClient
 
@@ -21,16 +21,6 @@ from xrpl.models.response import ResponseStatus, ResponseType
 
 from xrpl.wallet import Wallet
 from xrpl.core.addresscodec.codec import SEED_LENGTH 
-
-# # Create a wallet using the testnet faucet:
-# # https://xrpl.org/xrp-testnet-faucet.html
-# from xrpl.wallet import generate_faucet_wallet
-# test_wallet = generate_faucet_wallet(client, debug=True)
-
-# print(f'{test_wallet.public_key=}')
-# print(f'{test_wallet.private_key=}')
-# print(f'{test_wallet.seed=}')
-# print(f'{test_wallet.sequence=}') 
 
 main_wallet_address = None
 sub_wallets_info_from_file = None
@@ -73,6 +63,8 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
         account= current_wallet.classic_address,
         amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
         destination= main_wallet_address
+        # amount= xrpl.utils.xrp_to_drops(100),
+        # destination= target_issuer
     )
     # print('{}'.format(my_transaction.to_dict() ) )
 
@@ -207,6 +199,13 @@ def get_wallet_info(wallets_info_from_file, result_wallet_info):
             result.append(False)
             break
         else:
+            # for activating
+            # if( xrpl.account.does_account_exist( current_wallet.classic_address, client, ledger_index= 0) == False):
+            #     print("{} {} not exist".format( wallet_info_dict['name'], wallet_info_dict['address']))
+            #     send_payment(main_wallet, '', current_wallet.classic_address, '')
+            #     result.append(False)
+            #     continue
+
             wallet_info = {}
             wallet_info['name'] = wallet_info_dict['name']
             wallet_info['wallet'] = current_wallet
