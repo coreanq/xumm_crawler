@@ -1,10 +1,5 @@
 {
     "add_done":[
-        {
-            "currency": "SOLO",
-            "issuer": "rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz",
-            "limit": "399933681.6027328"
-        }
     ],
     "add": [
         {
@@ -16,11 +11,6 @@
             "currency": "MATE",
             "issuer": "rpWapSyB4dPhjMms2cYMEmTfc6BGpbpZBv",
             "limit": "30000"
-        },
-        {
-            "currency": "DBX",
-            "issuer": "rHLJNqxCoPXdm4CnLd3w63ZFRqAUU2U4vS",
-            "limit": "1000000000"
         },
         {
             "currency": "OUTBACK",
@@ -123,11 +113,6 @@
             "limit": "900000000000001"
         },
         {
-            "currency": "PGN",
-            "issuer": "rPUSoeJaHQzrXATtGniVjwBQQDEtJcdwFq",
-            "limit": "10000"
-        },
-        {
             "currency": "LIL2",
             "issuer": "rENNLZVLWMLvwM69h4fR8B43qptEUUG4QH",
             "limit": "100000000"
@@ -146,10 +131,35 @@
             "currency": "xBABYFLOKI",
             "issuer": "rxgAzNiv1r7FzSCPtb4Mh4eqb1Ri1uRts",
             "limit": "1000000000000"
+        },
+        {
+            "currency": "YOL",
+            "issuer": "rMJEj344HVDBVy5KH8fcnDfwQCmQ4H2HPF",
+            "limit": "5000000"
+        },
+        {
+            "currency": "DIA",
+            "issuer": "rQfWiU7kRbJBFSXRyQh7GTUeEP6qJ4kp2F",
+            "limit": "100000000"
         }
 
     ],
     "remove":[        
+        {
+            "currency": "SOLO",
+            "issuer": "rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz",
+            "limit": "399933681.6027328"
+        },
+        {
+            "currency": "PGN",
+            "issuer": "rPUSoeJaHQzrXATtGniVjwBQQDEtJcdwFq",
+            "limit": "10000"
+        },
+        {
+            "currency": "DBX",
+            "issuer": "rHLJNqxCoPXdm4CnLd3w63ZFRqAUU2U4vS",
+            "limit": "1000000000"
+        },
         {
             "currency": "DRT",
             "issuer": "rfDhSfY5JMtCrje7hGxC8Gk6dC5PgNJh63",

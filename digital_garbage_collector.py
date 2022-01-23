@@ -1,4 +1,5 @@
 from math import remainder
+from re import M
 
 import time
 import sys, json
@@ -58,15 +59,38 @@ def get_currency_readable_name(name):
 
 # send all trust line balance to main wallet 
 def send_payment(current_wallet, target_currency, target_issuer, target_limit):
-    # Prepare transaction ----------------------------------------------------------
-    my_transaction = TransactionsModel.Payment(
-        account= current_wallet.classic_address,
-        amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
-        destination= main_wallet_address
-        # amount= xrpl.utils.xrp_to_drops(100),
-        # destination= target_issuer
-    )
+
+    # get issuer 의 transfer fee
+    account_response = xrpl.account.get_account_info( target_issuer, client ) 
+    # 1 billion is 100%
+    transfer_fee = account_response.result['account_data']['TransferRate']
+
+    my_transaction = None 
+
+    # 1 billion is 100%
+    if( transfer_fee !=  1000000000 ):
+        # solo 의 경우 transfer 가 잡혀있고 이 경우 partial payment 로 진행하도록 유도함 
+        payment_flag = TransactionsModel.PaymentFlag.TF_PARTIAL_PAYMENT
+
+        # Prepare transaction ----------------------------------------------------------
+        my_transaction = TransactionsModel.Payment(
+            account= current_wallet.classic_address,
+            amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
+            destination= main_wallet_address,
+            flags = payment_flag,
+            send_max= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
+        )
+    else:
+        # Prepare transaction ----------------------------------------------------------
+        my_transaction = TransactionsModel.Payment(
+            account= current_wallet.classic_address,
+            amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
+            destination= main_wallet_address,
+            # amount= xrpl.utils.xrp_to_drops(100),
+            # destination= target_issuer
+        )
     # print('{}'.format(my_transaction.to_dict() ) )
+
 
     # Sign transaction -------------------------------------------------------------
     signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
