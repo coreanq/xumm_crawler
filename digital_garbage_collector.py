@@ -63,7 +63,10 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
     # get issuer 의 transfer fee
     account_response = xrpl.account.get_account_info( target_issuer, client ) 
     # 1 billion is 100%
-    transfer_fee = account_response.result['account_data']['TransferRate']
+    account_data = account_response.result['account_data']
+    transfer_fee = 1000000000
+    if( 'TransferRate' in account_data):
+        transfer_fee = account_data['TransferRate']
 
     my_transaction = None 
 
