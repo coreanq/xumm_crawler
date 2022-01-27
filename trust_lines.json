@@ -108,11 +108,6 @@
             "limit": "500000000"
         },
         {
-            "currency": "ShibaNFT",
-            "issuer": "rnRXAnVZTyattZXEpKpgTyvdm17DpjrzSZ",
-            "limit": "900000000000001"
-        },
-        {
             "currency": "LIL2",
             "issuer": "rENNLZVLWMLvwM69h4fR8B43qptEUUG4QH",
             "limit": "100000000"
@@ -141,10 +136,37 @@
             "currency": "DIA",
             "issuer": "rQfWiU7kRbJBFSXRyQh7GTUeEP6qJ4kp2F",
             "limit": "100000000"
+        },
+        {
+            "currency": "$xLEMUR",
+            "issuer": "rMPi7rz6i2qDRv9SmadcwbYaKpS9xqfyQQ",
+            "limit": "5000"
+        },
+        {
+            "currency": "XGF",
+            "issuer": "rJnn9jdwaBfuyq383hNiX2oowLuLUm2DZD",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "Zens",
+            "issuer": "rwDUCnzBisR37rUAbHdjpZwoTdSavBoY4f",
+            "limit": "10000000"
+        },
+        {
+            "currency": "NFTL",
+            "issuer": "r3DCE2UVaqQaGQragAjmwL6kNicF2rw6PL",
+            "limit": "10000009"
         }
+
+
 
     ],
     "remove":[        
+        {
+            "currency": "ShibaNFT",
+            "issuer": "rnRXAnVZTyattZXEpKpgTyvdm17DpjrzSZ",
+            "limit": "900000000000001"
+        },
         {
             "currency": "SOLO",
             "issuer": "rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz",
