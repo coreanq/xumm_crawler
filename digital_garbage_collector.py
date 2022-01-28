@@ -324,7 +324,7 @@ def make_wallet(max_wallet_count):
 
 if __name__ == "__main__":
 
-    commnad = 'normal'
+    command = 'normal'
     if( len(sys.argv) == 3):
         if( sys.argv[1] == 'generate' ):
             command  = 'generate'
