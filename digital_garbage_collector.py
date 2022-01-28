@@ -356,12 +356,14 @@ if __name__ == "__main__":
 
     sub_wallet_list = []
 
+    loop = True
+
     if( command == 'generate'):
         max_wallet_count = int(sys.argv[2])
         make_wallet(max_wallet_count)
         pass
     else:
-        while(True):
+        while(loop):
             sub_wallet_list.clear()
             # check wallet validation 
             for wallet_info_dict in sub_wallets_info_from_file:
