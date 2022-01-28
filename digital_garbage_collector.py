@@ -326,29 +326,27 @@ if __name__ == "__main__":
 
     commnad = 'normal'
     if( len(sys.argv) == 3):
-        arg_divider = int(sys.argv[1])
-        arg_remainder = int(sys.argv[2])
-        if( len(sys.argv) == 4):
-            loop = True
-    elif( len(sys.argv) == 2 ):
         if( sys.argv[1] == 'generate' ):
             command  = 'generate'
-        else:
-            print("argument missing")
-            sys.exit()
+            max_wallet_count = int(sys.argv[2])
+        else:  
+            arg_divider = int(sys.argv[1])
+            arg_remainder = int(sys.argv[2])
     else:
         print("argument missing")
         sys.exit()
 
-    json_data = ''
-    with open('account_info.json') as json_file:
-        json_data = json.load(json_file)
+    json_data = None 
 
-    main_wallet_address = json_data['main_wallet_address']
-    sub_wallets_info_from_file = json_data['sub_wallets_info']
+    if( command == 'normal' ):
+        with open('account_info.json') as json_file:
+            json_data = json.load(json_file)
 
-    with open('trust_lines.json') as json_file:
-        json_data = json.load(json_file)
+        main_wallet_address = json_data['main_wallet_address']
+        sub_wallets_info_from_file = json_data['sub_wallets_info']
+
+        with open('trust_lines.json') as json_file:
+            json_data = json.load(json_file)
     
     trust_lines_from_file = json_data
 
@@ -359,6 +357,8 @@ if __name__ == "__main__":
     sub_wallet_list = []
 
     if( command == 'generate'):
+        max_wallet_count = int(sys.argv[2])
+        make_wallet(max_wallet_count)
         pass
     else:
         while(True):
