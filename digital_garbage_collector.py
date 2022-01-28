@@ -324,13 +324,18 @@ def make_wallet(max_wallet_count):
 
 if __name__ == "__main__":
 
-    if( len(sys.argv) >= 3):
+    commnad = 'normal'
+    if( len(sys.argv) == 3):
         arg_divider = int(sys.argv[1])
         arg_remainder = int(sys.argv[2])
         if( len(sys.argv) == 4):
             loop = True
+    elif( len(sys.argv) == 2 ):
+        if( sys.argv[1] == 'generate' ):
+            command  = 'generate'
         else:
-            loop = Fa
+            print("argument missing")
+            sys.exit()
     else:
         print("argument missing")
         sys.exit()
@@ -353,61 +358,61 @@ if __name__ == "__main__":
 
     sub_wallet_list = []
 
-    loop = True
+    if( command == 'generate'):
+        pass
+    else:
+        while(True):
+            sub_wallet_list.clear()
+            # check wallet validation 
+            for wallet_info_dict in sub_wallets_info_from_file:
 
+                address = wallet_info_dict['address']
 
-    while(loop):
-        sub_wallet_list.clear()
-        # check wallet validation 
-        for wallet_info_dict in sub_wallets_info_from_file:
+                wallet_info = get_wallet_info(wallet_info_dict)
 
-            address = wallet_info_dict['address']
+                if( wallet_info != None ):
+                    sub_wallet_list.append(wallet_info)
+                else:
+                    loop = False
 
-            wallet_info = get_wallet_info(wallet_info_dict)
+            for wallet_dict in sub_wallet_list:
 
-            if( wallet_info != None ):
-                sub_wallet_list.append(wallet_info)
-            else:
-                loop = False
-
-        for wallet_dict in sub_wallet_list:
-
-            # fee 요청하는 경우 느려짐 
-            # fee = xrpl.ledger.get_fee(client)
-
-            for line in wallet_dict['lines']:
-                if( float(line['balance']) > 0 ):
-                    if( send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] ) == True ):
-                        print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
-            pass
-
-            # 이미 trustline 에 추가 된 경우만 삭제 
-            for remove_trust_line in trust_lines_from_file['remove']:
-                original_currency_name = remove_trust_line['currency']
-                transformed_currency_name = get_currency_transformed_name(original_currency_name)
-                isTrustLineExist = False
+                # fee 요청하는 경우 느려짐 
+                # fee = xrpl.ledger.get_fee(client)
 
                 for line in wallet_dict['lines']:
-                    if( transformed_currency_name == line['currency'] ):
-                        isTrustLineExist = True
-                        break
+                    if( float(line['balance']) > 0 ):
+                        if( send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] ) == True ):
+                            print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
+                pass
 
-                if ( isTrustLineExist == True ):
-                    if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True) == True ):
-                        print('\tremove {} in {}'.format( original_currency_name, wallet_dict['name'] ))
+                # 이미 trustline 에 추가 된 경우만 삭제 
+                for remove_trust_line in trust_lines_from_file['remove']:
+                    original_currency_name = remove_trust_line['currency']
+                    transformed_currency_name = get_currency_transformed_name(original_currency_name)
+                    isTrustLineExist = False
 
-            # 이미 trust line 에 추가 되었다면 추가 금지 
-            for add_trust_line in trust_lines_from_file['add']:
-                original_currency_name = add_trust_line['currency']
-                transformed_currency_name = get_currency_transformed_name(original_currency_name)
-                isTrustLineExist = False
+                    for line in wallet_dict['lines']:
+                        if( transformed_currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
 
-                for line in wallet_dict['lines']:
-                    if( transformed_currency_name == line['currency'] ):
-                        isTrustLineExist = True
-                        break
+                    if ( isTrustLineExist == True ):
+                        if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, remove_trust_line['issuer'], remove_trust_line['limit'], True) == True ):
+                            print('\tremove {} in {}'.format( original_currency_name, wallet_dict['name'] ))
 
-                if ( isTrustLineExist == False ):
-                    if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False) == True):
-                        print('\tadd {} to {}'.format( original_currency_name, wallet_dict['name'] ))
+                # 이미 trust line 에 추가 되었다면 추가 금지 
+                for add_trust_line in trust_lines_from_file['add']:
+                    original_currency_name = add_trust_line['currency']
+                    transformed_currency_name = get_currency_transformed_name(original_currency_name)
+                    isTrustLineExist = False
+
+                    for line in wallet_dict['lines']:
+                        if( transformed_currency_name == line['currency'] ):
+                            isTrustLineExist = True
+                            break
+
+                    if ( isTrustLineExist == False ):
+                        if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False) == True):
+                            print('\tadd {} to {}'.format( original_currency_name, wallet_dict['name'] ))
 
