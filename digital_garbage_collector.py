@@ -283,6 +283,48 @@ def get_wallet_info(wallet_info_dict):
         return wallet_info
 
 
+def make_wallet(max_wallet_count):
+    seed_list = []
+
+    wallet_info_json = { "sub_wallets_info": [] } 
+    wallet_index_offset = 0
+
+
+    for wallet_index in range(max_wallet_count):
+
+        seed_list.clear()
+
+        for i in range(0, 8):
+            seed_list.append( secrets.SystemRandom().randint(0, 65535) )
+
+        # little endian 16bit array 
+        seed_number = pack( '>HHHHHHHH', *seed_list )
+        seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
+
+        current_wallet = Wallet(seed=seed_str, sequence=0)
+
+        if( xrpl.account.does_account_exist(current_wallet.classic_address, client) == True ):
+            balance =  xrpl.account.get_balance( current_wallet.classic_address, client )  
+            if( balance != 0 ):
+                print('!!!!!!!!!!!!addr {}, private: {}, balance: {}, seed_number {}'.format(current_wallet.classic_address, current_wallet.private_key, balance, seed_list ) )
+        else:
+            # seed number(5digit) to secret key
+            # from https://github.com/XRPLF/XRPL-Standards/issues/15   value * ( position * 2 + 1 ) % 9 
+
+            secret_key = [] 
+            for index, seed_number in enumerate(seed_list):
+                temp  = (seed_number * ( index * 2 + 1 )) % 9
+                secret_key.append( '{:05}{}'.format(seed_number, temp) )
+            
+            wallet_info_json["sub_wallets_info"].append( { "name" : "t{:03}".format( wallet_index + wallet_index_offset ), "address": current_wallet.classic_address, "seed_number": secret_key })
+
+        print('t{:03} {}\n'.format(wallet_index + wallet_index_offset, current_wallet.classic_address) )
+    
+    with open("account_generated.json", "w") as json_file:
+        json_file.write( json.dumps(wallet_info_json, indent=4) ) 
+
+
+
 if __name__ == "__main__":
 
     if( len(sys.argv) >= 3):
