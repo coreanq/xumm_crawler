@@ -21,6 +21,7 @@ from xrpl.wallet import Wallet
 from xrpl.core.addresscodec.codec import SEED_LENGTH 
 
 main_wallet_address = None
+delete_wallets_info_from_file = None
 sub_wallets_info_from_file = None
 
 arg_divider = 1
@@ -156,41 +157,42 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
 
 # delete account and remain xrp to destination addr
 # must clean trust line, escrow...
-def delete_account(delete_wallets_info_from_file, client):
+def delete_account(wallets_info_from_file, client):
 
     target_wallets_info = []
-    
     result = []
-    if( get_wallet_info(delete_wallets_info_from_file, target_wallets_info) == True ):
 
-        for current_wallet_info in target_wallets_info:
-            current_wallet = current_wallet_info['wallet']
+    for delete_wallet_info_from_file in wallets_info_from_file:
+        target_wallet_info = get_wallet_info(delete_wallet_info_from_file)
+        current_wallet = target_wallet_info['wallet']
 
+        #delete all trust lines 
+        for trust_line in target_wallet_info['lines']:
+            set_trust_line(current_wallet, get_currency_readable_name(trust_line['currency']), trust_line['currency'], trust_line['account'], trust_line['limit'], True)
+            # 트러스트 라인 지운는 작업을 했다면 처음부터 delete 작업을 하도록 유도
+            result.append(False)
 
-            #delete all trust lines 
-            for trust_line in current_wallet_info['lines']:
-                set_trust_line(current_wallet, get_currency_readable_name(trust_line['currency']), trust_line['currency'], trust_line['account'], trust_line['limit'], True)
-                # 트러스트 라인 지운는 작업을 했다면 처음부터 delete 작업을 하도록 유도
-                result.append(False)
+        if( len(result) == 0 ):
+            target_wallets_info.append(target_wallet_info)
 
     if( len(result) > 0 ):
         print("Stop delete processing due to deleting trustlines")
         return 
 
     # 계좌 활성화 여부 확인 
-    for current_wallet_info in target_wallets_info:
-        current_wallet = current_wallet_info['wallet']
+    for target_wallet_info in target_wallets_info:
+        current_wallet = target_wallet_info['wallet']
         if( xrpl.account.does_account_exist(current_wallet.classic_address, client) == False ):
-            print("\tdeactive account detect {}: {}".format( current_wallet_info['name'], current_wallet.classic_address ))
+            print("\tdeactive account detect {}: {}".format( target_wallet_info['name'], current_wallet.classic_address ))
             result.append(False); 
 
     if( len(result) > 0 ):
         print("Stop delete Processing due to deactive account")
         return 
 
-    for current_wallet_info in target_wallets_info:
+    for target_wallet_info in target_wallets_info:
 
-        current_wallet = current_wallet_info['wallet']
+        current_wallet = target_wallet_info['wallet']
 
         # ledge sequence 의 경우 accouunt delete 시 같이 ledge index 가 일정이상 올라가야지만 적용되는 곳에 사용함 
         account_ledger_sequence = get_account_sequene(current_wallet.classic_address)
@@ -232,17 +234,16 @@ def delete_account(delete_wallets_info_from_file, client):
             exit(f"Submit failed: {e}")
         return True
 
-def get_wallet_info(wallet_info_dict):
-    result = []
-    valid_wallet_count = 1
-
+def get_wallet_info(wallet_info_from_file):
     # check wallet validation 
-    address = wallet_info_dict['address']
+    address = wallet_info_from_file['address']
     seed_list = []
     # wallet_sequence = get_account_sequene(address)
     wallet_sequence = 0
 
-    for seed_unit in wallet_info_dict['seed_number']:
+    wallet_info = {}
+
+    for seed_unit in wallet_info_from_file['seed_number']:
         # 6 digit  first 5 digit uint16 data   last 1 digit for crc from xumm api document
         seed_list.append( int(seed_unit[:-1]) )
 
@@ -251,16 +252,12 @@ def get_wallet_info(wallet_info_dict):
     seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
 
     current_wallet = Wallet(seed=seed_str, sequence= wallet_sequence )
-    # print('{:02}: {}'.format( valid_wallet_count, current_wallet.classic_address)) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
-    print('{}({:03}):( {} ), '.format( wallet_info_dict['name'], valid_wallet_count, current_wallet.classic_address[-4:] ), end= '', flush=True ) # "rMCcNuTcajgw7YTgBy1sys3b89QqjUrMpH"
-    valid_wallet_count = valid_wallet_count + 1
 
     if( address != current_wallet.classic_address ):
-        print("\n{} wallet error private key error".format(wallet_info_dict['name']) )
-        return None
+        print("\n{} wallet error private key error".format(wallet_info_from_file['name']) )
+        sys.exit()
     else:
-        wallet_info = {}
-        wallet_info['name'] = wallet_info_dict['name']
+        wallet_info['name'] = wallet_info_from_file['name']
         wallet_info['wallet'] = current_wallet
         wallet_info['lines'] = []
 
@@ -274,7 +271,6 @@ def get_wallet_info(wallet_info_dict):
         if( response.status == ResponseStatus.SUCCESS ):
             for line in response.result['lines']:
                 # print(json.dumps(response.result['lines'], indent=4, sort_keys=True))
-                # if( float(line['balance']) > 0 ):
                 wallet_info['lines']  = response.result['lines']
 
         return wallet_info
@@ -332,6 +328,9 @@ if __name__ == "__main__":
         else:  
             arg_divider = int(sys.argv[1])
             arg_remainder = int(sys.argv[2])
+    elif( len(sys.argv) == 2 ):
+        if( sys.argv[1] == 'delete' ):
+            command = 'delete'
     else:
         print("argument missing")
         sys.exit()
@@ -342,12 +341,16 @@ if __name__ == "__main__":
         with open('account_info.json') as json_file:
             json_data = json.load(json_file)
 
-        main_wallet_address = json_data['main_wallet_address']
-        sub_wallets_info_from_file = json_data['sub_wallets_info']
+        main_wallet_address = json_data.get('main_wallet_address', '')
+        sub_wallets_info_from_file = json_data.get('sub_wallets_info', [] )
 
         with open('trust_lines.json') as json_file:
             json_data = json.load(json_file)
-    
+    elif( command == 'delete'):
+        with open('account_info.json') as json_file:
+            json_data = json.load(json_file)
+        delete_wallets_info_from_file = json_data.get('delete_wallets_info', [])
+
     trust_lines_from_file = json_data
 
     JSON_RPC_URL = "https://s2.ripple.com:51234/"
@@ -362,20 +365,26 @@ if __name__ == "__main__":
         max_wallet_count = int(sys.argv[2])
         make_wallet(max_wallet_count)
         pass
+    elif( command == 'delete'):
+        delete_account(delete_wallets_info_from_file, client)
+        pass
     else:
         while(loop):
             sub_wallet_list.clear()
             # check wallet validation 
-            for wallet_info_dict in sub_wallets_info_from_file:
+            valid_wallet_count = 1
+            for wallet_info_from_file in sub_wallets_info_from_file:
 
-                address = wallet_info_dict['address']
+                address = wallet_info_from_file['address']
+                wallet_index = int( wallet_info_from_file['name'][1:])
+                wallet_info = None
 
-                wallet_info = get_wallet_info(wallet_info_dict)
-
-                if( wallet_info != None ):
-                    sub_wallet_list.append(wallet_info)
-                else:
-                    loop = False
+                if( arg_remainder == wallet_index % arg_divider ):
+                    wallet_info = get_wallet_info(wallet_info_from_file)
+                    if( wallet_info != None ):
+                        print('{}({:03}):( {} ), '.format( wallet_info['name'], valid_wallet_count, wallet_info['wallet'].classic_address[-4:] ), end= '', flush= True )
+                        valid_wallet_count = valid_wallet_count + 1
+                        sub_wallet_list.append(wallet_info)
 
             for wallet_dict in sub_wallet_list:
 
@@ -417,4 +426,5 @@ if __name__ == "__main__":
                     if ( isTrustLineExist == False ):
                         if( set_trust_line(wallet_dict['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False) == True):
                             print('\tadd {} to {}'.format( original_currency_name, wallet_dict['name'] ))
+            print("")
 

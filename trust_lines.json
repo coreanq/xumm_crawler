@@ -1,6 +1,4 @@
 {
-    "add_done":[
-    ],
     "add": [
         {
             "currency": "Zinfinite",
@@ -13,11 +11,6 @@
             "limit": "30000"
         },
         {
-            "currency": "OUTBACK",
-            "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
-            "limit": "10000"
-        },
-        {
             "currency": "TipCoin",
             "issuer": "rsUjMrcGu8ANoTwv3zUJE6MzSL6K7fMyPU",
             "limit": "2000000000"
@@ -26,11 +19,6 @@
             "currency": "XRTemplate",
             "issuer": "rMX54z8VgtRhPefzqVkdG3LxsuGdFQcXxr",
             "limit": "200000000000"
-        },
-        {
-            "currency": "xCBS",
-            "issuer": "rNvhXtgDdd4Sh3NKLXcUH9Hozs4dqu62we",
-            "limit": "10000000000"
         },
         {
             "currency": "APXX",
@@ -51,11 +39,6 @@
             "currency": "X20",
             "issuer": "rNmdY5wPVTx9awvX6WyDfJwbdgLzc8AY8c",
             "limit": "10000000"
-        },
-        {
-            "currency": "SimbaXRP",
-            "issuer": "rDqwjJ8fUqdyfPjJZ3h93J1XY8hz6CjEYo",
-            "limit": "100000000"
         },
         {
             "currency": "SaveUs",
@@ -156,12 +139,29 @@
             "currency": "NFTL",
             "issuer": "r3DCE2UVaqQaGQragAjmwL6kNicF2rw6PL",
             "limit": "10000009"
+        },
+        {
+            "currency": "PZA",
+            "issuer": "rBi1kmPw7axgkTDG31GFhtuACaveohfYnj",
+            "limit": "5000"
         }
-
-
-
     ],
     "remove":[        
+        {
+            "currency": "SimbaXRP",
+            "issuer": "rDqwjJ8fUqdyfPjJZ3h93J1XY8hz6CjEYo",
+            "limit": "100000000"
+        },
+        {
+            "currency": "xCBS",
+            "issuer": "rNvhXtgDdd4Sh3NKLXcUH9Hozs4dqu62we",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "OUTBACK",
+            "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
+            "limit": "10000"
+        },
         {
             "currency": "ShibaNFT",
             "issuer": "rnRXAnVZTyattZXEpKpgTyvdm17DpjrzSZ",
@@ -171,132 +171,6 @@
             "currency": "SOLO",
             "issuer": "rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz",
             "limit": "399933681.6027328"
-        },
-        {
-            "currency": "PGN",
-            "issuer": "rPUSoeJaHQzrXATtGniVjwBQQDEtJcdwFq",
-            "limit": "10000"
-        },
-        {
-            "currency": "DBX",
-            "issuer": "rHLJNqxCoPXdm4CnLd3w63ZFRqAUU2U4vS",
-            "limit": "1000000000"
-        },
-        {
-            "currency": "DRT",
-            "issuer": "rfDhSfY5JMtCrje7hGxC8Gk6dC5PgNJh63",
-            "limit": "150000"
-        },
-        {
-            "currency": "TALENT",
-            "issuer": "r92SQCuWhYoB4w2UnKU7PKj4Mh7jSyemrH",
-            "limit": "1000000000"
-        },
-        {
-            "currency": "BZS",
-            "issuer": "rwNRkFw1zkELgiaGDEAYVhtZo9ogxSAXPD",
-            "limit": "4000",
-            "ad_date":  "from 10k trustline current 7k",
-            "snapshot_date": "",
-            "twitter": "https://twitter.com/BallZack_XRPL"
-        },
-        {
-            "currency": "FloydCoin",
-            "issuer": "rKF4FfwcjQK6pCJPFZ6xYmvmgynaf5DXTw",
-            "limit": "17025",
-            "ad_date": "0124-0130",
-            "snapshot_date": "",
-            "twitter": " https://twitter.com/GeorgeBigFloyd1"
-        },
-        {
-            "currency": "TeddyBoys",
-            "issuer": "rUQp5C29SacMCbUrhrQYHGkqSQNsHULARQ",
-            "limit": "2000",
-            "ad_date":  "all TL, TBA",
-            "snapshot_date": "",
-            "twitter": "https://twitter.com/TEDDYBOYSNFT"
-        },
-        {
-            "currency": "USDT",
-            "issuer": "rDnNaxiXctUarwQPvjjfHyhzhBxKu8yJNC",
-            "limit": "39828710009",
-            "ad_date":  "all TL, TBA",
-            "snapshot_date": "",
-            "twitter": "https://twitter.com/Tether_XRPL"
-        }, 
-        {
-            "currency": "OCEAN",
-            "issuer": "rPCrPJ9Uz988tD1aQVAToioDcCGZ8nbBTn",
-            "limit": "50000000",
-            "ad_date":  "0114",
-            "snapshot_date": "",
-            "twitter": "https://twitter.com/OceanAssist"
-        }, 
-        {
-            "currency": "XCASTLE",
-            "issuer": "rpU1YBKBCE3rnms5vwgXHHouLapVZv7KDu",
-            "limit": "10000"
-        },
-        {
-            "currency": "STC",
-            "issuer": "r4J3XtWvu869Jnk2zLp9jnzcA37VeqpPiA",
-            "limit": "1000000000000",
-            "ad_date":  "1/17",
-            "snapshot_date": "1/14",
-            "twitter": "https://twitter.com/realstreetcoin"
-        },        
-        {
-            "currency": "XBURN",
-            "issuer": "rp97J8g7gzFmK1r5dntC3GBjBav6ZhnqXn",
-            "limit": "10000000000"
-        },
-        {
-            "currency": "Cannabis",
-            "issuer": "rEdSsC6euwFofzLWZdqmDFu1HExPzR48aj",
-            "limit": "5000000"
-        },
-        {
-            "currency": "xMochi",
-            "issuer": "rPaC5HFXToBuqHjSgjhmJaMejrF6DHRXKL",
-            "limit": "5000.999966061485"
-        },
-        {
-            "currency": "Fluff",
-            "issuer": "rG81ZwWpJbwvkrSPMWYRNAQ4JrYVGzDZfx",
-            "limit": "1000000000"
-        },
-        {
-            "currency": "POLAR",
-            "issuer": "rfdistkMFGQ7HAgu5JvsQdRHbm15EMgWmX",
-            "limit": "10000"
-        },
-        {
-            "currency": "XRMiner",
-            "issuer": "r46UPDCgKfSLhGisjavEeb48sHmWbnzcX5",
-            "limit": "100000000000"
-        },
-        {
-            "currency": "TRSRY",
-            "issuer": "rLBnhMjV6ifEHYeV4gaS6jPKerZhQddFxW",
-            "limit": "99999999.99915142"
-        },
-        {
-            "currency": "XRSoftware",
-            "issuer": "rJZ9Hpaeqy3fdBvjVUjx1fW1bE75HgaJbr",
-            "limit": "199998000000"
-        },
-        {
-            "currency": "xSTIK",
-            "issuer": "rJNV9i4Q6zvRhpE2zjxgkvff3eGHQohZht",
-            "limit": "1000000000"
-        },
-        {
-            "currency": "XPG",
-            "issuer": "rfJwWjrxZU5Vsk9sTVXKLdyrce1CDTjhDf",
-            "limit": "6000000"
         }
-    ],
-    "remove_done":[
-
     ]
 }
