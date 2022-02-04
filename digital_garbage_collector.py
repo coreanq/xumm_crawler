@@ -1,4 +1,4 @@
-import sys, json, secrets, binascii, time, httpcore, asyncio
+import sys, json, secrets, binascii, time, httpcore, httpx, asyncio
 from struct import pack
 
 import xrpl
@@ -266,8 +266,12 @@ def get_wallet_info(wallet_info_from_file):
 
         try: 
             response = asyncio.run(client.request_impl( info_request ) )
+        except httpx.ConnectTimeout as e:
+            print('\nhttp timeout occur {}'.format(e))
+            return None
         except:
-            print('except occur\n')
+            print('\nexcept occur')
+            return None
         else:
             if response.is_successful():
                 # print(json.dumps(response.result['lines'], indent=4, sort_keys=True))
