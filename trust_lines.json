@@ -164,6 +164,11 @@
             "currency": "xVector",
             "issuer": "rJwfewz6T73CvDiaLj5wozSiJzgBUVoAip",
             "limit": "1000000000"
+        },
+        {
+            "currency": "AntX",
+            "issuer": "rsywaeM53nVUMNwKzPdXSwETiLT9tsbCXV",
+            "limit": "4999.999999999999"
         }
 
 

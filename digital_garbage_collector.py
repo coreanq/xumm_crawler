@@ -1,10 +1,10 @@
-import sys, json, secrets, binascii
-from math import remainder
+import sys, json, secrets, binascii, time, httpcore, asyncio
+from struct import pack
 
 import xrpl
 
 from xrpl.models.requests.account_lines import AccountLines;
-from xrpl.models import currencies, transactions as TransactionsModel
+from xrpl.models import transactions as TransactionsModel
 from xrpl.models import Response
 from xrpl.models.amounts import IssuedCurrencyAmount
 
@@ -14,7 +14,6 @@ from xrpl.clients import JsonRpcClient
 
 from xrpl.core import addresscodec
 from xrpl import constants
-from struct import pack
 from xrpl.models.response import ResponseStatus, ResponseType
 
 from xrpl.wallet import Wallet
@@ -30,9 +29,9 @@ arg_remainder = 0
 maximum_fee_drops = 20 # 최대 fee
 
 def get_account_sequene(address):
-    response = account.get_account_info(address, client )
-    # print(json.dumps(response.result, indent=4, sort_keys=True))
-    return response.result['account_data']['Sequence']
+    response = account.get_account_root(address, client )
+    # print(json.dumps(response, indent=4, sort_keys=True))
+    return response['Sequence']
 
 
 def get_currency_transformed_name(name):
@@ -224,7 +223,6 @@ def delete_account(wallets_info_from_file, client):
         # print("Transaction expires after ledger:", max_ledger)
         print("\tdelete account {} hash: {}".format(current_wallet.classic_address, tx_id) )
 
-        tx_response = None
         try:
             tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
         except xrpl.clients.XRPLRequestFailureException as e:
@@ -266,10 +264,12 @@ def get_wallet_info(wallet_info_from_file):
             account= current_wallet.classic_address,
         )
 
-        response = client.request(info_request)
-
-        if( response.status == ResponseStatus.SUCCESS ):
-            for line in response.result['lines']:
+        try: 
+            response = asyncio.run(client.request_impl( info_request ) )
+        except:
+            print('except occur\n')
+        else:
+            if response.is_successful():
                 # print(json.dumps(response.result['lines'], indent=4, sort_keys=True))
                 wallet_info['lines']  = response.result['lines']
 
