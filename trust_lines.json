@@ -11,11 +11,6 @@
             "limit": "30000"
         },
         {
-            "currency": "TipCoin",
-            "issuer": "rsUjMrcGu8ANoTwv3zUJE6MzSL6K7fMyPU",
-            "limit": "2000000000"
-        },
-        {
             "currency": "XRTemplate",
             "issuer": "rMX54z8VgtRhPefzqVkdG3LxsuGdFQcXxr",
             "limit": "200000000000"
@@ -44,16 +39,6 @@
             "currency": "SaveUs",
             "issuer": "rB7CCiT8oVzqG8YoXouLq1uoHMYsNZ7ief",
             "limit": "10000000"
-        },
-        {
-            "currency": "MONTEZUMA",
-            "issuer": "rNJpp2TXWrtFfNs8mbEsrj8gj6XVHfHywD",
-            "limit": "100000000"
-        },
-        {
-            "currency": "KGE",
-            "issuer": "rNhSjAMnDJc9tDHH1R4sqggvgDGa8Bwj5T",
-            "limit": "1000000000"
         },
         {
             "currency": "LIL",
@@ -116,24 +101,9 @@
             "limit": "5000000"
         },
         {
-            "currency": "DIA",
-            "issuer": "rQfWiU7kRbJBFSXRyQh7GTUeEP6qJ4kp2F",
-            "limit": "100000000"
-        },
-        {
             "currency": "$xLEMUR",
             "issuer": "rMPi7rz6i2qDRv9SmadcwbYaKpS9xqfyQQ",
             "limit": "5000"
-        },
-        {
-            "currency": "XGF",
-            "issuer": "rJnn9jdwaBfuyq383hNiX2oowLuLUm2DZD",
-            "limit": "1000000000"
-        },
-        {
-            "currency": "Zens",
-            "issuer": "rwDUCnzBisR37rUAbHdjpZwoTdSavBoY4f",
-            "limit": "10000000"
         },
         {
             "currency": "NFTL",
@@ -141,12 +111,95 @@
             "limit": "10000009"
         },
         {
+            "currency": "NBA",
+            "issuer": "rfHALygLHj6EwfXNSFCSLX6Kp3yfFSpuuP",
+            "limit": "10000000"
+        },
+        {
+            "currency": "LUC",
+            "issuer": "rsygE5ynt2iSasscfCCeqaGBGiFKMCAUu7",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "XMasons",
+            "issuer": "rfS2WUDbrMn25MbnD9XHivbQ5oYsdpvqLm",
+            "limit": "6660000000"
+        },
+        {
+            "currency": "OUTBACK",
+            "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
+            "limit": "10000"
+        },
+        {
+            "currency": "XTriviA",
+            "issuer": "rhLr8bGvHvBgYXAHNPyXrQAcKGrQ2X5nU4",
+            "limit": "1000000000000"
+        },
+        {
+            "currency": "BTX",
+            "issuer": "rnSEMv94hrsbuoxKkFzsrxU91smk8wrU7P",
+            "limit": "20000000"
+        },
+        {
+            "currency": "XCHAM",
+            "issuer": "rKmrHQFrixTEV4z8JPhFLFyzsN8ZGtYkS5",
+            "limit": "5000"
+        },
+        {
+            "currency": "SANtoken",
+            "issuer": "rhZVq1wrgGqWTxoP217H6WxLEGmh3U1Tie",
+            "limit": "100000000"
+        },
+        {
+            "currency": "Blessed",
+            "issuer": "rQr6VLuduLeFoWBERechDs3NB2cynoujhQ",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "XrPinoy",
+            "issuer": "rt3hn4EYMV39xd7pwqMHacJVSu2kEA18x",
+            "limit": "1000000000000"
+        },
+        {
+            "currency": "xVector",
+            "issuer": "rJwfewz6T73CvDiaLj5wozSiJzgBUVoAip",
+            "limit": "1000000000"
+        }
+
+
+
+    ],
+    "remove":[        
+        {
+            "currency": "XGF",
+            "issuer": "rJnn9jdwaBfuyq383hNiX2oowLuLUm2DZD",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "DIA",
+            "issuer": "rQfWiU7kRbJBFSXRyQh7GTUeEP6qJ4kp2F",
+            "limit": "100000000"
+        },
+        {
+            "currency": "MONTEZUMA",
+            "issuer": "rNJpp2TXWrtFfNs8mbEsrj8gj6XVHfHywD",
+            "limit": "100000000"
+        },
+        {
+            "currency": "TipCoin",
+            "issuer": "rsUjMrcGu8ANoTwv3zUJE6MzSL6K7fMyPU",
+            "limit": "2000000000"
+        },
+        {
+            "currency": "Zens",
+            "issuer": "rwDUCnzBisR37rUAbHdjpZwoTdSavBoY4f",
+            "limit": "10000000"
+        },
+        {
             "currency": "PZA",
             "issuer": "rBi1kmPw7axgkTDG31GFhtuACaveohfYnj",
             "limit": "5000"
-        }
-    ],
-    "remove":[        
+        },
         {
             "currency": "SimbaXRP",
             "issuer": "rDqwjJ8fUqdyfPjJZ3h93J1XY8hz6CjEYo",
@@ -158,11 +211,6 @@
             "limit": "10000000000"
         },
         {
-            "currency": "OUTBACK",
-            "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
-            "limit": "10000"
-        },
-        {
             "currency": "ShibaNFT",
             "issuer": "rnRXAnVZTyattZXEpKpgTyvdm17DpjrzSZ",
             "limit": "900000000000001"
@@ -171,6 +219,37 @@
             "currency": "SOLO",
             "issuer": "rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz",
             "limit": "399933681.6027328"
+        },
+        {
+            "currency": "1MC",
+            "issuer": "rsJvPP7GVdPfe5zmQtvxAJVZAmDUGfhkV1",
+            "limit": "399933681.6027328"
+        },
+        {
+            "currency": "Planet",
+            "issuer": "rntdU6TyFEjyf8JRkrG3ggJnsFF55zRSq3",
+            "limit": "399933681.6027328"
+        },
+        {
+            "currency": "OCCoin",
+            "issuer": "rBKQHrKyh4FXyuRAwcopVyBqurSqAV4MEz",
+            "limit": "399933681.6027328"
+        },
+        {
+            "currency": "BisonArmy",
+            "issuer": "rKewBkTsHrjWiDTnsrAB2kjTg9bkCTMMyc",
+            "limit": "399933681.6027328"
+        },
+        {
+            "currency": "outback",
+            "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
+            "limit": "399933681.6027328"
+        },
+        {
+            "currency": "KGE",
+            "issuer": "rNhSjAMnDJc9tDHH1R4sqggvgDGa8Bwj5T",
+            "limit": "399933681.6027328"
         }
+
     ]
 }

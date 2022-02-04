@@ -382,7 +382,8 @@ if __name__ == "__main__":
                 if( arg_remainder == wallet_index % arg_divider ):
                     wallet_info = get_wallet_info(wallet_info_from_file)
                     if( wallet_info != None ):
-                        print('{}({:03}):( {} ), '.format( wallet_info['name'], valid_wallet_count, wallet_info['wallet'].classic_address[-4:] ), end= '', flush= True )
+                        # print('{}({:03}):( {} ), '.format( wallet_info['name'], valid_wallet_count, wallet_info['wallet'].classic_address[-4:] ), end= '', flush= True )
+                        print('{}({:03}):( {:03} ), '.format( wallet_info['name'], valid_wallet_count, len(wallet_info['lines']) ), end= '', flush= True )
                         valid_wallet_count = valid_wallet_count + 1
                         sub_wallet_list.append(wallet_info)
 
