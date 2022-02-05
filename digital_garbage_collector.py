@@ -58,7 +58,20 @@ def get_currency_readable_name(name):
 def send_payment(current_wallet, target_currency, target_issuer, target_limit):
 
     # get issuer 의 transfer fee
-    account_response = xrpl.account.get_account_info( target_issuer, client ) 
+    try:
+        account_response = xrpl.account.get_account_info( target_issuer, client ) 
+    except xrpl.clients.XRPLRequestFailureException as e:
+        print("{}: {}".format(current_wallet.classic_address, e)) 
+        pass
+    except xrpl.transaction.XRPLReliableSubmissionException as e:
+        exit(f"Submit failed: {e}")
+    except httpx.ConnectTimeout as e:
+        print('\nhttp timeout occur {}'.format(e))
+        return False
+    except:
+        print('\nexcept occur')
+        return False
+
     # 1 billion is 100%
     account_data = account_response.result['account_data']
     transfer_fee = 1000000000
@@ -113,6 +126,12 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
+    except httpx.ConnectTimeout as e:
+        print('\nhttp timeout occur {}'.format(e))
+        return False
+    except:
+        print('\nexcept occur')
+        return False
     return True
 
 def set_trust_line(current_wallet, original_currency_name, transformed_currency_name, target_issuer, target_limit, is_delete):
@@ -150,6 +169,12 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
+    except httpx.ConnectTimeout as e:
+        print('\nhttp timeout occur {}'.format(e))
+        return False
+    except:
+        print('\nexcept occur')
+        return False
 
     return True
 
