@@ -65,7 +65,7 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
-    except httpx.ConnectTimeout as e:
+    except httpx.HTTPError as e:
         print('\nhttp timeout occur {}'.format(e))
         return False
     except:
@@ -104,29 +104,28 @@ def send_payment(current_wallet, target_currency, target_issuer, target_limit):
         )
     # print('{}'.format(my_transaction.to_dict() ) )
 
-
-    # Sign transaction -------------------------------------------------------------
-    signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-            my_transaction, current_wallet, client)
-    max_ledger = signed_tx.last_ledger_sequence
-    tx_id = signed_tx.get_hash()
-
-    if( int(signed_tx.fee) > maximum_fee_drops ):
-        print("\t fee too high {}".format( signed_tx.fee))
-        return False 
-    # print("Signed transaction:", signed_tx)
-    # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
-    # print("Transaction expires after ledger:", max_ledger)
-    print("send from {} hash: {}".format(current_wallet.classic_address, tx_id) )
-
     try:
+        # Sign transaction -------------------------------------------------------------
+        signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+                my_transaction, current_wallet, client)
+        max_ledger = signed_tx.last_ledger_sequence
+        tx_id = signed_tx.get_hash()
+
+        if( int(signed_tx.fee) > maximum_fee_drops ):
+            print("\t fee too high {}".format( signed_tx.fee))
+            return False 
+        # print("Signed transaction:", signed_tx)
+        # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
+        # print("Transaction expires after ledger:", max_ledger)
+        print("send from {} hash: {}".format(current_wallet.classic_address, tx_id) )
+
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
         print("{}: {}".format(current_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
-    except httpx.ConnectTimeout as e:
+    except httpx.HTTPError as e:
         print('\nhttp timeout occur {}'.format(e))
         return False
     except:
@@ -169,7 +168,7 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
-    except httpx.ConnectTimeout as e:
+    except httpx.HTTPError as e:
         print('\nhttp timeout occur {}'.format(e))
         return False
     except:
@@ -291,7 +290,7 @@ def get_wallet_info(wallet_info_from_file):
 
         try: 
             response = asyncio.run(client.request_impl( info_request ) )
-        except httpx.ConnectTimeout as e:
+        except httpx.HTTPError as e:
             print('\nhttp timeout occur {}'.format(e))
             return None
         except:
