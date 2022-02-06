@@ -81,11 +81,6 @@
             "limit": "100000000"
         },
         {
-            "currency": "TPR",
-            "issuer": "rht98AstPWmLPQMrwd9YDrcDoTjw9Tiu4B",
-            "limit": "2000000000"
-        },
-        {
             "currency": "xBABYFLOKI",
             "issuer": "rxgAzNiv1r7FzSCPtb4Mh4eqb1Ri1uRts",
             "limit": "1000000000000"
@@ -179,12 +174,27 @@
             "currency": "LRUB",
             "issuer": "rnyGDFEqnNwpyzievKCMhHUi4xs6HnUqPA",
             "limit": "1000000000"
+        },
+        {
+            "currency": "XDRT",
+            "issuer": "r9Xw2WnvPBbgur6gqnevmyuRofWZuC4iNt",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "LJPY",
+            "issuer": "rnyGDFEqnNwpyzievKCMhHUi4xs6HnUqPA",
+            "limit": "1000000000"
         }
 
 
 
     ],
     "remove":[        
+        {
+            "currency": "TPR",
+            "issuer": "rht98AstPWmLPQMrwd9YDrcDoTjw9Tiu4B",
+            "limit": "2000000000"
+        },
         {
             "currency": "XRTemplate",
             "issuer": "rMX54z8VgtRhPefzqVkdG3LxsuGdFQcXxr",
