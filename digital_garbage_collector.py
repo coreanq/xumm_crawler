@@ -147,21 +147,22 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
         flags= flag
     )
 
-    # Sign transaction -------------------------------------------------------------
-    signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-            my_transaction, current_wallet, client)
-    max_ledger = signed_tx.last_ledger_sequence
-    tx_id = signed_tx.get_hash()
-
-    if( int(signed_tx.fee) > maximum_fee_drops ):
-        print("\t fee too high {}".format( signed_tx.fee))
-        return False 
-    # print("Signed transaction:", signed_tx)
-    # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
-    # print("Transaction expires after ledger:", max_ledger)
-    print("{} {} hash: {}".format(original_currency_name, current_wallet.classic_address, tx_id) )
 
     try:
+        # Sign transaction -------------------------------------------------------------
+        signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+                my_transaction, current_wallet, client)
+        max_ledger = signed_tx.last_ledger_sequence
+        tx_id = signed_tx.get_hash()
+
+        if( int(signed_tx.fee) > maximum_fee_drops ):
+            print("\t fee too high {}".format( signed_tx.fee))
+            return False 
+        # print("Signed transaction:", signed_tx)
+        # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
+        # print("Transaction expires after ledger:", max_ledger)
+        print("{} {} hash: {}".format(original_currency_name, current_wallet.classic_address, tx_id) )
+
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
         print("{} {}: {}".format(original_currency_name, current_wallet.classic_address, e)) 
