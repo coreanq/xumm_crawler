@@ -6,11 +6,6 @@
             "limit": "632800000000.001"
         },
         {
-            "currency": "MATE",
-            "issuer": "rpWapSyB4dPhjMms2cYMEmTfc6BGpbpZBv",
-            "limit": "30000"
-        },
-        {
             "currency": "APXX",
             "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
             "limit": "100000000"
@@ -31,11 +26,6 @@
             "limit": "10000000"
         },
         {
-            "currency": "SaveUs",
-            "issuer": "rB7CCiT8oVzqG8YoXouLq1uoHMYsNZ7ief",
-            "limit": "10000000"
-        },
-        {
             "currency": "LIL",
             "issuer": "raZ87rZoVjgg8oc5LijSigyN8rbutXGdbw",
             "limit": "100000000"
@@ -49,21 +39,6 @@
             "currency": "NICE",
             "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
             "limit": "8000000000"
-        },
-        {
-            "currency": "CFC",
-            "issuer": "rsxUkmjnAn8PRDz8RYrPusb9mTDYn5NqG8",
-            "limit": "683862184.455138"
-        },
-        {
-            "currency": "PALEOCOIN",
-            "issuer": "rPfuLd1XmVyxkggAiT9fpLQU81GLb6UDZg",
-            "limit": "1999996957"
-        },
-        {
-            "currency": "POKER",
-            "issuer": "rfNWXEENu93dvCBnjpFY7mRpprZzBUx8hC",
-            "limit": "149999999.982840"
         },
         {
             "currency": "UVX",
@@ -89,11 +64,6 @@
             "currency": "YOL",
             "issuer": "rMJEj344HVDBVy5KH8fcnDfwQCmQ4H2HPF",
             "limit": "5000000"
-        },
-        {
-            "currency": "$xLEMUR",
-            "issuer": "rMPi7rz6i2qDRv9SmadcwbYaKpS9xqfyQQ",
-            "limit": "5000"
         },
         {
             "currency": "NFTL",
@@ -184,12 +154,55 @@
             "currency": "LJPY",
             "issuer": "rnyGDFEqnNwpyzievKCMhHUi4xs6HnUqPA",
             "limit": "1000000000"
+        },
+        {
+            "currency": "xCoin",
+            "issuer": "rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFi",
+            "limit": "9985117.613960302"
+        },
+        {
+            "currency": "XJWL",
+            "issuer": "rMatwcXVLoRq7yoRR7KNT4Kg8ft8osnJKi",
+            "limit": "100000"
+        },
+        {
+            "currency": "GOLD",
+            "issuer": "rGQtGHrgN4FK1RcEn83q4t8aK6BobzDEMK",
+            "limit": "2099997999999.9902"
         }
-
-
 
     ],
     "remove":[        
+        {
+            "currency": "$xLEMUR",
+            "issuer": "rMPi7rz6i2qDRv9SmadcwbYaKpS9xqfyQQ",
+            "limit": "5000"
+        },
+        {
+            "currency": "MATE",
+            "issuer": "rpWapSyB4dPhjMms2cYMEmTfc6BGpbpZBv",
+            "limit": "30000"
+        },
+        {
+            "currency": "SaveUs",
+            "issuer": "rB7CCiT8oVzqG8YoXouLq1uoHMYsNZ7ief",
+            "limit": "10000000"
+        },
+        {
+            "currency": "CFC",
+            "issuer": "rsxUkmjnAn8PRDz8RYrPusb9mTDYn5NqG8",
+            "limit": "683862184.455138"
+        },
+        {
+            "currency": "PALEOCOIN",
+            "issuer": "rPfuLd1XmVyxkggAiT9fpLQU81GLb6UDZg",
+            "limit": "1999996957"
+        },
+        {
+            "currency": "POKER",
+            "issuer": "rfNWXEENu93dvCBnjpFY7mRpprZzBUx8hC",
+            "limit": "149999999.982840"
+        },
         {
             "currency": "TPR",
             "issuer": "rht98AstPWmLPQMrwd9YDrcDoTjw9Tiu4B",
