@@ -26,16 +26,6 @@
             "limit": "10000000"
         },
         {
-            "currency": "LIL",
-            "issuer": "raZ87rZoVjgg8oc5LijSigyN8rbutXGdbw",
-            "limit": "100000000"
-        },
-        {
-            "currency": "TROPA",
-            "issuer": "r9BSm9VwgFKCsjksYuzHJ1QebneFyrS5bu",
-            "limit": "10000"
-        },
-        {
             "currency": "NICE",
             "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
             "limit": "8000000000"
@@ -44,11 +34,6 @@
             "currency": "UVX",
             "issuer": "r4XUTsMNJoT8Cs6rNHzbif5MpZ7sPH1nWF",
             "limit": "500000000"
-        },
-        {
-            "currency": "LIL2",
-            "issuer": "rENNLZVLWMLvwM69h4fR8B43qptEUUG4QH",
-            "limit": "100000000"
         },
         {
             "currency": "XRWeb",
@@ -91,11 +76,6 @@
             "limit": "10000"
         },
         {
-            "currency": "XTriviA",
-            "issuer": "rhLr8bGvHvBgYXAHNPyXrQAcKGrQ2X5nU4",
-            "limit": "1000000000000"
-        },
-        {
             "currency": "BTX",
             "issuer": "rnSEMv94hrsbuoxKkFzsrxU91smk8wrU7P",
             "limit": "20000000"
@@ -121,9 +101,9 @@
             "limit": "1000000000000"
         },
         {
-            "currency": "xVector",
-            "issuer": "rJwfewz6T73CvDiaLj5wozSiJzgBUVoAip",
-            "limit": "1000000000"
+            "currency": "TPR",
+            "issuer": "rht98AstPWmLPQMrwd9YDrcDoTjw9Tiu4B",
+            "limit": "2000000000"
         },
         {
             "currency": "AntX",
@@ -141,11 +121,6 @@
             "limit": "1000000000"
         },
         {
-            "currency": "LRUB",
-            "issuer": "rnyGDFEqnNwpyzievKCMhHUi4xs6HnUqPA",
-            "limit": "1000000000"
-        },
-        {
             "currency": "XDRT",
             "issuer": "r9Xw2WnvPBbgur6gqnevmyuRofWZuC4iNt",
             "limit": "100000000000"
@@ -156,11 +131,6 @@
             "limit": "1000000000"
         },
         {
-            "currency": "xCoin",
-            "issuer": "rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFi",
-            "limit": "9985117.613960302"
-        },
-        {
             "currency": "XJWL",
             "issuer": "rMatwcXVLoRq7yoRR7KNT4Kg8ft8osnJKi",
             "limit": "100000"
@@ -168,11 +138,81 @@
         {
             "currency": "GOLD",
             "issuer": "rGQtGHrgN4FK1RcEn83q4t8aK6BobzDEMK",
-            "limit": "2099997999999.9902"
+            "limit": "2099997999999"
+        },
+        {
+            "currency": "YZK",
+            "issuer": "rJr2Jy71Mb6kqv4iux79wvadq2LtqLSsdz",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "Fedos",
+            "issuer": "rwbV9h75Tqvr629o5tGVWbdmMzU9aqhUi3",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XCHAIN",
+            "issuer": "rHNC2Hs42DgVrerEH63AnEMvXuBVABb9Q6",
+            "limit": "899999.999990"
+        },
+        {
+            "currency": "XGBL",
+            "issuer": "rMy6sCaDVF1C2BT3qmNG6kgjVDZqZ74uoF",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "PASA",
+            "issuer": "rBPtuMc4HBR1SuZyZv8hs7WBVxLBYrzxbY",
+            "limit": "10000000"
+        },
+        {
+            "currency": "XPixie",
+            "issuer": "r4MPd7d3WHpaD3qWma1QFmpyLJ3y5cLwtN",
+            "limit": "9999"
+        },
+        {
+            "currency": "XCHANGE",
+            "issuer": "rwdsHNyqF3i6iEbpD5mXytNNEdHQdEMHjm",
+            "limit": "5000"
         }
 
     ],
     "remove":[        
+        {
+            "currency": "LIL2",
+            "issuer": "rENNLZVLWMLvwM69h4fR8B43qptEUUG4QH",
+            "limit": "100000000"
+        },
+        {
+            "currency": "LIL",
+            "issuer": "raZ87rZoVjgg8oc5LijSigyN8rbutXGdbw",
+            "limit": "100000000"
+        },
+        {
+            "currency": "xVector",
+            "issuer": "rJwfewz6T73CvDiaLj5wozSiJzgBUVoAip",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "TROPA",
+            "issuer": "r9BSm9VwgFKCsjksYuzHJ1QebneFyrS5bu",
+            "limit": "10000"
+        },
+        {
+            "currency": "LRUB",
+            "issuer": "rnyGDFEqnNwpyzievKCMhHUi4xs6HnUqPA",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "xCoin",
+            "issuer": "rXCoYSUnkpygdtfpz3Df8dKQuRZjM9UFi",
+            "limit": "9985117.613960302"
+        },
+        {
+            "currency": "XTriviA",
+            "issuer": "rhLr8bGvHvBgYXAHNPyXrQAcKGrQ2X5nU4",
+            "limit": "1000000000000"
+        },
         {
             "currency": "$xLEMUR",
             "issuer": "rMPi7rz6i2qDRv9SmadcwbYaKpS9xqfyQQ",
@@ -202,11 +242,6 @@
             "currency": "POKER",
             "issuer": "rfNWXEENu93dvCBnjpFY7mRpprZzBUx8hC",
             "limit": "149999999.982840"
-        },
-        {
-            "currency": "TPR",
-            "issuer": "rht98AstPWmLPQMrwd9YDrcDoTjw9Tiu4B",
-            "limit": "2000000000"
         },
         {
             "currency": "XRTemplate",
@@ -284,7 +319,7 @@
             "limit": "399933681.6027328"
         },
         {
-            "currency": "outback",
+            "currency": "OUTBACK",
             "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
             "limit": "399933681.6027328"
         },
