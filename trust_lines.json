@@ -36,11 +36,6 @@
             "limit": "500000000"
         },
         {
-            "currency": "XRWeb",
-            "issuer": "rDegPvsK5c2nzaKTn2PsuPZjs8b3neDDn",
-            "limit": "100000000"
-        },
-        {
             "currency": "xBABYFLOKI",
             "issuer": "rxgAzNiv1r7FzSCPtb4Mh4eqb1Ri1uRts",
             "limit": "1000000000000"
@@ -61,19 +56,9 @@
             "limit": "10000000"
         },
         {
-            "currency": "LUC",
-            "issuer": "rsygE5ynt2iSasscfCCeqaGBGiFKMCAUu7",
-            "limit": "1000000000"
-        },
-        {
             "currency": "XMasons",
             "issuer": "rfS2WUDbrMn25MbnD9XHivbQ5oYsdpvqLm",
             "limit": "6660000000"
-        },
-        {
-            "currency": "OUTBACK",
-            "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
-            "limit": "10000"
         },
         {
             "currency": "BTX",
@@ -96,11 +81,6 @@
             "limit": "100000000000"
         },
         {
-            "currency": "XrPinoy",
-            "issuer": "rt3hn4EYMV39xd7pwqMHacJVSu2kEA18x",
-            "limit": "1000000000000"
-        },
-        {
             "currency": "TPR",
             "issuer": "rht98AstPWmLPQMrwd9YDrcDoTjw9Tiu4B",
             "limit": "2000000000"
@@ -114,11 +94,6 @@
             "currency": "XSHIO",
             "issuer": "rGxSsVktuy9aCzckSbTf3yQissD3oD2va5",
             "limit": "2022"
-        },
-        {
-            "currency": "LGBP",
-            "issuer": "rfL4Sci2ag5hhkpDuqtWYov6j3mshVWLgU",
-            "limit": "1000000000"
         },
         {
             "currency": "XDRT",
@@ -146,16 +121,6 @@
             "limit": "1000000000"
         },
         {
-            "currency": "Fedos",
-            "issuer": "rwbV9h75Tqvr629o5tGVWbdmMzU9aqhUi3",
-            "limit": "100000000"
-        },
-        {
-            "currency": "XCHAIN",
-            "issuer": "rHNC2Hs42DgVrerEH63AnEMvXuBVABb9Q6",
-            "limit": "899999.999990"
-        },
-        {
             "currency": "XGBL",
             "issuer": "rMy6sCaDVF1C2BT3qmNG6kgjVDZqZ74uoF",
             "limit": "100000000000"
@@ -166,18 +131,69 @@
             "limit": "10000000"
         },
         {
+            "currency": "XCHANGE",
+            "issuer": "rwdsHNyqF3i6iEbpD5mXytNNEdHQdEMHjm",
+            "limit": "5000"
+        },
+        {
+            "currency": "MLD",
+            "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "xFlashChain",
+            "issuer": "rJgcjY1MZJjw946qRqN57V3TGg9PZEA1bw",
+            "limit": "100000000000"
+        }
+
+
+    ],
+    "remove":[        
+        {
+            "currency": "XCHAIN",
+            "issuer": "rHNC2Hs42DgVrerEH63AnEMvXuBVABb9Q6",
+            "limit": "899999.999990"
+        },
+        {
+            "currency": "Fedos",
+            "issuer": "rwbV9h75Tqvr629o5tGVWbdmMzU9aqhUi3",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XRWeb",
+            "issuer": "rDegPvsK5c2nzaKTn2PsuPZjs8b3neDDn",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XrPinoy",
+            "issuer": "rt3hn4EYMV39xd7pwqMHacJVSu2kEA18x",
+            "limit": "1000000000000"
+        },
+        {
+            "currency": "Maroo",
+            "issuer": "rEiqU48BP7iPDipRwU3cPQqo2EbDFi123P",
+            "limit": "100000000"
+        },
+        {
+            "currency": "OUTBACK",
+            "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
+            "limit": "10000"
+        },
+        {
+            "currency": "LUC",
+            "issuer": "rsygE5ynt2iSasscfCCeqaGBGiFKMCAUu7",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "LGBP",
+            "issuer": "rfL4Sci2ag5hhkpDuqtWYov6j3mshVWLgU",
+            "limit": "1000000000"
+        },
+        {
             "currency": "XPixie",
             "issuer": "r4MPd7d3WHpaD3qWma1QFmpyLJ3y5cLwtN",
             "limit": "9999"
         },
-        {
-            "currency": "XCHANGE",
-            "issuer": "rwdsHNyqF3i6iEbpD5mXytNNEdHQdEMHjm",
-            "limit": "5000"
-        }
-
-    ],
-    "remove":[        
         {
             "currency": "LIL2",
             "issuer": "rENNLZVLWMLvwM69h4fR8B43qptEUUG4QH",
@@ -316,11 +332,6 @@
         {
             "currency": "BisonArmy",
             "issuer": "rKewBkTsHrjWiDTnsrAB2kjTg9bkCTMMyc",
-            "limit": "399933681.6027328"
-        },
-        {
-            "currency": "OUTBACK",
-            "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
             "limit": "399933681.6027328"
         },
         {
