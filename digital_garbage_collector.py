@@ -51,14 +51,21 @@ def get_currency_readable_name(name):
         readable_currency_name = bytes.fromhex(name).decode('ASCII')
     else:
         readable_currency_name = name
-
     return  readable_currency_name
 
+def get_wallet_from_seed_list(seed_list, sequence_number):
+    # little endian 16bit array 
+    seed_number = pack( '>HHHHHHHH', *seed_list )
+    seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
+
+    current_wallet = Wallet(seed=seed_str, sequence= sequence_number )
+    return current_wallet
+
 # send xrp to main wallet 
-def send_payment(current_wallet, target_addr, xrp_amount_in_drops):
+def send_payment(src_wallet, target_addr, xrp_amount_in_drops):
     # Prepare transaction ----------------------------------------------------------
     my_transaction = TransactionsModel.Payment(
-        account= current_wallet.classic_address,
+        account= src_wallet.classic_address, 
         amount= xrp_amount_in_drops,
         destination= target_addr
         )
@@ -67,7 +74,7 @@ def send_payment(current_wallet, target_addr, xrp_amount_in_drops):
     try:
         # Sign transaction -------------------------------------------------------------
         signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-                my_transaction, current_wallet, client)
+                my_transaction, src_wallet, client)
         max_ledger = signed_tx.last_ledger_sequence
         tx_id = signed_tx.get_hash()
 
@@ -77,11 +84,11 @@ def send_payment(current_wallet, target_addr, xrp_amount_in_drops):
         # print("Signed transaction:", signed_tx)
         # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
         # print("Transaction expires after ledger:", max_ledger)
-        print("send from {} hash: {}".format(current_wallet.classic_address, tx_id) )
+        print("send from {} hash: {}".format(src_wallet.classic_address, tx_id) )
 
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{}: {}".format(current_wallet.classic_address, e)) 
+        print("{}: {}".format(src_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
@@ -94,13 +101,13 @@ def send_payment(current_wallet, target_addr, xrp_amount_in_drops):
     return True
 
 # send all trust line balance to main wallet 
-def send_trustlines_payment(current_wallet, target_currency, target_issuer, target_limit):
+def send_trustlines_payment(src_wallet, target_currency, target_issuer, target_limit):
 
     # get issuer 의 transfer fee
     try:
         account_response = xrpl.account.get_account_info( target_issuer, client ) 
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{}: {}".format(current_wallet.classic_address, e)) 
+        print("{}: {}".format(src_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
@@ -126,7 +133,7 @@ def send_trustlines_payment(current_wallet, target_currency, target_issuer, targ
 
         # Prepare transaction ----------------------------------------------------------
         my_transaction = TransactionsModel.Payment(
-            account= current_wallet.classic_address,
+            account= src_wallet.classic_address,
             amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
             destination= main_wallet_address,
             flags = payment_flag,
@@ -135,18 +142,16 @@ def send_trustlines_payment(current_wallet, target_currency, target_issuer, targ
     else:
         # Prepare transaction ----------------------------------------------------------
         my_transaction = TransactionsModel.Payment(
-            account= current_wallet.classic_address,
+            account= src_wallet.classic_address,
             amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
             destination= main_wallet_address,
-            # amount= xrpl.utils.xrp_to_drops(100),
-            # destination= target_issuer
         )
     # print('{}'.format(my_transaction.to_dict() ) )
 
     try:
         # Sign transaction -------------------------------------------------------------
         signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-                my_transaction, current_wallet, client)
+                my_transaction, src_wallet, client)
         max_ledger = signed_tx.last_ledger_sequence
         tx_id = signed_tx.get_hash()
 
@@ -156,11 +161,11 @@ def send_trustlines_payment(current_wallet, target_currency, target_issuer, targ
         # print("Signed transaction:", signed_tx)
         # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
         # print("Transaction expires after ledger:", max_ledger)
-        print("send from {} hash: {}".format(current_wallet.classic_address, tx_id) )
+        print("send from {} hash: {}".format(src_wallet.classic_address, tx_id) )
 
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{}: {}".format(current_wallet.classic_address, e)) 
+        print("{}: {}".format(src_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
@@ -309,11 +314,7 @@ def get_wallet_info(wallet_info_from_file):
         # 6 digit  first 5 digit uint16 data   last 1 digit for crc from xumm api document
         seed_list.append( int(seed_unit[:-1]) )
 
-    # little endian 16bit array 
-    seed_number = pack( '>HHHHHHHH', *seed_list )
-    seed_str = addresscodec.encode_seed(seed_number, constants.CryptoAlgorithm('secp256k1'))
-
-    current_wallet = Wallet(seed=seed_str, sequence= wallet_sequence )
+    current_wallet = get_wallet_from_seed_list(seed_list, wallet_sequence) 
 
     if( address != current_wallet.classic_address ):
         print("\n{} wallet error private key error".format(wallet_info_from_file['name']) )
@@ -401,6 +402,8 @@ if __name__ == "__main__":
             command = 'delete'
         elif( sys.argv[1] == 'xrp_balance_mover' ):
             command = 'xrp_balance_mover'
+        elif( sys.argv[1] == 'wallet_active' ):
+            command = 'wallet_active'
     else:
         print("argument missing")
         sys.exit()
@@ -453,11 +456,11 @@ if __name__ == "__main__":
 
         for wallet_dict in sub_wallet_list:
             # balance check
-            current_wallet = wallet_dict['wallet']
+            target_wallet = wallet_dict['wallet']
             try:
-                account_response = xrpl.account.get_account_info( current_wallet.classic_address, client ) 
+                account_response = xrpl.account.get_account_info( target_wallet.classic_address, client ) 
             except xrpl.clients.XRPLRequestFailureException as e:
-                print("{}: {}".format(current_wallet.classic_address, e)) 
+                print("{}: {}".format(target_wallet.classic_address, e)) 
                 pass
             except xrpl.transaction.XRPLReliableSubmissionException as e:
                 exit(f"Submit failed: {e}")
@@ -474,7 +477,17 @@ if __name__ == "__main__":
                 send_xrp_in_drops = balance_in_drops - int(xrpl.utils.xrp_to_drops(80))
 
             if( send_xrp_in_drops != 0 ):
-                send_payment(current_wallet, main_wallet_address, str(send_xrp_in_drops) )
+                send_payment(target_wallet, main_wallet_address, str(send_xrp_in_drops) )
+
+    elif( command == 'wallet_active'):
+        seed_list = []
+        main_wallet = get_wallet_from_seed_list(seed_list, 0)
+        for wallet_info_from_file in sub_wallets_info_from_file:
+            target_wallet_address = wallet_info_from_file['address']
+            # 계좌 활성화 여부 확인 
+            if( xrpl.account.does_account_exist(target_wallet_address, client) == False ):
+                send_payment(main_wallet, target_wallet_address, xrpl.utils.xrp_to_drops(80) )
+        pass
 
     else:
         while(loop):
