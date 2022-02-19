@@ -378,9 +378,9 @@ def make_wallet(max_wallet_count):
                 temp  = (seed_number * ( index * 2 + 1 )) % 9
                 secret_key.append( '{:05}{}'.format(seed_number, temp) )
             
-            wallet_info_json["sub_wallets_info"].append( { "name" : "t{:03}".format( wallet_index + wallet_index_offset ), "address": current_wallet.classic_address, "seed_number": secret_key })
+            wallet_info_json["sub_wallets_info"].append( { "name" : "t{:04}".format( wallet_index + wallet_index_offset ), "address": current_wallet.classic_address, "seed_number": secret_key })
 
-        print('t{:03} {}\n'.format(wallet_index + wallet_index_offset, current_wallet.classic_address) )
+        print('t{:04} {}\n'.format(wallet_index + wallet_index_offset, current_wallet.classic_address) )
     
     with open("account_generated.json", "w") as json_file:
         json_file.write( json.dumps(wallet_info_json, indent=4) ) 
