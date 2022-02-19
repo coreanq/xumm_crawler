@@ -6,11 +6,6 @@
             "limit": "632800000000.001"
         },
         {
-            "currency": "APXX",
-            "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
-            "limit": "100000000"
-        },
-        {
             "currency": "Peas",
             "issuer": "rPAArd4yZAJaDCR5gs41YYmGphfj6yzh3R",
             "limit": "10000"
@@ -21,29 +16,9 @@
             "limit": "1000000000"
         },
         {
-            "currency": "X20",
-            "issuer": "rNmdY5wPVTx9awvX6WyDfJwbdgLzc8AY8c",
-            "limit": "10000000"
-        },
-        {
             "currency": "NICE",
             "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
             "limit": "8000000000"
-        },
-        {
-            "currency": "UVX",
-            "issuer": "r4XUTsMNJoT8Cs6rNHzbif5MpZ7sPH1nWF",
-            "limit": "500000000"
-        },
-        {
-            "currency": "xBABYFLOKI",
-            "issuer": "rxgAzNiv1r7FzSCPtb4Mh4eqb1Ri1uRts",
-            "limit": "1000000000000"
-        },
-        {
-            "currency": "YOL",
-            "issuer": "rMJEj344HVDBVy5KH8fcnDfwQCmQ4H2HPF",
-            "limit": "5000000"
         },
         {
             "currency": "NFTL",
@@ -66,24 +41,9 @@
             "limit": "20000000"
         },
         {
-            "currency": "XCHAM",
-            "issuer": "rKmrHQFrixTEV4z8JPhFLFyzsN8ZGtYkS5",
-            "limit": "5000"
-        },
-        {
-            "currency": "SANtoken",
-            "issuer": "rhZVq1wrgGqWTxoP217H6WxLEGmh3U1Tie",
-            "limit": "100000000"
-        },
-        {
             "currency": "Blessed",
             "issuer": "rQr6VLuduLeFoWBERechDs3NB2cynoujhQ",
             "limit": "100000000000"
-        },
-        {
-            "currency": "TPR",
-            "issuer": "rht98AstPWmLPQMrwd9YDrcDoTjw9Tiu4B",
-            "limit": "2000000000"
         },
         {
             "currency": "AntX",
@@ -99,11 +59,6 @@
             "currency": "XDRT",
             "issuer": "r9Xw2WnvPBbgur6gqnevmyuRofWZuC4iNt",
             "limit": "100000000000"
-        },
-        {
-            "currency": "LJPY",
-            "issuer": "rnyGDFEqnNwpyzievKCMhHUi4xs6HnUqPA",
-            "limit": "1000000000"
         },
         {
             "currency": "XJWL",
@@ -144,11 +99,76 @@
             "currency": "xFlashChain",
             "issuer": "rJgcjY1MZJjw946qRqN57V3TGg9PZEA1bw",
             "limit": "100000000000"
+        },
+        {
+            "currency": "propx",
+            "issuer": "rDXPvUQRraTGut4sGwd1UBBpQ9nZEhLnb4",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "LUC",
+            "issuer": "rsygE5ynt2iSasscfCCeqaGBGiFKMCAUu7",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "RCN",
+            "issuer": "rPGxCzMicNJRe1U1CD5QyNjXdLUtdgSa7B",
+            "limit": "10000"
         }
 
 
     ],
     "remove":[        
+        {
+            "currency": "APXX",
+            "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XRWeb",
+            "issuer": "rDegPvsK5c2nzaKTn2PsuPZjs8b3neDDn",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XCHAM",
+            "issuer": "rKmrHQFrixTEV4z8JPhFLFyzsN8ZGtYkS5",
+            "limit": "5000"
+        },
+        {
+            "currency": "TPR",
+            "issuer": "rht98AstPWmLPQMrwd9YDrcDoTjw9Tiu4B",
+            "limit": "2000000000"
+        },
+        {
+            "currency": "UVX",
+            "issuer": "r4XUTsMNJoT8Cs6rNHzbif5MpZ7sPH1nWF",
+            "limit": "500000000"
+        },
+        {
+            "currency": "X20",
+            "issuer": "rNmdY5wPVTx9awvX6WyDfJwbdgLzc8AY8c",
+            "limit": "10000000"
+        },
+        {
+            "currency": "xBABYFLOKI",
+            "issuer": "rxgAzNiv1r7FzSCPtb4Mh4eqb1Ri1uRts",
+            "limit": "1000000000000"
+        },
+        {
+            "currency": "SANtoken",
+            "issuer": "rhZVq1wrgGqWTxoP217H6WxLEGmh3U1Tie",
+            "limit": "100000000"
+        },
+        {
+            "currency": "LJPY",
+            "issuer": "rnyGDFEqnNwpyzievKCMhHUi4xs6HnUqPA",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "YOL",
+            "issuer": "rMJEj344HVDBVy5KH8fcnDfwQCmQ4H2HPF",
+            "limit": "5000000"
+        },
         {
             "currency": "XCHAIN",
             "issuer": "rHNC2Hs42DgVrerEH63AnEMvXuBVABb9Q6",
@@ -157,11 +177,6 @@
         {
             "currency": "Fedos",
             "issuer": "rwbV9h75Tqvr629o5tGVWbdmMzU9aqhUi3",
-            "limit": "100000000"
-        },
-        {
-            "currency": "XRWeb",
-            "issuer": "rDegPvsK5c2nzaKTn2PsuPZjs8b3neDDn",
             "limit": "100000000"
         },
         {
@@ -178,11 +193,6 @@
             "currency": "OUTBACK",
             "issuer": "rMzXS3BwhAwgb4fTK6ohik65jJUKKrzmqn",
             "limit": "10000"
-        },
-        {
-            "currency": "LUC",
-            "issuer": "rsygE5ynt2iSasscfCCeqaGBGiFKMCAUu7",
-            "limit": "1000000000"
         },
         {
             "currency": "LGBP",

@@ -54,8 +54,47 @@ def get_currency_readable_name(name):
 
     return  readable_currency_name
 
+# send xrp to main wallet 
+def send_payment(current_wallet, target_addr, xrp_amount_in_drops):
+    # Prepare transaction ----------------------------------------------------------
+    my_transaction = TransactionsModel.Payment(
+        account= current_wallet.classic_address,
+        amount= xrp_amount_in_drops,
+        destination= target_addr
+        )
+    # print('{}'.format(my_transaction.to_dict() ) )
+
+    try:
+        # Sign transaction -------------------------------------------------------------
+        signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+                my_transaction, current_wallet, client)
+        max_ledger = signed_tx.last_ledger_sequence
+        tx_id = signed_tx.get_hash()
+
+        if( int(signed_tx.fee) > maximum_fee_drops ):
+            print("\t fee too high {}".format( signed_tx.fee))
+            return False 
+        # print("Signed transaction:", signed_tx)
+        # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
+        # print("Transaction expires after ledger:", max_ledger)
+        print("send from {} hash: {}".format(current_wallet.classic_address, tx_id) )
+
+        tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
+    except xrpl.clients.XRPLRequestFailureException as e:
+        print("{}: {}".format(current_wallet.classic_address, e)) 
+        pass
+    except xrpl.transaction.XRPLReliableSubmissionException as e:
+        exit(f"Submit failed: {e}")
+    except httpx.HTTPError as e:
+        print('\nhttp timeout occur {}'.format(e))
+        return False
+    except:
+        print('\nexcept occur')
+        return False
+    return True
+
 # send all trust line balance to main wallet 
-def send_payment(current_wallet, target_currency, target_issuer, target_limit):
+def send_trustlines_payment(current_wallet, target_currency, target_issuer, target_limit):
 
     # get issuer 의 transfer fee
     try:
@@ -360,26 +399,25 @@ if __name__ == "__main__":
     elif( len(sys.argv) == 2 ):
         if( sys.argv[1] == 'delete' ):
             command = 'delete'
+        elif( sys.argv[1] == 'xrp_balance_mover' ):
+            command = 'xrp_balance_mover'
     else:
         print("argument missing")
         sys.exit()
 
     json_data = None 
 
-    if( command == 'normal' ):
-        with open('account_info.json') as json_file:
-            json_data = json.load(json_file)
+    with open('account_info.json') as json_file:
+        json_data = json.load(json_file)
 
-        main_wallet_address = json_data.get('main_wallet_address', '')
-        sub_wallets_info_from_file = json_data.get('sub_wallets_info', [] )
+    main_wallet_address = json_data.get('main_wallet_address', '')
 
-        with open('trust_lines.json') as json_file:
-            json_data = json.load(json_file)
-    elif( command == 'delete'):
-        with open('account_info.json') as json_file:
-            json_data = json.load(json_file)
-        delete_wallets_info_from_file = json_data.get('delete_wallets_info', [])
+    sub_wallets_info_from_file = json_data.get('sub_wallets_info', [] )
+    delete_wallets_info_from_file = json_data.get('delete_wallets_info', [])
 
+    # get trustlines info
+    with open('trust_lines.json') as json_file:
+        json_data = json.load(json_file)
     trust_lines_from_file = json_data
 
     JSON_RPC_URL = "https://s2.ripple.com:51234/"
@@ -397,6 +435,47 @@ if __name__ == "__main__":
     elif( command == 'delete'):
         delete_account(delete_wallets_info_from_file, client)
         pass
+    elif( command == 'xrp_balance_mover'):
+        valid_wallet_count = 1
+        for wallet_info_from_file in sub_wallets_info_from_file:
+
+            address = wallet_info_from_file['address']
+            wallet_index = int( wallet_info_from_file['name'][1:])
+            wallet_info = None
+
+            wallet_info = get_wallet_info(wallet_info_from_file)
+            if( wallet_info != None ):
+                # print('{}({:03}):( {} ), '.format( wallet_info['name'], valid_wallet_count, wallet_info['wallet'].classic_address[-4:] ), end= '', flush= True )
+                print('{}({:03}):( {:03} ), '.format( wallet_info['name'], valid_wallet_count, len(wallet_info['lines']) ), end= '', flush= True )
+                valid_wallet_count = valid_wallet_count + 1
+                sub_wallet_list.append(wallet_info)
+        pass
+
+        for wallet_dict in sub_wallet_list:
+            # balance check
+            current_wallet = wallet_dict['wallet']
+            try:
+                account_response = xrpl.account.get_account_info( current_wallet.classic_address, client ) 
+            except xrpl.clients.XRPLRequestFailureException as e:
+                print("{}: {}".format(current_wallet.classic_address, e)) 
+                pass
+            except xrpl.transaction.XRPLReliableSubmissionException as e:
+                exit(f"Submit failed: {e}")
+            except httpx.HTTPError as e:
+                print('\nhttp timeout occur {}'.format(e))
+            except:
+                print('\nexcept occur')
+
+            # trustlines reserve 포함 잔고 확인 
+            balance_in_drops = int(account_response.result['account_data']['Balance'])
+
+            send_xrp_in_drops = 0
+            if( balance_in_drops > int(xrpl.utils.xrp_to_drops(80)) ):
+                send_xrp_in_drops = balance_in_drops - int(xrpl.utils.xrp_to_drops(80))
+
+            if( send_xrp_in_drops != 0 ):
+                send_payment(current_wallet, main_wallet_address, str(send_xrp_in_drops) )
+
     else:
         while(loop):
             sub_wallet_list.clear()
@@ -423,7 +502,7 @@ if __name__ == "__main__":
 
                 for line in wallet_dict['lines']:
                     if( float(line['balance']) > 0 ):
-                        if( send_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] ) == True ):
+                        if( send_trustlines_payment( wallet_dict['wallet'], line['currency'], line['account'], line['balance'] ) == True ):
                             print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_dict['name'] ))
                 pass
 
