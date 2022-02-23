@@ -28,6 +28,8 @@ arg_remainder = 0
 
 maximum_fee_drops = 20 # 최대 fee
 
+wallet_base_amount = 70 
+
 def get_account_sequene(address):
     response = account.get_account_root(address, client )
     # print(json.dumps(response, indent=4, sort_keys=True))
@@ -345,11 +347,11 @@ def get_wallet_info(wallet_info_from_file):
         return wallet_info
 
 
-def make_wallet(max_wallet_count):
+def make_wallet(max_wallet_count, offset = 0):
     seed_list = []
 
     wallet_info_json = { "sub_wallets_info": [] } 
-    wallet_index_offset = 0
+    wallet_index_offset = offset 
 
 
     for wallet_index in range(max_wallet_count):
@@ -390,13 +392,17 @@ def make_wallet(max_wallet_count):
 if __name__ == "__main__":
 
     command = 'normal'
+    max_wallet_count = 0
+    offset = 0
+
     if( len(sys.argv) == 3):
+        arg_divider = int(sys.argv[1])
+        arg_remainder = int(sys.argv[2])
+    elif( len(sys.argv) == 4):
         if( sys.argv[1] == 'generate' ):
             command  = 'generate'
             max_wallet_count = int(sys.argv[2])
-        else:  
-            arg_divider = int(sys.argv[1])
-            arg_remainder = int(sys.argv[2])
+            offset = int(sys.argv[3])
     elif( len(sys.argv) == 2 ):
         if( sys.argv[1] == 'delete' ):
             command = 'delete'
@@ -432,8 +438,7 @@ if __name__ == "__main__":
     loop = True
 
     if( command == 'generate'):
-        max_wallet_count = int(sys.argv[2])
-        make_wallet(max_wallet_count)
+        make_wallet(max_wallet_count, offset)
         pass
     elif( command == 'delete'):
         delete_account(delete_wallets_info_from_file, client)
@@ -473,10 +478,11 @@ if __name__ == "__main__":
             balance_in_drops = int(account_response.result['account_data']['Balance'])
 
             send_xrp_in_drops = 0
-            if( balance_in_drops > int(xrpl.utils.xrp_to_drops(80)) ):
-                send_xrp_in_drops = balance_in_drops - int(xrpl.utils.xrp_to_drops(80))
+            baseline_drops = int(xrpl.utils.xrp_to_drops(wallet_base_amount))
+            if( balance_in_drops > baseline_drops ):
+                send_xrp_in_drops = balance_in_drops - baseline_drops
 
-            if( send_xrp_in_drops != 0 ):
+            if( send_xrp_in_drops > 0 ):
                 send_payment(target_wallet, main_wallet_address, str(send_xrp_in_drops) )
 
     elif( command == 'wallet_active'):
@@ -486,7 +492,7 @@ if __name__ == "__main__":
             target_wallet_address = wallet_info_from_file['address']
             # 계좌 활성화 여부 확인 
             if( xrpl.account.does_account_exist(target_wallet_address, client) == False ):
-                send_payment(main_wallet, target_wallet_address, xrpl.utils.xrp_to_drops(80) )
+                send_payment(main_wallet, target_wallet_address, xrpl.utils.xrp_to_drops(wallet_base_amount) )
         pass
 
     else:
