@@ -100,10 +100,13 @@
             "issuer": "rPGxCzMicNJRe1U1CD5QyNjXdLUtdgSa7B",
             "limit": "10000"
         }
-
-
     ],
     "remove":[        
+        {
+            "currency": "AntX",
+            "issuer": "rsywaeM53nVUMNwKzPdXSwETiLT9tsbCXV",
+            "limit": "5000"
+        },
         {
             "currency": "XMasons",
             "issuer": "rfS2WUDbrMn25MbnD9XHivbQ5oYsdpvqLm",
