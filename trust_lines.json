@@ -31,11 +31,6 @@
             "limit": "10000000"
         },
         {
-            "currency": "XMasons",
-            "issuer": "rfS2WUDbrMn25MbnD9XHivbQ5oYsdpvqLm",
-            "limit": "6660000000"
-        },
-        {
             "currency": "BTX",
             "issuer": "rnSEMv94hrsbuoxKkFzsrxU91smk8wrU7P",
             "limit": "20000000"
@@ -44,11 +39,6 @@
             "currency": "Blessed",
             "issuer": "rQr6VLuduLeFoWBERechDs3NB2cynoujhQ",
             "limit": "100000000000"
-        },
-        {
-            "currency": "AntX",
-            "issuer": "rsywaeM53nVUMNwKzPdXSwETiLT9tsbCXV",
-            "limit": "4999.999999999999"
         },
         {
             "currency": "XSHIO",
@@ -64,11 +54,6 @@
             "currency": "XJWL",
             "issuer": "rMatwcXVLoRq7yoRR7KNT4Kg8ft8osnJKi",
             "limit": "100000"
-        },
-        {
-            "currency": "GOLD",
-            "issuer": "rGQtGHrgN4FK1RcEn83q4t8aK6BobzDEMK",
-            "limit": "2099997999999"
         },
         {
             "currency": "YZK",
@@ -119,6 +104,16 @@
 
     ],
     "remove":[        
+        {
+            "currency": "XMasons",
+            "issuer": "rfS2WUDbrMn25MbnD9XHivbQ5oYsdpvqLm",
+            "limit": "6660000000"
+        },
+        {
+            "currency": "GOLD",
+            "issuer": "rGQtGHrgN4FK1RcEn83q4t8aK6BobzDEMK",
+            "limit": "2099997999999"
+        },
         {
             "currency": "APXX",
             "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
