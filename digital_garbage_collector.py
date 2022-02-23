@@ -232,22 +232,26 @@ def delete_account(wallets_info_from_file, client):
     target_wallets_info = []
     result = []
 
-    for delete_wallet_info_from_file in wallets_info_from_file:
-        target_wallet_info = get_wallet_info(delete_wallet_info_from_file)
-        current_wallet = target_wallet_info['wallet']
+    while(True):
+        target_wallets_info.clear()
+        # 모든 trustlines 을 지워야 delete 가능 
+        for delete_wallet_info_from_file in wallets_info_from_file:
+            target_wallet_info = get_wallet_info(delete_wallet_info_from_file)
+            current_wallet = target_wallet_info['wallet']
 
-        #delete all trust lines 
-        for trust_line in target_wallet_info['lines']:
-            set_trust_line(current_wallet, get_currency_readable_name(trust_line['currency']), trust_line['currency'], trust_line['account'], trust_line['limit'], True)
-            # 트러스트 라인 지운는 작업을 했다면 처음부터 delete 작업을 하도록 유도
-            result.append(False)
+            #delete all trust lines 
+            for trust_line in target_wallet_info['lines']:
+                set_trust_line(current_wallet, get_currency_readable_name(trust_line['currency']), trust_line['currency'], trust_line['account'], trust_line['limit'], True)
+                # 트러스트 라인 지운는 작업을 했다면 처음부터 delete 작업을 하도록 유도
+                result.append(False)
 
-        if( len(result) == 0 ):
-            target_wallets_info.append(target_wallet_info)
+            if( len(result) == 0 ):
+                target_wallets_info.append(target_wallet_info)
 
-    if( len(result) > 0 ):
-        print("Stop delete processing due to deleting trustlines")
-        return 
+        if( len(result) > 0 ):
+            print("continue deleting trustlines")
+        else:
+            break
 
     # 계좌 활성화 여부 확인 
     for target_wallet_info in target_wallets_info:
@@ -488,11 +492,13 @@ if __name__ == "__main__":
     elif( command == 'wallet_active'):
         seed_list = []
         main_wallet = get_wallet_from_seed_list(seed_list, 0)
-        for wallet_info_from_file in sub_wallets_info_from_file:
-            target_wallet_address = wallet_info_from_file['address']
-            # 계좌 활성화 여부 확인 
-            if( xrpl.account.does_account_exist(target_wallet_address, client) == False ):
-                send_payment(main_wallet, target_wallet_address, xrpl.utils.xrp_to_drops(wallet_base_amount) )
+        # 완료 될때까지 루프 돔 
+        while(loop):
+            for wallet_info_from_file in sub_wallets_info_from_file:
+                target_wallet_address = wallet_info_from_file['address']
+                # 계좌 활성화 여부 확인 
+                if( xrpl.account.does_account_exist(target_wallet_address, client) == False ):
+                    send_payment(main_wallet, target_wallet_address, xrpl.utils.xrp_to_drops(wallet_base_amount) )
         pass
 
     else:
