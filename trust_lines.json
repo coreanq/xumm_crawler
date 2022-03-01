@@ -93,6 +93,11 @@
     ],
     "remove":[        
         {
+            "currency": "MLD",
+            "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",
+            "limit": "10000000000"
+        },
+        {
             "currency": "Peas",
             "issuer": "rPAArd4yZAJaDCR5gs41YYmGphfj6yzh3R",
             "limit": "10000"
