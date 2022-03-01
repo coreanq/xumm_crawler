@@ -492,14 +492,26 @@ if __name__ == "__main__":
     elif( command == 'wallet_active'):
         seed_list = []
         main_wallet = get_wallet_from_seed_list(seed_list, 0)
+        result_list = []
         # 완료 될때까지 루프 돔 
         while(loop):
+            print("\n\n")
             for wallet_info_from_file in sub_wallets_info_from_file:
                 target_wallet_address = wallet_info_from_file['address']
+                target_wallet_name = wallet_info_from_file['name']
                 # 계좌 활성화 여부 확인 
                 if( xrpl.account.does_account_exist(target_wallet_address, client) == False ):
                     send_payment(main_wallet, target_wallet_address, xrpl.utils.xrp_to_drops(wallet_base_amount) )
+                    result_list.append(False)
+                    print('{} activate '.format( target_wallet_name), end= '')
+                else:
+                    print('{} '.format( target_wallet_name), end= '')
+
+            if( len(result_list) == 0 ):
+                loop = False
+                break
         pass
+        print('success')
 
     else:
         while(loop):

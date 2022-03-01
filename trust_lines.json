@@ -6,16 +6,6 @@
             "limit": "632800000000.001"
         },
         {
-            "currency": "Peas",
-            "issuer": "rPAArd4yZAJaDCR5gs41YYmGphfj6yzh3R",
-            "limit": "10000"
-        },
-        {
-            "currency": "editions",
-            "issuer": "rfXwi3SqywQ2gSsvHgfdVsyZdTVM15BG7Z",
-            "limit": "1000000000"
-        },
-        {
             "currency": "NICE",
             "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
             "limit": "8000000000"
@@ -39,11 +29,6 @@
             "currency": "Blessed",
             "issuer": "rQr6VLuduLeFoWBERechDs3NB2cynoujhQ",
             "limit": "100000000000"
-        },
-        {
-            "currency": "XSHIO",
-            "issuer": "rGxSsVktuy9aCzckSbTf3yQissD3oD2va5",
-            "limit": "2022"
         },
         {
             "currency": "XDRT",
@@ -76,21 +61,6 @@
             "limit": "5000"
         },
         {
-            "currency": "MLD",
-            "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",
-            "limit": "10000000000"
-        },
-        {
-            "currency": "xFlashChain",
-            "issuer": "rJgcjY1MZJjw946qRqN57V3TGg9PZEA1bw",
-            "limit": "100000000000"
-        },
-        {
-            "currency": "propx",
-            "issuer": "rDXPvUQRraTGut4sGwd1UBBpQ9nZEhLnb4",
-            "limit": "1000000000"
-        },
-        {
             "currency": "LUC",
             "issuer": "rsygE5ynt2iSasscfCCeqaGBGiFKMCAUu7",
             "limit": "1000000000"
@@ -99,9 +69,54 @@
             "currency": "RCN",
             "issuer": "rPGxCzMicNJRe1U1CD5QyNjXdLUtdgSa7B",
             "limit": "10000"
+        },
+        {
+            "currency": "GRIME",
+            "issuer": "r3Xh1GTVBPooVkc5jWSAtzKXQPPPFJKgb9",
+            "limit": "100000000"
+        },
+        {
+            "currency": "MORTAL",
+            "issuer": "rHyCV84JWbmhbCAJYpcd76HXcnhJ4uY4Q7",
+            "limit": "9999"
+        },
+        {
+            "currency": "MEOW",
+            "issuer": "rh1MUWz6HJGWQgRUwsVeRdiKR2cDBkZDDj",
+            "limit": "1000000"
+        },
+        {
+            "currency": "APXX",
+            "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
+            "limit": "100000000"
         }
     ],
     "remove":[        
+        {
+            "currency": "Peas",
+            "issuer": "rPAArd4yZAJaDCR5gs41YYmGphfj6yzh3R",
+            "limit": "10000"
+        },
+        {
+            "currency": "xFlashChain",
+            "issuer": "rJgcjY1MZJjw946qRqN57V3TGg9PZEA1bw",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "editions",
+            "issuer": "rfXwi3SqywQ2gSsvHgfdVsyZdTVM15BG7Z",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "propx",
+            "issuer": "rDXPvUQRraTGut4sGwd1UBBpQ9nZEhLnb4",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "XSHIO",
+            "issuer": "rGxSsVktuy9aCzckSbTf3yQissD3oD2va5",
+            "limit": "2022"
+        },
         {
             "currency": "AntX",
             "issuer": "rsywaeM53nVUMNwKzPdXSwETiLT9tsbCXV",
@@ -116,11 +131,6 @@
             "currency": "GOLD",
             "issuer": "rGQtGHrgN4FK1RcEn83q4t8aK6BobzDEMK",
             "limit": "2099997999999"
-        },
-        {
-            "currency": "APXX",
-            "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
-            "limit": "100000000"
         },
         {
             "currency": "XRWeb",
