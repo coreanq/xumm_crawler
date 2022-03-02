@@ -1,16 +1,6 @@
 {
     "add": [
         {
-            "currency": "Zinfinite",
-            "issuer": "rGMU2cbbMhzodpecrjLQ2A814DqL8LFxjY",
-            "limit": "632800000000.001"
-        },
-        {
-            "currency": "NICE",
-            "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
-            "limit": "8000000000"
-        },
-        {
             "currency": "NFTL",
             "issuer": "r3DCE2UVaqQaGQragAjmwL6kNicF2rw6PL",
             "limit": "10000009"
@@ -89,9 +79,34 @@
             "currency": "APXX",
             "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
             "limit": "100000000"
+        },
+        {
+            "currency": "FLNGL",
+            "issuer": "rpzHixvdL2hZ6Y1kmkW4tFnnShq4Vgu691",
+            "limit": "1000"
+        },
+        {
+            "currency": "ENV",
+            "issuer": "rKpu9NjEmwk5USt1A2FBDoVQGajeqgM8na",
+            "limit": "10000"
+        },
+        {
+            "currency": "mXm",
+            "issuer": "rfXHsMTsLKQPrrTYWtX3fgRPtGCF2drtA2",
+            "limit": "100000000"
         }
     ],
     "remove":[        
+        {
+            "currency": "NICE",
+            "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
+            "limit": "8000000000"
+        },
+        {
+            "currency": "Zinfinite",
+            "issuer": "rGMU2cbbMhzodpecrjLQ2A814DqL8LFxjY",
+            "limit": "632800000000.001"
+        },
         {
             "currency": "MLD",
             "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",

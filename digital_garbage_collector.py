@@ -43,6 +43,8 @@ def get_currency_transformed_name(name):
         transformed_currency_name = bytes(name, 'utf-8')
         transformed_currency_name = binascii.hexlify(transformed_currency_name)
         transformed_currency_name = '{:<040}'.format(str(transformed_currency_name, 'utf-8').upper())
+    else:
+        transformed_currency_name = transformed_currency_name.upper()
 
     return  transformed_currency_name
 
@@ -528,7 +530,7 @@ if __name__ == "__main__":
                     wallet_info = get_wallet_info(wallet_info_from_file)
                     if( wallet_info != None ):
                         # print('{}({:03}):( {} ), '.format( wallet_info['name'], valid_wallet_count, wallet_info['wallet'].classic_address[-4:] ), end= '', flush= True )
-                        print('{}({:03}):( {:03} ), '.format( wallet_info['name'], valid_wallet_count, len(wallet_info['lines']) ), end= '', flush= True )
+                        print('{}({:04}):( {:04} ), '.format( wallet_info['name'], valid_wallet_count, len(wallet_info['lines']) ), end= '', flush= True )
                         valid_wallet_count = valid_wallet_count + 1
                         sub_wallet_list.append(wallet_info)
 
