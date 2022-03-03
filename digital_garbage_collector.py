@@ -92,7 +92,7 @@ def send_payment(src_wallet, target_addr, xrp_amount_in_drops):
 
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{}: {}".format(src_wallet.classic_address, e)) 
+        print("\n{}: {}".format(src_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
@@ -111,7 +111,7 @@ def send_trustlines_payment(src_wallet, target_currency, target_issuer, target_l
     try:
         account_response = xrpl.account.get_account_info( target_issuer, client ) 
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{}: {}".format(src_wallet.classic_address, e)) 
+        print("\n{}: {}".format(src_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
@@ -165,11 +165,11 @@ def send_trustlines_payment(src_wallet, target_currency, target_issuer, target_l
         # print("Signed transaction:", signed_tx)
         # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
         # print("Transaction expires after ledger:", max_ledger)
-        print("send from {} hash: {}".format(src_wallet.classic_address, tx_id) )
+        print("\nsend from {} hash: {}".format(src_wallet.classic_address, tx_id) )
 
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{}: {}".format(src_wallet.classic_address, e)) 
+        print("\n{}: {}".format(src_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
@@ -213,7 +213,7 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
 
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
-        print("{} {}: {}".format(original_currency_name, current_wallet.classic_address, e)) 
+        print("\n{} {}: {}".format(original_currency_name, current_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
@@ -303,7 +303,7 @@ def delete_account(wallets_info_from_file, client):
         try:
             tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
         except xrpl.clients.XRPLRequestFailureException as e:
-            print("{}: {}".format(current_wallet.classic_address, e)) 
+            print("\n{}: {}".format(current_wallet.classic_address, e)) 
             pass
         except xrpl.transaction.XRPLReliableSubmissionException as e:
             exit(f"Submit failed: {e}")
@@ -471,7 +471,7 @@ if __name__ == "__main__":
                         try:
                             account_response = xrpl.account.get_account_info( target_wallet.classic_address, client ) 
                         except xrpl.clients.XRPLRequestFailureException as e:
-                            print("{}: {}".format(target_wallet.classic_address, e)) 
+                            print("\n{}: {}".format(target_wallet.classic_address, e)) 
                             pass
                         except xrpl.transaction.XRPLReliableSubmissionException as e:
                             exit(f"Submit failed: {e}")
