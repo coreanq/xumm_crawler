@@ -1,31 +1,6 @@
 {
     "add": [
         {
-            "currency": "NFTL",
-            "issuer": "r3DCE2UVaqQaGQragAjmwL6kNicF2rw6PL",
-            "limit": "10000009"
-        },
-        {
-            "currency": "NBA",
-            "issuer": "rfHALygLHj6EwfXNSFCSLX6Kp3yfFSpuuP",
-            "limit": "10000000"
-        },
-        {
-            "currency": "BTX",
-            "issuer": "rnSEMv94hrsbuoxKkFzsrxU91smk8wrU7P",
-            "limit": "20000000"
-        },
-        {
-            "currency": "Blessed",
-            "issuer": "rQr6VLuduLeFoWBERechDs3NB2cynoujhQ",
-            "limit": "100000000000"
-        },
-        {
-            "currency": "XDRT",
-            "issuer": "r9Xw2WnvPBbgur6gqnevmyuRofWZuC4iNt",
-            "limit": "100000000000"
-        },
-        {
             "currency": "XJWL",
             "issuer": "rMatwcXVLoRq7yoRR7KNT4Kg8ft8osnJKi",
             "limit": "100000"
@@ -44,11 +19,6 @@
             "currency": "PASA",
             "issuer": "rBPtuMc4HBR1SuZyZv8hs7WBVxLBYrzxbY",
             "limit": "10000000"
-        },
-        {
-            "currency": "XCHANGE",
-            "issuer": "rwdsHNyqF3i6iEbpD5mXytNNEdHQdEMHjm",
-            "limit": "5000"
         },
         {
             "currency": "LUC",
@@ -94,9 +64,49 @@
             "currency": "mXm",
             "issuer": "rfXHsMTsLKQPrrTYWtX3fgRPtGCF2drtA2",
             "limit": "100000000"
+        },
+        {
+            "currency": "XRTEACH",
+            "issuer": "r42RmRk42JYCAvzSifSGAgsZuJBUm2yJSE",
+            "limit": "1000000000000"
         }
     ],
     "remove":[        
+        {
+            "currency": "NFTL",
+            "issuer": "r3DCE2UVaqQaGQragAjmwL6kNicF2rw6PL",
+            "limit": "10000009"
+        },
+        {
+            "currency": "BTX",
+            "issuer": "rnSEMv94hrsbuoxKkFzsrxU91smk8wrU7P",
+            "limit": "20000000"
+        },
+        {
+            "currency": "XDRT",
+            "issuer": "r9Xw2WnvPBbgur6gqnevmyuRofWZuC4iNt",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "XCHANGE",
+            "issuer": "rwdsHNyqF3i6iEbpD5mXytNNEdHQdEMHjm",
+            "limit": "5000"
+        },
+        {
+            "currency": "NBA",
+            "issuer": "rfHALygLHj6EwfXNSFCSLX6Kp3yfFSpuuP",
+            "limit": "10000000"
+        },
+        {
+            "currency": "Blessed",
+            "issuer": "rQr6VLuduLeFoWBERechDs3NB2cynoujhQ",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "propx",
+            "issuer": "rDXPvUQRraTGut4sGwd1UBBpQ9nZEhLnb4",
+            "limit": "999996155"
+        },
         {
             "currency": "NICE",
             "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
