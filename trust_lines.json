@@ -69,6 +69,16 @@
             "currency": "XRTEACH",
             "issuer": "r42RmRk42JYCAvzSifSGAgsZuJBUm2yJSE",
             "limit": "1000000000000"
+        },
+        {
+            "currency": "OMENP",
+            "issuer": "rNS9dmNa8wNheRD5mZ8R4YtyWt7ySsYw2V",
+            "limit": "100000000"
+        },
+        {
+            "currency": "SNUB",
+            "issuer": "rNCRr79JC8YcA8pG4VAzhrshYxahKCodnX",
+            "limit": "77000999"
         }
     ],
     "remove":[        

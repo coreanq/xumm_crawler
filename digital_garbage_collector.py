@@ -88,7 +88,7 @@ def send_payment(src_wallet, target_addr, xrp_amount_in_drops):
         # print("Signed transaction:", signed_tx)
         # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
         # print("Transaction expires after ledger:", max_ledger)
-        print("send from {} hash: {}".format(src_wallet.classic_address, tx_id) )
+        print("\nsend from {} hash: {}".format(src_wallet.classic_address, tx_id) )
 
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
@@ -209,7 +209,7 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
         # print("Signed transaction:", signed_tx)
         # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
         # print("Transaction expires after ledger:", max_ledger)
-        print("{} {} hash: {}".format(original_currency_name, current_wallet.classic_address, tx_id) )
+        print("\n{} {} hash: {}".format(original_currency_name, current_wallet.classic_address, tx_id) )
 
         tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
     except xrpl.clients.XRPLRequestFailureException as e:
@@ -298,7 +298,7 @@ def delete_account(wallets_info_from_file, client):
         # print("Signed transaction:", signed_tx)
         # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
         # print("Transaction expires after ledger:", max_ledger)
-        print("\tdelete account {} hash: {}".format(current_wallet.classic_address, tx_id) )
+        print("\ndelete account {} hash: {}".format(current_wallet.classic_address, tx_id) )
 
         try:
             tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
