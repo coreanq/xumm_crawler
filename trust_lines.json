@@ -1,11 +1,6 @@
 {
     "add": [
         {
-            "currency": "XJWL",
-            "issuer": "rMatwcXVLoRq7yoRR7KNT4Kg8ft8osnJKi",
-            "limit": "100000"
-        },
-        {
             "currency": "YZK",
             "issuer": "rJr2Jy71Mb6kqv4iux79wvadq2LtqLSsdz",
             "limit": "1000000000"
@@ -26,11 +21,6 @@
             "limit": "1000000000"
         },
         {
-            "currency": "RCN",
-            "issuer": "rPGxCzMicNJRe1U1CD5QyNjXdLUtdgSa7B",
-            "limit": "10000"
-        },
-        {
             "currency": "GRIME",
             "issuer": "r3Xh1GTVBPooVkc5jWSAtzKXQPPPFJKgb9",
             "limit": "100000000"
@@ -39,21 +29,6 @@
             "currency": "MORTAL",
             "issuer": "rHyCV84JWbmhbCAJYpcd76HXcnhJ4uY4Q7",
             "limit": "9999"
-        },
-        {
-            "currency": "MEOW",
-            "issuer": "rh1MUWz6HJGWQgRUwsVeRdiKR2cDBkZDDj",
-            "limit": "1000000"
-        },
-        {
-            "currency": "APXX",
-            "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
-            "limit": "100000000"
-        },
-        {
-            "currency": "FLNGL",
-            "issuer": "rpzHixvdL2hZ6Y1kmkW4tFnnShq4Vgu691",
-            "limit": "1000"
         },
         {
             "currency": "ENV",
@@ -79,9 +54,79 @@
             "currency": "SNUB",
             "issuer": "rNCRr79JC8YcA8pG4VAzhrshYxahKCodnX",
             "limit": "77000999"
+        },
+        {
+            "currency": "XRSaga",
+            "issuer": "rnb3HAXaQX6J2RA2dZaTeNNDKMvc4N7B9k",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "MLD",
+            "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "XAI",
+            "issuer": "r9YmVNAQo9TAwDVW9WmUPdX8qRCdpeYKiE",
+            "limit": "2500"
+        },
+        {
+            "currency": "TRSRY",
+            "issuer": "rLBnhMjV6ifEHYeV4gaS6jPKerZhQddFxW",
+            "limit": "99151918"
+        },
+        {
+            "currency": "UtiliteX",
+            "issuer": "rKDsnVfFMzdqrU8Bqno37d29L8ZW3hvrf8",
+            "limit": "25000000"
+        },
+        {
+            "currency": "XFAMOUS",
+            "issuer": "r9ZfGV6RpBNA6oewp3WLeyhE5fqvFaMoUs",
+            "limit": "589000000"
+        },
+        {
+            "currency": "V3SafeMoon",
+            "issuer": "rENCYqb6HKcCRbRWBuufG1vwZp7JFe6pBE",
+            "limit": "1000000000000"
+        },
+        {
+            "currency": "ANIMA",
+            "issuer": "r3zbjkCSB4vbBmzFhkWudKhJG7J9fc2Q83",
+            "limit": "10000000"
         }
     ],
     "remove":[        
+        {
+            "currency": "WBN",
+            "issuer": "rfCdVNjLdrGvTisnCmVNd4noP8yfZKoCBp",
+            "limit": "9999999999"
+        },
+        {
+            "currency": "FLNGL",
+            "issuer": "rpzHixvdL2hZ6Y1kmkW4tFnnShq4Vgu691",
+            "limit": "1000"
+        },
+        {
+            "currency": "XJWL",
+            "issuer": "rMatwcXVLoRq7yoRR7KNT4Kg8ft8osnJKi",
+            "limit": "100000"
+        },
+        {
+            "currency": "MEOW",
+            "issuer": "rh1MUWz6HJGWQgRUwsVeRdiKR2cDBkZDDj",
+            "limit": "1000000"
+        },
+        {
+            "currency": "APXX",
+            "issuer": "rL2sSC2eMm6xYyx1nqZ9MW4AP185mg7N9t",
+            "limit": "100000000"
+        },
+        {
+            "currency": "RCN",
+            "issuer": "rPGxCzMicNJRe1U1CD5QyNjXdLUtdgSa7B",
+            "limit": "10000"
+        },
         {
             "currency": "NFTL",
             "issuer": "r3DCE2UVaqQaGQragAjmwL6kNicF2rw6PL",
@@ -126,11 +171,6 @@
             "currency": "Zinfinite",
             "issuer": "rGMU2cbbMhzodpecrjLQ2A814DqL8LFxjY",
             "limit": "632800000000.001"
-        },
-        {
-            "currency": "MLD",
-            "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",
-            "limit": "10000000000"
         },
         {
             "currency": "Peas",
