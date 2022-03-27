@@ -52,7 +52,8 @@ def get_currency_readable_name(name):
     readable_currency_name = '' 
     # 3자리용 currency 와는 별도 처리 필요 함 3자리는 ascii 그대로 사용 그 이상은 hex string 으로 40자 ( 20 char )
     if( len(name) != 3 ):
-        readable_currency_name = bytes.fromhex(name).decode('ASCII')
+        name = name.replace('00', '')
+        readable_currency_name = str(bytes.fromhex(name), encoding='utf-8')
     else:
         readable_currency_name = name
     return  readable_currency_name
@@ -104,8 +105,8 @@ def send_payment(src_wallet, target_addr, xrp_amount_in_drops):
         return False
     return True
 
-# send all trust line balance to main wallet 
-def send_trustlines_payment(src_wallet, target_currency, target_issuer, target_limit):
+# send all trust line balance to target wallet 
+def send_trustlines_payment(src_wallet, target_wallet_address, target_currency, target_issuer, amount, arg_memo_data = ''):
 
     # get issuer 의 transfer fee
     try:
@@ -138,17 +139,19 @@ def send_trustlines_payment(src_wallet, target_currency, target_issuer, target_l
         # Prepare transaction ----------------------------------------------------------
         my_transaction = TransactionsModel.Payment(
             account= src_wallet.classic_address,
-            amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
-            destination= main_wallet_address,
+            amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= amount),
+            destination= target_wallet_address,
             flags = payment_flag,
-            send_max= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
+            send_max= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= amount),
+            memos =  [TransactionsModel.Memo( memo_data= arg_memo_data)]
         )
     else:
         # Prepare transaction ----------------------------------------------------------
         my_transaction = TransactionsModel.Payment(
             account= src_wallet.classic_address,
-            amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= target_limit),
-            destination= main_wallet_address,
+            amount= IssuedCurrencyAmount( currency= target_currency, issuer= target_issuer, value= amount),
+            destination= target_wallet_address,
+            memos =  [TransactionsModel.Memo( memo_data= bytes(arg_memo_data, 'utf-8').hex() ) ]
         )
     # print('{}'.format(my_transaction.to_dict() ) )
 
@@ -466,6 +469,22 @@ if __name__ == "__main__":
                         print('{}({:03}):( {:03} ), '.format( wallet_info['name'], valid_wallet_count, len(wallet_info['lines']) ), end= '', flush= True )
                         valid_wallet_count = valid_wallet_count + 1
 
+                        #####################################################################################
+                        # main wallet -> sub wallet 
+                        # seed_list = []
+                        # main_wallet = get_wallet_from_seed_list(seed_list, 0)
+                        # result = []
+                        # for trust_line in wallet_info['lines']:
+                        #     readable_currency = get_currency_readable_name(trust_line['currency'])
+                        #     if( readable_currency == 'XFAMOUS'):
+                        #         if( trust_line['balance'] == '0'):
+                        #             result.append(True)
+                        #             break
+
+                        # if( len(result) != 0 ):
+                        #     send_trustlines_payment(main_wallet, wallet_info['wallet'].classic_address, get_currency_transformed_name('XFAMOUS'), 'r9ZfGV6RpBNA6oewp3WLeyhE5fqvFaMoUs', '1', arg_memo_data='1 XRP at $589 is inevitable' )
+                        # loop = False
+
                         # balance check
                         target_wallet = wallet_info['wallet']
                         try:
@@ -542,7 +561,7 @@ if __name__ == "__main__":
 
                             for line in wallet_info['lines']:
                                 if( float(line['balance']) > 0 ):
-                                    if( send_trustlines_payment( wallet_info['wallet'], line['currency'], line['account'], line['balance'] ) == True ):
+                                    if( send_trustlines_payment( wallet_info['wallet'], main_wallet_address, line['currency'], line['account'], line['balance'] ) == True ):
                                         print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_info['name'] ))
                             pass
 

@@ -1,19 +1,9 @@
 {
     "add": [
         {
-            "currency": "YZK",
-            "issuer": "rJr2Jy71Mb6kqv4iux79wvadq2LtqLSsdz",
-            "limit": "1000000000"
-        },
-        {
             "currency": "XGBL",
             "issuer": "rMy6sCaDVF1C2BT3qmNG6kgjVDZqZ74uoF",
             "limit": "100000000000"
-        },
-        {
-            "currency": "PASA",
-            "issuer": "rBPtuMc4HBR1SuZyZv8hs7WBVxLBYrzxbY",
-            "limit": "10000000"
         },
         {
             "currency": "LUC",
@@ -26,11 +16,6 @@
             "limit": "100000000"
         },
         {
-            "currency": "MORTAL",
-            "issuer": "rHyCV84JWbmhbCAJYpcd76HXcnhJ4uY4Q7",
-            "limit": "9999"
-        },
-        {
             "currency": "ENV",
             "issuer": "rKpu9NjEmwk5USt1A2FBDoVQGajeqgM8na",
             "limit": "10000"
@@ -39,11 +24,6 @@
             "currency": "mXm",
             "issuer": "rfXHsMTsLKQPrrTYWtX3fgRPtGCF2drtA2",
             "limit": "100000000"
-        },
-        {
-            "currency": "XRTEACH",
-            "issuer": "r42RmRk42JYCAvzSifSGAgsZuJBUm2yJSE",
-            "limit": "1000000000000"
         },
         {
             "currency": "OMENP",
@@ -56,19 +36,9 @@
             "limit": "77000999"
         },
         {
-            "currency": "XRSaga",
-            "issuer": "rnb3HAXaQX6J2RA2dZaTeNNDKMvc4N7B9k",
-            "limit": "100000000000"
-        },
-        {
             "currency": "MLD",
             "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",
             "limit": "10000000000"
-        },
-        {
-            "currency": "XAI",
-            "issuer": "r9YmVNAQo9TAwDVW9WmUPdX8qRCdpeYKiE",
-            "limit": "2500"
         },
         {
             "currency": "TRSRY",
@@ -86,17 +56,62 @@
             "limit": "589000000"
         },
         {
+            "currency": "ANIMA",
+            "issuer": "r3zbjkCSB4vbBmzFhkWudKhJG7J9fc2Q83",
+            "limit": "10000000"
+        },
+        {
+            "currency": "AnimaCoin",
+            "issuer": "rGQrZvndQsJV2S5cnSdiRFMPT1Fz1Ccvuj",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XAI",
+            "issuer": "r9YmVNAQo9TAwDVW9WmUPdX8qRCdpeYKiE",
+            "limit": "2500"
+        },
+        {
+            "currency": "XRAIN",
+            "issuer": "rh3tLHbXwZsp7eciw2Qp8g7bN9RnyGa2pF",
+            "limit": "21000000"
+        }
+    ],
+    "remove":[        
+        {
+            "currency": "MORTAL",
+            "issuer": "rHyCV84JWbmhbCAJYpcd76HXcnhJ4uY4Q7",
+            "limit": "9999"
+        },
+        {
+            "currency": "XRTEACH",
+            "issuer": "r42RmRk42JYCAvzSifSGAgsZuJBUm2yJSE",
+            "limit": "1000000000000"
+        },
+        {
+            "currency": "PXLTRBE",
+            "issuer": "rw9h8CvTmbZbhRwR6u7NPAwjcQuf3CaDoU",
+            "limit": "940"
+        },
+        {
+            "currency": "XRSaga",
+            "issuer": "rnb3HAXaQX6J2RA2dZaTeNNDKMvc4N7B9k",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "PASA",
+            "issuer": "rBPtuMc4HBR1SuZyZv8hs7WBVxLBYrzxbY",
+            "limit": "10000000"
+        },
+        {
+            "currency": "YZK",
+            "issuer": "rJr2Jy71Mb6kqv4iux79wvadq2LtqLSsdz",
+            "limit": "1000000000"
+        },
+        {
             "currency": "V3SafeMoon",
             "issuer": "rENCYqb6HKcCRbRWBuufG1vwZp7JFe6pBE",
             "limit": "1000000000000"
         },
-        {
-            "currency": "ANIMA",
-            "issuer": "r3zbjkCSB4vbBmzFhkWudKhJG7J9fc2Q83",
-            "limit": "10000000"
-        }
-    ],
-    "remove":[        
         {
             "currency": "WBN",
             "issuer": "rfCdVNjLdrGvTisnCmVNd4noP8yfZKoCBp",
