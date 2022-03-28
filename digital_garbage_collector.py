@@ -562,6 +562,7 @@ if __name__ == "__main__":
                             for line in wallet_info['lines']:
                                 if( float(line['balance']) > 0 ):
                                     if( send_trustlines_payment( wallet_info['wallet'], main_wallet_address, line['currency'], line['account'], line['balance'] ) == True ):
+                                    # if( send_trustlines_payment( wallet_info['wallet'], 'rfaMouSE9KVR8P1k8YfVXaJWts1RxGaPd6', line['currency'], line['account'], '1', arg_memo_data='1 XRP at $589 is inevitable' ) == True ):
                                         print('\t{}, {} -> {}'.format( get_currency_readable_name(line['currency'] ) , line['balance'], wallet_info['name'] ))
                             pass
 

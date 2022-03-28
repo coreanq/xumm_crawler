@@ -6,16 +6,6 @@
             "limit": "100000000000"
         },
         {
-            "currency": "LUC",
-            "issuer": "rsygE5ynt2iSasscfCCeqaGBGiFKMCAUu7",
-            "limit": "1000000000"
-        },
-        {
-            "currency": "GRIME",
-            "issuer": "r3Xh1GTVBPooVkc5jWSAtzKXQPPPFJKgb9",
-            "limit": "100000000"
-        },
-        {
             "currency": "ENV",
             "issuer": "rKpu9NjEmwk5USt1A2FBDoVQGajeqgM8na",
             "limit": "10000"
@@ -26,19 +16,9 @@
             "limit": "100000000"
         },
         {
-            "currency": "OMENP",
-            "issuer": "rNS9dmNa8wNheRD5mZ8R4YtyWt7ySsYw2V",
-            "limit": "100000000"
-        },
-        {
             "currency": "SNUB",
             "issuer": "rNCRr79JC8YcA8pG4VAzhrshYxahKCodnX",
             "limit": "77000999"
-        },
-        {
-            "currency": "MLD",
-            "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",
-            "limit": "10000000000"
         },
         {
             "currency": "TRSRY",
@@ -74,9 +54,44 @@
             "currency": "XRAIN",
             "issuer": "rh3tLHbXwZsp7eciw2Qp8g7bN9RnyGa2pF",
             "limit": "21000000"
+        },
+        {
+            "currency": "ITEMX",
+            "issuer": "rfF83CBpuBwX2NkSPcTsnbn3iqwH1uPCbU",
+            "limit": "10000"
+        },
+        {
+            "currency": "SSTEAM",
+            "issuer": "rMkxC2pFKCfBdjF9LAJyzneHAhDssaafri",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XRPLT",
+            "issuer": "rnSW2PRsGk5gX1q7xT5m3iyqrcR62yN9et",
+            "limit": "10000000000"
         }
     ],
     "remove":[        
+        {
+            "currency": "LUC",
+            "issuer": "rsygE5ynt2iSasscfCCeqaGBGiFKMCAUu7",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "GRIME",
+            "issuer": "r3Xh1GTVBPooVkc5jWSAtzKXQPPPFJKgb9",
+            "limit": "100000000"
+        },
+        {
+            "currency": "MLD",
+            "issuer": "rhJYDuVMQxabTyiWuHQkQyDxr6uZEdpv5u",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "OMENP",
+            "issuer": "rNS9dmNa8wNheRD5mZ8R4YtyWt7ySsYw2V",
+            "limit": "100000000"
+        },
         {
             "currency": "MORTAL",
             "issuer": "rHyCV84JWbmhbCAJYpcd76HXcnhJ4uY4Q7",
