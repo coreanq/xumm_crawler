@@ -10,10 +10,11 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["1", "0"]
-            // "args": ["generate", "200", "353"]
+            "args": ["xrp_balance_mover", "1000", "0", "False"]
+            // "args": ["normal", "300", "0"]
+            // "args": ["generate", "2200", "553"]
+            // "args": ["delete", "1000", "0"]
             // "args": ["wallet_active"]
-            // "args": ["xrp_balance_mover"]
         }
     ]
 }

@@ -1,39 +1,71 @@
 {
     "add": [
         {
-            "currency": "XGBL",
-            "issuer": "rMy6sCaDVF1C2BT3qmNG6kgjVDZqZ74uoF",
+            "currency": "MKT",
+            "issuer": "rMD4eSH2doKurPNy6K3bQ6Hx1Z7EhoXnY2",
+            "limit": "1000000000000000"
+        },
+        {
+            "currency": "DFG",
+            "issuer": "rUfSfEZVyAJDZaRciWYGRAFfB61Wri7LQJ",
+            "limit": "100000"
+        },
+        {
+            "currency": "HMC",
+            "issuer": "raXY8RFAKixBZGw8nhDRHvVCKd2RzeoeLq",
+            "limit": "9999997999"
+        },
+        {
+            "currency": "SwissTech",
+            "issuer": "raq7pGaYrLZRa88v6Py9V5oWMYEqPYr8Tz",
+            "limit": "99999318"
+        },
+        {
+            "currency": "XBAg",
+            "issuer": "rauUywaCisP1MaeZ67DHf4qKmXUBz7Traq",
+            "limit": "499257425"
+        },
+        {
+            "currency": "ATMT",
+            "issuer": "rPXFg78B1b4ZSisfdibXztT5kPmp5HTDXe",
+            "limit": "60000000"
+        },
+        {
+            "currency": "CHIWEENIE",
+            "issuer": "rpkKss6Dndbs17xkPgAMob4mzQURshh3Rd",
+            "limit": "3333"
+        },
+        {
+            "currency": "NEKASHI",
+            "issuer": "r46H9jJc6T5aTkC1J1oFHFFxHG2HXGEndc",
+            "limit": "100589369420"
+        },
+        {
+            "currency": "XMF",
+            "issuer": "rP6pULkW5nNsWYsy1wcf4p4YfkGrKCHeRe",
+            "limit": "200000000"
+        },
+        {
+            "currency": "GAMECOIN",
+            "issuer": "rGRbhMeHyi5yi1x5vkFrZD8sHzkr5HfH3g",
             "limit": "100000000000"
         },
         {
-            "currency": "AnimaCoin",
-            "issuer": "rGQrZvndQsJV2S5cnSdiRFMPT1Fz1Ccvuj",
-            "limit": "100000000"
-        },
-        {
-            "currency": "XAI",
-            "issuer": "r9YmVNAQo9TAwDVW9WmUPdX8qRCdpeYKiE",
-            "limit": "2500"
-        },
-        {
-            "currency": "SSTEAM",
-            "issuer": "rMkxC2pFKCfBdjF9LAJyzneHAhDssaafri",
-            "limit": "100000000"
-        },
+            "currency": "INT",
+            "issuer": "rh3c9m4unJ2HUpeCoMT5UZ3EDRzd7uBaG2",
+            "limit": "50000"
+        }
+    ],
+    "remove":[        
         {
             "currency": "XRPLT",
             "issuer": "rnSW2PRsGk5gX1q7xT5m3iyqrcR62yN9et",
             "limit": "10000000000"
         },
         {
-            "currency": "GEN",
-            "issuer": "r9sSz7JA6NWfPq9cPtEbg4rDBdVuLHi68g",
-            "limit": "1000000000"
-        },
-        {
-            "currency": "GEMU",
-            "issuer": "rNRtZ2DHkjignxqdyoMqH1uaK5ikxPaL5N",
-            "limit": "10000000"
+            "currency": "xBay",
+            "issuer": "rDVvK7xd2M6ZJr9a8suURWLqAeg7FyoDKT",
+            "limit": "1500000000"
         },
         {
             "currency": "XJWL",
@@ -41,17 +73,40 @@
             "limit": "100000"
         },
         {
-            "currency": "MKT",
-            "issuer": "rMD4eSH2doKurPNy6K3bQ6Hx1Z7EhoXnY2",
-            "limit": "1000000000000000"
+            "currency": "SSTEAM",
+            "issuer": "rMkxC2pFKCfBdjF9LAJyzneHAhDssaafri",
+            "limit": "100000000"
         },
         {
             "currency": "99D",
             "issuer": "rNg8LsQefsxWF2snf4BaVgg7CjAtz6BYVc",
             "limit": "10000"
-        }
-    ],
-    "remove":[        
+        },
+        {
+            "currency": "GEN",
+            "issuer": "r9sSz7JA6NWfPq9cPtEbg4rDBdVuLHi68g",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "AnimaCoin",
+            "issuer": "rGQrZvndQsJV2S5cnSdiRFMPT1Fz1Ccvuj",
+            "limit": "100000000"
+        },
+        {
+            "currency": "GEMU",
+            "issuer": "rNRtZ2DHkjignxqdyoMqH1uaK5ikxPaL5N",
+            "limit": "10000000"
+        },
+        {
+            "currency": "XGBL",
+            "issuer": "rMy6sCaDVF1C2BT3qmNG6kgjVDZqZ74uoF",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "XAI",
+            "issuer": "r9YmVNAQo9TAwDVW9WmUPdX8qRCdpeYKiE",
+            "limit": "2500"
+        },
         {
             "currency": "ITEMX",
             "issuer": "rfF83CBpuBwX2NkSPcTsnbn3iqwH1uPCbU",

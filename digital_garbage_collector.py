@@ -28,7 +28,7 @@ arg_remainder = 0
 
 maximum_fee_drops = 20 # 최대 fee
 
-wallet_base_amount = 70 
+wallet_base_amount = 50 
 
 def get_account_sequene(address):
     response = account.get_account_root(address, client )
@@ -400,27 +400,34 @@ def make_wallet(max_wallet_count, offset = 0):
 
 if __name__ == "__main__":
 
-    command = 'normal'
+    command = ''
     max_wallet_count = 0
     offset = 0
 
-    if( len(sys.argv) == 3):
-        arg_divider = int(sys.argv[1])
-        arg_remainder = int(sys.argv[2])
-    elif( len(sys.argv) == 4):
-        if( sys.argv[1] == 'generate' ):
-            command  = 'generate'
-            max_wallet_count = int(sys.argv[2])
-            offset = int(sys.argv[3])
-    elif( len(sys.argv) == 2 ):
-        if( sys.argv[1] == 'delete' ):
-            command = 'delete'
-        elif( sys.argv[1] == 'xrp_balance_mover' ):
-            command = 'xrp_balance_mover'
-        elif( sys.argv[1] == 'wallet_active' ):
-            command = 'wallet_active'
-    else:
+    if( len(sys.argv) < 2 ):
         print("argument missing")
+        sys.exit()
+    else:
+        command = sys.argv[1]
+
+    if( command == 'normal' ):
+        arg_divider = int(sys.argv[2])
+        arg_remainder = int(sys.argv[3])
+    elif( command == 'generate'):
+        max_wallet_count = int(sys.argv[2])
+        offset = int(sys.argv[3])
+    elif( sys.argv[1] == 'delete' ):
+        arg_divider = int(sys.argv[2])
+        arg_remainder = int(sys.argv[3])
+    elif( sys.argv[1] == 'xrp_balance_mover' ):
+        arg_divider = int(sys.argv[2])
+        arg_remainder = int(sys.argv[3])
+
+    elif( sys.argv[1] == 'wallet_active' ):
+        # main wallet 에서 쏴줘야 하므로 1개 인스턴스만 가능 
+        pass
+    else:
+        print("argument type error")
         sys.exit()
 
     json_data = None 
@@ -461,56 +468,57 @@ if __name__ == "__main__":
                 wallet_info = None
                 loop = True
 
-                while(loop):
-                    wallet_info = get_wallet_info(wallet_info_from_file)
+                if( arg_remainder == wallet_index % arg_divider ):
+                    while(loop):
+                        wallet_info = get_wallet_info(wallet_info_from_file)
 
-                    if( wallet_info != None ):
-                        # print('{}({:03}):( {} ), '.format( wallet_info['name'], valid_wallet_count, wallet_info['wallet'].classic_address[-4:] ), end= '', flush= True )
-                        print('{}({:03}):( {:03} ), '.format( wallet_info['name'], valid_wallet_count, len(wallet_info['lines']) ), end= '', flush= True )
-                        valid_wallet_count = valid_wallet_count + 1
+                        if( wallet_info != None ):
+                            # print('{}({:03}):( {} ), '.format( wallet_info['name'], valid_wallet_count, wallet_info['wallet'].classic_address[-4:] ), end= '', flush= True )
+                            print('{}({:03}):( {:03} ), '.format( wallet_info['name'], valid_wallet_count, len(wallet_info['lines']) ), end= '', flush= True )
+                            valid_wallet_count = valid_wallet_count + 1
 
-                        #####################################################################################
-                        # main wallet -> sub wallet 
-                        # seed_list = []
-                        # main_wallet = get_wallet_from_seed_list(seed_list, 0)
-                        # result = []
-                        # for trust_line in wallet_info['lines']:
-                        #     readable_currency = get_currency_readable_name(trust_line['currency'])
-                        #     if( readable_currency == 'XFAMOUS'):
-                        #         if( trust_line['balance'] == '0'):
-                        #             result.append(True)
-                        #             break
+                            #####################################################################################
+                            # main wallet -> sub wallet 
+                            # seed_list = []
+                            # main_wallet = get_wallet_from_seed_list(seed_list, 0)
+                            # result = []
+                            # for trust_line in wallet_info['lines']:
+                            #     readable_currency = get_currency_readable_name(trust_line['currency'])
+                            #     if( readable_currency == 'XFAMOUS'):
+                            #         if( trust_line['balance'] == '0'):
+                            #             result.append(True)
+                            #             break
 
-                        # if( len(result) != 0 ):
-                        #     send_trustlines_payment(main_wallet, wallet_info['wallet'].classic_address, get_currency_transformed_name('XFAMOUS'), 'r9ZfGV6RpBNA6oewp3WLeyhE5fqvFaMoUs', '1', arg_memo_data='1 XRP at $589 is inevitable' )
-                        # loop = False
+                            # if( len(result) != 0 ):
+                            #     send_trustlines_payment(main_wallet, wallet_info['wallet'].classic_address, get_currency_transformed_name('XFAMOUS'), 'r9ZfGV6RpBNA6oewp3WLeyhE5fqvFaMoUs', '1', arg_memo_data='1 XRP at $589 is inevitable' )
+                            # loop = False
 
-                        # balance check
-                        target_wallet = wallet_info['wallet']
-                        try:
-                            account_response = xrpl.account.get_account_info( target_wallet.classic_address, client ) 
-                        except xrpl.clients.XRPLRequestFailureException as e:
-                            print("\n{}: {}".format(target_wallet.classic_address, e)) 
-                            pass
-                        except xrpl.transaction.XRPLReliableSubmissionException as e:
-                            exit(f"Submit failed: {e}")
-                        except httpx.HTTPError as e:
-                            print('\nhttp timeout occur {}'.format(e))
-                        except:
-                            print('\nexcept occur')
-                        else:
-                            # trustlines reserve 포함 잔고 확인 
-                            balance_in_drops = int(account_response.result['account_data']['Balance'])
+                            # balance check
+                            target_wallet = wallet_info['wallet']
+                            try:
+                                account_response = xrpl.account.get_account_info( target_wallet.classic_address, client ) 
+                            except xrpl.clients.XRPLRequestFailureException as e:
+                                print("\n{}: {}".format(target_wallet.classic_address, e)) 
+                                pass
+                            except xrpl.transaction.XRPLReliableSubmissionException as e:
+                                exit(f"Submit failed: {e}")
+                            except httpx.HTTPError as e:
+                                print('\nhttp timeout occur {}'.format(e))
+                            except:
+                                print('\nexcept occur')
+                            else:
+                                # trustlines reserve 포함 잔고 확인 
+                                balance_in_drops = int(account_response.result['account_data']['Balance'])
 
-                            send_xrp_in_drops = 0
-                            baseline_drops = int(xrpl.utils.xrp_to_drops(wallet_base_amount))
-                            if( balance_in_drops > baseline_drops ):
-                                send_xrp_in_drops = balance_in_drops - baseline_drops
+                                send_xrp_in_drops = 0
+                                baseline_drops = int(xrpl.utils.xrp_to_drops(wallet_base_amount))
+                                if( balance_in_drops > baseline_drops ):
+                                    send_xrp_in_drops = balance_in_drops - baseline_drops
 
-                            if( send_xrp_in_drops > 0 ):
-                                send_payment(target_wallet, main_wallet_address, str(send_xrp_in_drops) )
-                            # 지갑 정보를 읽은 경우 이므로 다른 지갑 정보 얻도록 함 
-                            loop = False
+                                if( send_xrp_in_drops > 0 ):
+                                    send_payment(target_wallet, main_wallet_address, str(send_xrp_in_drops) )
+                                # 지갑 정보를 읽은 경우 이므로 다른 지갑 정보 얻도록 함 
+                                loop = False
 
     elif( command == 'wallet_active'):
         seed_list = []
