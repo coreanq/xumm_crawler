@@ -525,9 +525,9 @@ if __name__ == "__main__":
     elif( command == 'wallet_active'):
         seed_list = []
         main_wallet = get_wallet_from_seed_list(seed_list, 0)
-        result_list = []
         # 완료 될때까지 루프 돔 
         while(loop):
+            result_list = []
             print("\n\n")
             for wallet_info_from_file in sub_wallets_info_from_file:
                 target_wallet_address = wallet_info_from_file['address']

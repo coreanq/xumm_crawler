@@ -54,6 +54,11 @@
             "currency": "INT",
             "issuer": "rh3c9m4unJ2HUpeCoMT5UZ3EDRzd7uBaG2",
             "limit": "50000"
+        },
+        {
+            "currency": "FRD",
+            "issuer": "rEsdnLqeFgXSTeexMAFB7ZauRoMMWvSL4e",
+            "limit": "400000000"
         }
     ],
     "remove":[        
