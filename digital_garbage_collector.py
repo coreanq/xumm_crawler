@@ -232,85 +232,72 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
 
 # delete account and remain xrp to destination addr
 # must clean trust line, escrow...
-def delete_account(wallets_info_from_file, client):
+def delete_account(delete_wallet_info_from_file, client):
 
-    target_wallets_info = []
-    result = []
+    target_wallet_info  = None
+    current_wallet = None
 
     while(True):
-        target_wallets_info.clear()
+        result = []
         # 모든 trustlines 을 지워야 delete 가능 
-        for delete_wallet_info_from_file in wallets_info_from_file:
-            target_wallet_info = get_wallet_info(delete_wallet_info_from_file)
-            current_wallet = target_wallet_info['wallet']
+        target_wallet_info = get_wallet_info(delete_wallet_info_from_file)
+        current_wallet = target_wallet_info['wallet']
 
-            #delete all trust lines 
-            for trust_line in target_wallet_info['lines']:
-                set_trust_line(current_wallet, get_currency_readable_name(trust_line['currency']), trust_line['currency'], trust_line['account'], trust_line['limit'], True)
-                # 트러스트 라인 지운는 작업을 했다면 처음부터 delete 작업을 하도록 유도
-                result.append(False)
-
-            if( len(result) == 0 ):
-                target_wallets_info.append(target_wallet_info)
+        #delete all trust lines 
+        for trust_line in target_wallet_info['lines']:
+            set_trust_line(current_wallet, get_currency_readable_name(trust_line['currency']), trust_line['currency'], trust_line['account'], trust_line['limit'], True)
+            # 트러스트 라인 지운는 작업을 했다면 처음부터 delete 작업을 하도록 유도
+            result.append(False)
 
         if( len(result) > 0 ):
             print("continue deleting trustlines")
         else:
             break
 
-    # 계좌 활성화 여부 확인 
-    for target_wallet_info in target_wallets_info:
-        current_wallet = target_wallet_info['wallet']
-        if( xrpl.account.does_account_exist(current_wallet.classic_address, client) == False ):
-            print("\tdeactive account detect {}: {}".format( target_wallet_info['name'], current_wallet.classic_address ))
-            result.append(False); 
-
-    if( len(result) > 0 ):
+    # 다시 loop 로 반복되는 경우를 가정하여 계좌 활성화 여부 확인 
+    if( xrpl.account.does_account_exist(current_wallet.classic_address, client) == False ):
+        print("\tdeactive account detect {}: {}".format( target_wallet_info['name'], current_wallet.classic_address ))
         print("Stop delete Processing due to deactive account")
-        return 
+        return False
 
-    for target_wallet_info in target_wallets_info:
+    # ledge sequence 의 경우 accouunt delete 시 같이 ledge index 가 일정이상 올라가야지만 적용되는 곳에 사용함 
+    account_ledger_sequence = get_account_sequene(current_wallet.classic_address)
+    # xrp_open_ledger_sequence = xrpl.ledger.get_latest_open_ledger_sequence(client)
+    xrp_validate_ledger_sequence = xrpl.ledger.get_latest_validated_ledger_sequence(client)
 
-        current_wallet = target_wallet_info['wallet']
-
-        # ledge sequence 의 경우 accouunt delete 시 같이 ledge index 가 일정이상 올라가야지만 적용되는 곳에 사용함 
-        account_ledger_sequence = get_account_sequene(current_wallet.classic_address)
-        # xrp_open_ledger_sequence = xrpl.ledger.get_latest_open_ledger_sequence(client)
-        xrp_validate_ledger_sequence = xrpl.ledger.get_latest_validated_ledger_sequence(client)
-
-        if( account_ledger_sequence + 256 > xrp_validate_ledger_sequence ):
-            #  The AccountDelete transaction failed because the account was recently activated. The current ledger index must be at least 256 higher than the account's sequence numbe
-            print("Stop delete processing, more time to delete account,  +256 ledger sequence than lastest account sequence number")
-            print("xrp ledger seq {} account, lastest seq {}".format( xrp_validate_ledger_sequence, account_ledger_sequence))
-            sys.exit()
+    if( account_ledger_sequence + 256 > xrp_validate_ledger_sequence ):
+        #  The AccountDelete transaction failed because the account was recently activated. The current ledger index must be at least 256 higher than the account's sequence numbe
+        print("Stop delete processing, more time to delete account,  +256 ledger sequence than lastest account sequence number")
+        print("xrp ledger seq {} account, lastest seq {}".format( xrp_validate_ledger_sequence, account_ledger_sequence))
+        return False
 
 
-        # Prepare transaction ----------------------------------------------------------
-        my_transaction = TransactionsModel.AccountDelete(
-            account= current_wallet.classic_address,
-            destination= main_wallet_address
-        )
-        # print('{}'.format(my_transaction.to_dict() ) )
+    # Prepare transaction ----------------------------------------------------------
+    my_transaction = TransactionsModel.AccountDelete(
+        account= current_wallet.classic_address,
+        destination= main_wallet_address
+    )
+    # print('{}'.format(my_transaction.to_dict() ) )
 
-        # Sign transaction -------------------------------------------------------------
-        signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-                my_transaction, current_wallet, client)
-        max_ledger = signed_tx.last_ledger_sequence
-        tx_id = signed_tx.get_hash()
+    # Sign transaction -------------------------------------------------------------
+    signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+            my_transaction, current_wallet, client)
+    max_ledger = signed_tx.last_ledger_sequence
+    tx_id = signed_tx.get_hash()
 
-        # print("Signed transaction:", signed_tx)
-        # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
-        # print("Transaction expires after ledger:", max_ledger)
-        print("\ndelete account {} hash: {}".format(current_wallet.classic_address, tx_id) )
+    # print("Signed transaction:", signed_tx)
+    # print("Transaction cost:", utils.drops_to_xrp(signed_tx.fee), "XRP")
+    # print("Transaction expires after ledger:", max_ledger)
+    print("\ndelete account {} hash: {}".format(current_wallet.classic_address, tx_id) )
 
-        try:
-            tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
-        except xrpl.clients.XRPLRequestFailureException as e:
-            print("\n{}: {}".format(current_wallet.classic_address, e)) 
-            pass
-        except xrpl.transaction.XRPLReliableSubmissionException as e:
-            exit(f"Submit failed: {e}")
-        return True
+    try:
+        tx_response = xrpl.transaction.send_reliable_submission(signed_tx, client)
+    except xrpl.clients.XRPLRequestFailureException as e:
+        print("\n{}: {}".format(current_wallet.classic_address, e)) 
+        pass
+    except xrpl.transaction.XRPLReliableSubmissionException as e:
+        exit(f"Submit failed: {e}")
+    return True
 
 def get_wallet_info(wallet_info_from_file):
     # check wallet validation 
@@ -457,6 +444,7 @@ if __name__ == "__main__":
     elif( command == 'delete'):
         #delete all trust lines 
         while(True):
+            result = []
             for wallet_info_from_file in delete_wallets_info_from_file:
                 wallet_index = int( wallet_info_from_file['name'][1:])
 
@@ -464,8 +452,12 @@ if __name__ == "__main__":
                 loop = True
 
                 if( arg_remainder == wallet_index % arg_divider ):
-                    delete_account(delete_wallets_info_from_file, client)
-        pass
+                    if( delete_account(wallet_info_from_file, client) == True ):
+                        # delete transaction 을 수행한 경우
+                        result.append(True)
+            if( len(result) == 0 ):
+                loop = False
+
     elif( command == 'xrp_balance_mover'):
         while(True):
             valid_wallet_count = 1
