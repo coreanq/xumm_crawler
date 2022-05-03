@@ -455,11 +455,21 @@ if __name__ == "__main__":
         make_wallet(max_wallet_count, offset)
         pass
     elif( command == 'delete'):
-        delete_account(delete_wallets_info_from_file, client)
+        #delete all trust lines 
+        while(True):
+            for wallet_info_from_file in delete_wallets_info_from_file:
+                wallet_index = int( wallet_info_from_file['name'][1:])
+
+                wallet_info = None
+                loop = True
+
+                if( arg_remainder == wallet_index % arg_divider ):
+                    delete_account(delete_wallets_info_from_file, client)
         pass
     elif( command == 'xrp_balance_mover'):
-        valid_wallet_count = 1
         while(True):
+            valid_wallet_count = 1
+            print('')
             for wallet_info_from_file in sub_wallets_info_from_file:
 
                 address = wallet_info_from_file['address']
