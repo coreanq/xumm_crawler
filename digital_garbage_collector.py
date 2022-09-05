@@ -100,8 +100,8 @@ def send_payment(src_wallet, target_addr, xrp_amount_in_drops):
     except httpx.HTTPError as e:
         print('\nhttp timeout occur {}'.format(e))
         return False
-    except:
-        print('\nexcept occur')
+    except Exception as e:
+        print('\nexcept: {}'.format( e ) )
         return False
     return True
 
@@ -119,8 +119,8 @@ def send_trustlines_payment(src_wallet, target_wallet_address, target_currency, 
     except httpx.HTTPError as e:
         print('\nhttp timeout occur {}'.format(e))
         return False
-    except:
-        print('\nexcept occur')
+    except Exception as e:
+        print('\nexcept: {}'.format( e ) )
         return False
 
     # 1 billion is 100%
@@ -179,8 +179,8 @@ def send_trustlines_payment(src_wallet, target_wallet_address, target_currency, 
     except httpx.HTTPError as e:
         print('\nhttp timeout occur {}'.format(e))
         return False
-    except:
-        print('\nexcept occur')
+    except Exception as e:
+        print('\nexcept: {}'.format( e ) )
         return False
     return True
 
@@ -194,7 +194,7 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
 
     my_transaction = TransactionsModel.TrustSet (
         account= current_wallet.classic_address ,
-        limit_amount= IssuedCurrencyAmount( currency= transformed_currency_name, issuer= target_issuer, value= target_limit),
+        limit_amount= IssuedCurrencyAmount( currency= transformed_currency_name, issuer= target_issuer, value= target_limit ),
         flags= flag
     )
 
@@ -223,8 +223,8 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
     except httpx.HTTPError as e:
         print('\nhttp timeout occur {}'.format(e))
         return False
-    except:
-        print('\nexcept occur')
+    except Exception as e:
+        print('\nexcept: {}'.format( e ) )
         return False
 
     return True
@@ -297,6 +297,8 @@ def delete_account(delete_wallet_info_from_file, client):
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
         exit(f"Submit failed: {e}")
+    except Exception as e:
+        print('\nexcept: {}'.format( e ) )
     return True
 
 def get_wallet_info(wallet_info_from_file):
@@ -329,11 +331,12 @@ def get_wallet_info(wallet_info_from_file):
 
         try: 
             response = asyncio.run(client.request_impl( info_request ) )
+            # response = client.request( info_request ) 
         except httpx.HTTPError as e:
             print('\nhttp timeout occur {}'.format(e))
             return None
-        except:
-            print('\nexcept occur')
+        except Exception as e:
+            print('\nexcept: {}'.format( e ) )
             return None
         else:
             if response.is_successful():
@@ -506,8 +509,8 @@ if __name__ == "__main__":
                                 exit(f"Submit failed: {e}")
                             except httpx.HTTPError as e:
                                 print('\nhttp timeout occur {}'.format(e))
-                            except:
-                                print('\nexcept occur')
+                            except Exception as e:
+                                print('\nexcept: {}'.format( e ) )
                             else:
                                 # trustlines reserve 포함 잔고 확인 
                                 balance_in_drops = int(account_response.result['account_data']['Balance'])
@@ -602,7 +605,7 @@ if __name__ == "__main__":
                                         isTrustLineExist = True
                                         break
 
-                                if ( isTrustLineExist == False ):
+                                if ( isTrustLineExist == False and len(wallet_info['lines']) != 0 ):
                                     if( set_trust_line(wallet_info['wallet'], original_currency_name, transformed_currency_name, add_trust_line['issuer'], add_trust_line['limit'], False) == True):
                                         print('\tadd {} to {}'.format( original_currency_name, wallet_info['name'] ))
 
