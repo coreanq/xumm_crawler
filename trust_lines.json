@@ -1,19 +1,41 @@
 {
     "add": [
         {
-            "currency": "JUMBO",
-            "issuer": "rLAstRsF3MWQfQw11gEsPyWvmR2oe5zXjE",
-            "limit": "10000000000"
+            "currency": "KEEP",
+            "issuer": "rnaeGR9VmFCbnaeTyhSV65n7DkRxFJZje3",
+            "limit": "120000"
         },
         {
-            "currency": "MDK",
-            "issuer": "r4pDW1tz1ynuqBAnaf4ReDwpZQCKGv3qdN",
-            "limit": "5000"
+            "currency": "KEEPER",
+            "issuer": "rnaeGR9VmFCbnaeTyhSV65n7DkRxFJZje3",
+            "limit": "10000"
         },
         {
-            "currency": "XWAR",
-            "issuer": "rJAm3vMSiwCZHxLygaTdmiqCUG8YeSJFVy",
-            "limit": "10000000000"
+            "currency": "Augus",
+            "issuer": "r3q43XjfnEcgr8wCjAHEWVg1XXt1RgGMXu",
+            "limit": "10000000"
+        },
+        {
+            "currency": "Eggs",
+            "issuer": "rHga71mCb7jNVJR2EGDMQmukRQdgLh4Kpq",
+            "limit": "1000000"
+        },
+        {
+            "currency": "DTTB",
+            "issuer": "rrnKDAPxBJqawqvF6X1zUaJGpez4NGDcnX",
+            "limit": "300000000"
+        },
+        {
+            "currency": "WLW",
+            "issuer": "rJMFKwYZ3C8CPx3tYi1UKEzDWds5UBYvXy",
+            "limit": "100000000000"
+        }
+    ],
+    "remove":[        
+        {
+            "currency": "XRPH",
+            "issuer": "rM8hNqA3jRJ5Zgp3Xf3xzdZcx2G37guiZk",
+            "limit": "100000000"
         },
         {
             "currency": "XRCS",
@@ -21,9 +43,79 @@
             "limit": "1000000"
         },
         {
-            "currency": "MTBX",
-            "issuer": "rJJfuHfwrYLkbzWeoiuQZbzv7Ffi9GEgn7",
+            "currency": "TEX",
+            "issuer": "rHTC7FLrK4NWnZRduLmXUDGWVQMrXarAvB",
+            "limit": "100000000"
+        },
+        {
+            "currency": "RVR",
+            "issuer": "rPvT3suYhPpxPtzURekNsUrAJy6cqcsmt9",
+            "limit": "100000"
+        },
+        {
+            "currency": "DEGEN",
+            "issuer": "rLuGZGoPCEZrXj262RfHQsVuEmNKxw6rxt",
+            "limit": "10000"
+        },
+        {
+            "currency": "TLP",
+            "issuer": "rHTC7FLrK4NWnZRduLmXUDGWVQMrXarAvB",
+            "limit": "100000000"
+        },
+        {
+            "currency": "TSX",
+            "issuer": "rHTC7FLrK4NWnZRduLmXUDGWVQMrXarAvB",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XGO",
+            "issuer": "rXGoXGoNeTTjPFVjzsmWWdFAMp7Lv3P4i",
+            "limit": "3000000000"
+        },
+        {
+            "currency": "AXP",
+            "issuer": "rNksjpQJrGktpADcrVjY8u4k9gazVwtSxd",
+            "limit": "1000"
+        },
+        {
+            "currency": "IAG",
+            "issuer": "rUjEEQuqrYdWf4UEKJ3io4aeaSo5UErPWw",
+            "limit": "350000000"
+        },
+        {
+            "currency": "LOTTERY",
+            "issuer": "raafvf2bA2X1p3EBVXcMxr7X1X8sjrYZfC",
+            "limit": "100000000"
+        },
+        {
+            "currency": "sNET",
+            "issuer": "rM4Hpv7o8w7z6cauvjHH8hdJvcTPou5CX5",
+            "limit": "35000000"
+        },
+        {
+            "currency": "TORRE",
+            "issuer": "rECcCi31jPhHxy8FmhBqc8sVwZkDYGgca2",
+            "limit": "100000000"
+        },
+        {
+            "currency": "SOUND",
+            "issuer": "rPazDXf3XHGqftSUKa7tStN33VWNHp6Nns",
             "limit": "1000000000"
+        },
+        {
+            "currency": "WWW",
+            "issuer": "rpzuRVqQmQeh5Pw2JYgNgLUBdinuNk4ozR",
+            "limit": "9611652399"
+        },
+        {
+            "currency": "XMusic",
+            "issuer": "rnSmVZ9z2E9jJ3ac7PJXvobSE7XcYxGmzt",
+            "limit": "88888888"
+        },
+        {
+            "currency": "ARK",
+            "issuer": "rf5Jzzy6oAFBJjLhokha1v8pXVgYYjee3b",
+            "limit": "100000000"
         },
         {
             "currency": "XCHN",
@@ -31,22 +123,210 @@
             "limit": "70000000000"
         },
         {
+            "currency": "STR",
+            "issuer": "rKodkxhdjaXCoBmXuNtR6nahn4XyVFcPKP",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "CHUB",
+            "issuer": "rU3DQ71saRwTuknZimDH1uJW7YFS1wocUY",
+            "limit": "1000000"
+        },
+        {
+            "currency": "HSB",
+            "issuer": "r3iSUtd6TKxHvjg5F1c3D6kX7jWTtmr4ah",
+            "limit": "1000000"
+        },
+        {
+            "currency": "GamerXGold",
+            "issuer": "rMczrvMki7DuXsuMf3zGUrqAmWvLKZNnt2",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "Eliz",
+            "issuer": "rUUuaVpMwtZrD3xT1SbYH1tQVPndthxgrB",
+            "limit": "96"
+        },
+        {
+            "currency": "IAF",
+            "issuer": "riafaaac9TCGqxErJvL7qcD61kDnkfHuC",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XLE",
+            "issuer": "rwCkSpBEyhhMjB1Yz17dpTJZ1UPg7ppsgU",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XMB",
+            "issuer": "rnSm4WbbgCDp1dzJd7drqWkYSnsQTHgySh",
+            "limit": "10000"
+        },
+        {
+            "currency": "GEM",
+            "issuer": "rnUWBm9tnEvAzhpEGkt6uo6o4AafXPCJaR",
+            "limit": "333333333"
+        },
+        {
+            "currency": "YUM",
+            "issuer": "rMg4ZumKpM2BekKrFDUCRULBSvuiMqbYUM",
+            "limit": "77500000000"
+        },
+        {
+            "currency": "NICE",
+            "issuer": "r96uXvCJxe3Yeeo9wCtJsLSpJiFUz2hvsB",
+            "limit": "8000000000"
+        },
+        {
+            "currency": "xMAGIC",
+            "issuer": "rBHdammEERq7nxvHkzRzCUu872k3uQYVvg",
+            "limit": "1000000000"
+        },
+        {
             "currency": "HMC",
             "issuer": "raXY8RFAKixBZGw8nhDRHvVCKd2RzeoeLq",
             "limit": "9999997999"
+        },
+        {
+            "currency": "XKZN",
+            "issuer": "r9adfTxcTeTp1BJQXqtvTvsoK2kr8xYQzR",
+            "limit": "10000000"
+        },
+        {
+            "currency": "CHP",
+            "issuer": "rhFNUEAKyXZmJHsnfJvH8hM12Ydk2icEof",
+            "limit": "100000000"
+        },
+        {
+            "currency": "XDPC",
+            "issuer": "rByyTXWjLnYxKRVD39XbvV6YZjDYRGLbyW",
+            "limit": "27000000"
+        },
+        {
+            "currency": "EmiC",
+            "issuer": "rBAtoMmpDbyQytkonpuz1fzcf4htdMXzqK",
+            "limit": "300000"
+        },
+        {
+            "currency": "Sanctum",
+            "issuer": "rNcqT1tds4vdroichNKuTh3Ppd8KAdFHnN",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "XSP",
+            "issuer": "rPUNKXyoE6zZB3nRSTuU7DoUKiQfi8KeK8",
+            "limit": "10000"
+        },
+        {
+            "currency": "xGBR",
+            "issuer": "rnBG7eQk9pPZtfD19uBDyxBUoaYD4HUFWm",
+            "limit": "2000000000"
+        },
+        {
+            "currency": "LUCKY",
+            "issuer": "rUjUNsSxPwTcd3YDTqDtfXHdmZd7C8tFkM",
+            "limit": "7777777777"
+        },
+        {
+            "currency": "HDT",
+            "issuer": "rEmLBstEaNQqgodQnTMUn9UtkRPi3ieAWu",
+            "limit": "1000000000000000"
+        },
+        {
+            "currency": "AEN",
+            "issuer": "rwuBxcFaUAEVYVDZvXvDXpHkEKoE8Zy1KX",
+            "limit": "77000000000"
+        },
+        {
+            "currency": "XBT",
+            "issuer": "radcGxrrqjJb7KfJojjrN1Syn36UC5wQQ6",
+            "limit": "500000000"
+        },
+        {
+            "currency": "ASX",
+            "issuer": "r3RqTN9tso5TB9HuB4aeiDmrWZEuMSnP8Q",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "XRPanther",
+            "issuer": "rJqN2Bh4e3VwRxj7c8ejVYqhJUbYscQFv1",
+            "limit": "850000000"
+        },
+        {
+            "currency": "MDK",
+            "issuer": "r4pDW1tz1ynuqBAnaf4ReDwpZQCKGv3qdN",
+            "limit": "5000"
+        },
+        {
+            "currency": "CSX",
+            "issuer": "rG9eYQaixAV16SWpuDaQAZnfcaJx11DtJz",
+            "limit": "200000"
+        },
+        {
+            "currency": "UCB",
+            "issuer": "rQUFEwFT1YdWbMFvCVh9CwbVndRdFEPdDf",
+            "limit": "5000000"
+        },
+        {
+            "currency": "XRPoo",
+            "issuer": "rpa7p8yeDFNkNsFEiR1ZHQqxjsLzBUmwzD",
+            "limit": "199980546892"
+        },
+        {
+            "currency": "RLT",
+            "issuer": "rUetS7kbVYJZ76za5ywa1DgViNZMgT9Bvq",
+            "limit": "1000000000"
+        },
+        {
+            "currency": "XJMP",
+            "issuer": "rB64rftMocgcJtYN1E7P1B75z1JmrVUWnW",
+            "limit": "10000"
+        },
+        {
+            "currency": "XME",
+            "issuer": "rana9qGVUedcBGeEXjECMnTcMRQvL9GCvW",
+            "limit": "100000000000"
+        },
+        {
+            "currency": "XWAR",
+            "issuer": "rJAm3vMSiwCZHxLygaTdmiqCUG8YeSJFVy",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "XCC",
+            "issuer": "r3fJbmdnFhQwHKxD1QDwMfmras9jLoh4RW",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "LGX",
+            "issuer": "rP5VrjHKXTFwp1WYwVvhAc9KU9YmbN3rLC",
+            "limit": "49999500"
+        },
+        {
+            "currency": "XPHO",
+            "issuer": "rsVZrh3cvisTSHFcEZqPK1ioRzxbeG4PBk",
+            "limit": "99998999"
+        },
+        {
+            "currency": "AnimaCoin",
+            "issuer": "rGQrZvndQsJV2S5cnSdiRFMPT1Fz1Ccvuj",
+            "limit": "100000000"
+        },
+        {
+            "currency": "JUMBO",
+            "issuer": "rLAstRsF3MWQfQw11gEsPyWvmR2oe5zXjE",
+            "limit": "10000000000"
+        },
+        {
+            "currency": "MTBX",
+            "issuer": "rJJfuHfwrYLkbzWeoiuQZbzv7Ffi9GEgn7",
+            "limit": "1000000000"
         },
         {
             "currency": "xMFA",
             "issuer": "rLBxKkudr4qCU3R6d3o1uKHmqrTqeyjSdr",
             "limit": "100000"
         },
-        {
-            "currency": "AnimaCoin",
-            "issuer": "rGQrZvndQsJV2S5cnSdiRFMPT1Fz1Ccvuj",
-            "limit": "100000000"
-        }
-    ],
-    "remove":[        
         {
             "currency": "FOX",
             "issuer": "rNrLLdKFEZaw1Bao6Twjes7Jm4jHg1rthU",

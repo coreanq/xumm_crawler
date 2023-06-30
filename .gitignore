@@ -6,3 +6,7 @@ pyproject.toml
 account_info.json
 
 account_info.zip
+
+build/digital_garbage_collector/
+
+__pycache__/

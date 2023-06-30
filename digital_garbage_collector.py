@@ -330,8 +330,8 @@ def get_wallet_info(wallet_info_from_file):
         )
 
         try: 
-            response = asyncio.run(client.request_impl( info_request ) )
-            # response = client.request( info_request ) 
+            # response = asyncio.run(client.request( info_request ) )
+            response = client.request( info_request ) 
         except httpx.HTTPError as e:
             print('\nhttp timeout occur {}'.format(e))
             return None
