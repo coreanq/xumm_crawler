@@ -219,7 +219,7 @@ def set_trust_line(current_wallet, original_currency_name, transformed_currency_
         print("\n{} {}: {}".format(original_currency_name, current_wallet.classic_address, e)) 
         pass
     except xrpl.transaction.XRPLReliableSubmissionException as e:
-        exit(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
+        print(f"!!!!!!!!!!!!!!!!!Submit failed: {e}")
     except httpx.HTTPError as e:
         print('\nhttp timeout occur {}'.format(e))
         return False
@@ -241,6 +241,10 @@ def delete_account(delete_wallet_info_from_file, client):
         result = []
         # 모든 trustlines 을 지워야 delete 가능 
         target_wallet_info = get_wallet_info(delete_wallet_info_from_file)
+        if( target_wallet_info == None ):
+            print("target wallet info none")
+            continue
+
         current_wallet = target_wallet_info['wallet']
 
         #delete all trust lines 
@@ -252,6 +256,7 @@ def delete_account(delete_wallet_info_from_file, client):
         if( len(result) > 0 ):
             print("continue deleting trustlines")
         else:
+            # print("no trust line")
             break
 
     # 다시 loop 로 반복되는 경우를 가정하여 계좌 활성화 여부 확인 
@@ -280,8 +285,13 @@ def delete_account(delete_wallet_info_from_file, client):
     # print('{}'.format(my_transaction.to_dict() ) )
 
     # Sign transaction -------------------------------------------------------------
-    signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
-            my_transaction, current_wallet, client)
+    try:
+        signed_tx = xrpl.transaction.safe_sign_and_autofill_transaction(
+                my_transaction, current_wallet, client)
+    except Exception as e:
+        print('\n except {}'.format( e )) 
+        return False
+
     max_ledger = signed_tx.last_ledger_sequence
     tx_id = signed_tx.get_hash()
 
